@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Not Hesaplayıcı</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --border: rgba(255,255,255,0.08);
+      --yellow: #FFE135;
+      --green: #4ade80;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --purple: #c084fc;
+      --text: #f1f5f9;
+      --muted: rgba(255,255,255,0.4);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+    header {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--bg); z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+    header h1 { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--yellow); }
+    header span { font-size:0.8rem; color:var(--muted); }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+
+    /* SISTEM SECICI */
+    .sistem-bar {
+      display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .sistem-btn {
+      padding: 8px 20px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: transparent; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .sistem-btn.active { background: var(--yellow); color: #111; border-color: var(--yellow); }
+    .sistem-btn:hover:not(.active) { border-color: rgba(255,255,255,0.25); color: var(--text); }
+
+    /* SINIF SECICI */
+    .sinif-bar {
+      display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .sinif-btn {
+      padding: 6px 16px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: transparent; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .sinif-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+    .sinif-btn:hover:not(.active) { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+    /* DERSLER GRID */
+    .dersler { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 28px; }
+
+    .ders-kart {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      transition: border-color 0.2s;
+    }
+    .ders-kart:hover { border-color: rgba(255,255,255,0.15); }
+    .ders-kart.iyi { border-color: rgba(74,222,128,0.3); }
+    .ders-kart.orta { border-color: rgba(251,191,36,0.3); }
+    .ders-kart.kotu { border-color: rgba(248,113,113,0.3); }
+
+    .ders-ust { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .ders-ad { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; }
+    .ders-ort {
+      font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800;
+      min-width: 44px; text-align: right;
+    }
+    .ders-ort.iyi { color: var(--green); }
+    .ders-ort.orta { color: var(--yellow); }
+    .ders-ort.kotu { color: var(--red); }
+    .ders-ort.bos { color: var(--muted); }
+
+    .notlar-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .not-chip {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 4px 8px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .not-chip button {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 0.75rem; line-height: 1;
+      padding: 0 2px; transition: color 0.15s;
+    }
+    .not-chip button:hover { color: var(--red); }
+
+    .not-ekle-row { display: flex; gap: 6px; }
+    .not-input {
+      flex: 1; background: rgba(255,255,255,0.05);
+      border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 7px 12px;
+      color: var(--text); font-family:'DM Sans',sans-serif; font-size:0.85rem;
+      transition: border-color 0.2s; min-width: 0;
+    }
+    .not-input:focus { outline: none; border-color: var(--yellow); }
+    .not-input::placeholder { color: var(--muted); }
+    .ekle-btn {
+      background: var(--yellow); color: #111;
+      border: none; border-radius: 10px;
+      padding: 7px 14px; font-weight:700; font-size:0.85rem;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s;
+      font-family:'DM Sans',sans-serif;
+    }
+    .ekle-btn:hover { background: #f0d400; transform: scale(1.03); }
+
+    /* GENEL ORTALAMA */
+    .ozet {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .ozet::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(255,225,53,0.08), transparent 60%);
+      pointer-events: none;
+    }
+    .ozet-label { font-size:0.75rem; text-transform:uppercase; letter-spacing:2px; color:var(--muted); margin-bottom:8px; }
+    .ozet-sayi {
+      font-family:'Syne',sans-serif; font-size:4rem; font-weight:800; line-height:1;
+      margin-bottom: 8px;
+    }
+    .ozet-sayi.iyi { color: var(--green); }
+    .ozet-sayi.orta { color: var(--yellow); }
+    .ozet-sayi.kotu { color: var(--red); }
+    .ozet-sayi.bos { color: var(--muted); }
+    .ozet-yorum { font-size:0.9rem; color:var(--muted); }
+
+    .istatistik-row {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 20px;
+    }
+    .istat-kart {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 10px; text-align: center;
+    }
+    .istat-sayi { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; }
+    .istat-label { font-size:0.7rem; color:var(--muted); margin-top:2px; }
+
+    /* HARF NOTU TABLOSU */
+    .tablo-toggle {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); padding: 8px 16px; border-radius: 10px;
+      font-family:'DM Sans',sans-serif; font-size:0.8rem; cursor:pointer;
+      margin-top: 20px; transition: all 0.2s; display: block; margin-left: auto;
+    }
+    .tablo-toggle:hover { border-color:rgba(255,255,255,0.2); color:var(--text); }
+    .harf-tablo {
+      margin-top: 14px; display:none;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden;
+    }
+    .harf-tablo.goster { display: block; }
+    .harf-tablo table { width:100%; border-collapse: collapse; font-size:0.82rem; }
+    .harf-tablo th { padding: 10px 14px; text-align:left; color:var(--muted); font-weight:600; border-bottom: 1px solid var(--border); }
+    .harf-tablo td { padding: 8px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .harf-tablo tr:last-child td { border-bottom: none; }
+
+    /* SIFIRLA */
+    .sifirla-btn {
+      display: block; margin: 20px auto 0;
+      background: none; border: 1px solid rgba(248,113,113,0.3);
+      color: var(--red); padding: 8px 20px; border-radius: 10px;
+      font-family:'DM Sans',sans-serif; font-size:0.82rem; cursor:pointer;
+      transition: all 0.2s;
+    }
+    .sifirla-btn:hover { background: rgba(248,113,113,0.1); }
+
+    @media(max-width:600px) {
+      .container { padding: 16px; }
+      .dersler { grid-template-columns: 1fr; }
+      .istatistik-row { grid-template-columns: repeat(3,1fr); }
+      .ozet-sayi { font-size:3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📊 Not Hesaplayıcı</h1>
+  <span id="sinifAdi">4. Sınıf</span>
+</header>
+
+<div class="container">
+
+  <!-- SİSTEM -->
+  <div class="sistem-bar">
+    <button class="sistem-btn active" onclick="setSistem('100')">100'lük</button>
+    <button class="sistem-btn" onclick="setSistem('5')">5'lik</button>
+    <button class="sistem-btn" onclick="setSistem('harf')">Harf (A-F)</button>
+  </div>
+
+  <!-- SINIF -->
+  <div class="sinif-bar" id="sinifBar"></div>
+
+  <!-- DERSLER -->
+  <div class="dersler" id="derslerGrid"></div>
+
+  <!-- ÖZET -->
+  <div class="ozet">
+    <div class="ozet-label">Genel Ortalama</div>
+    <div class="ozet-sayi bos" id="genelOrt">—</div>
+    <div class="ozet-yorum" id="genelYorum">Henüz not girilmedi</div>
+
+    <div class="istatistik-row">
+      <div class="istat-kart">
+        <div class="istat-sayi" id="toplamDers">0</div>
+        <div class="istat-label">Ders</div>
+      </div>
+      <div class="istat-kart">
+        <div class="istat-sayi" style="color:var(--green)" id="iyiDers">0</div>
+        <div class="istat-label">İyi (≥85)</div>
+      </div>
+      <div class="istat-kart">
+        <div class="istat-sayi" style="color:var(--red)" id="kotuDers">0</div>
+        <div class="istat-label">Düşük (&lt;60)</div>
+      </div>
+    </div>
+
+    <button class="tablo-toggle" onclick="toggleTablo()">📋 Not sistemi tablosu</button>
+    <div class="harf-tablo" id="harfTablo">
+      <table>
+        <thead><tr><th>Puan (100'lük)</th><th>Puan (5'lik)</th><th>Harf</th><th>Değerlendirme</th></tr></thead>
+        <tbody>
+          <tr><td>85 – 100</td><td>5</td><td>A</td><td>Pekiyi</td></tr>
+          <tr><td>70 – 84</td><td>4</td><td>B</td><td>İyi</td></tr>
+          <tr><td>60 – 69</td><td>3</td><td>C</td><td>Orta</td></tr>
+          <tr><td>50 – 59</td><td>2</td><td>D</td><td>Geçer</td></tr>
+          <tr><td>0 – 49</td><td>1</td><td>F</td><td>Başarısız</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="sifirla-btn" onclick="sifirla()">🗑️ Tüm notları sıfırla</button>
+  </div>
+
+</div>
+
+<script>
+const SINIFLAR = {
+  "4": ["Türkçe","Matematik","Fen Bilimleri","Sosyal Bilgiler","Hayat Bilgisi","Din Kültürü","Beden Eğitimi","Müzik","Görsel Sanatlar","İngilizce"],
+  "5": ["Türkçe","Matematik","Fen Bilimleri","Sosyal Bilgiler","Din Kültürü","Beden Eğitimi","Müzik","Görsel Sanatlar","İngilizce"],
+  "6": ["Türkçe","Matematik","Fen Bilimleri","Sosyal Bilgiler","Din Kültürü","Beden Eğitimi","Müzik","Görsel Sanatlar","İngilizce","Teknoloji ve Tasarım"],
+  "7": ["Türkçe","Matematik","Fen Bilimleri","T.C. İnkılap Tarihi","Din Kültürü","Beden Eğitimi","Müzik","Görsel Sanatlar","İngilizce","Teknoloji ve Tasarım"],
+  "8": ["Türkçe","Matematik","Fen Bilimleri","T.C. İnkılap Tarihi","Din Kültürü","Beden Eğitimi","Müzik","Görsel Sanatlar","İngilizce"],
+  "9": ["Türk Dili ve Edebiyatı","Matematik","Fizik","Kimya","Biyoloji","Tarih","Coğrafya","Din Kültürü","Beden Eğitimi","İngilizce","Müzik"],
+  "10": ["Türk Dili ve Edebiyatı","Matematik","Fizik","Kimya","Biyoloji","Tarih","Coğrafya","Din Kültürü","Beden Eğitimi","İngilizce"],
+  "11": ["Türk Dili ve Edebiyatı","Matematik","Fizik","Kimya","Biyoloji","Tarih","Coğrafya","Felsefe","Din Kültürü","İngilizce"],
+  "12": ["Türk Dili ve Edebiyatı","Matematik","Fizik","Kimya","Biyoloji","Tarih","Coğrafya","Felsefe","Din Kültürü","İngilizce"],
+};
+
+const HARF_MAP = { "A":95,"B":77,"C":65,"D":55,"F":25 };
+const BES_MAP  = { "5":95,"4":77,"3":65,"2":55,"1":25 };
+
+let sistem = "100";
+let seciliSinif = "4";
+let notlar = {}; // { "Matematik": [85, 90, 70] }
+
+function setSistem(s) {
+  sistem = s;
+  document.querySelectorAll('.sistem-btn').forEach((b,i)=>{
+    b.classList.toggle('active', ['100','5','harf'][i]===s);
+  });
+  render();
+}
+
+function buildSinifBar() {
+  const bar = document.getElementById('sinifBar');
+  bar.innerHTML = Object.keys(SINIFLAR).map(s =>
+    `<button class="sinif-btn ${s===seciliSinif?'active':''}" onclick="setSinif('${s}')">${s}. Sınıf</button>`
+  ).join('');
+}
+
+function setSinif(s) {
+  seciliSinif = s;
+  notlar = {};
+  document.getElementById('sinifAdi').textContent = s + '. Sınıf';
+  buildSinifBar();
+  render();
+}
+
+function parseNot(val) {
+  val = val.trim().toUpperCase();
+  if(sistem === 'harf') return HARF_MAP[val] ?? null;
+  if(sistem === '5') {
+    if(BES_MAP[val] !== undefined) return BES_MAP[val];
+    const n = parseFloat(val);
+    if(!isNaN(n) && n>=1 && n<=5) return (n/5)*100;
+    return null;
+  }
+  const n = parseFloat(val);
+  if(!isNaN(n) && n>=0 && n<=100) return n;
+  return null;
+}
+
+function displayNot(val) {
+  if(sistem === 'harf') {
+    for(const [h,v] of Object.entries(HARF_MAP)) if(v===val) return h;
+    return val;
+  }
+  if(sistem === '5') return Math.round((val/100)*5 * 10)/10;
+  return val;
+}
+
+function ort(arr) {
+  if(!arr||!arr.length) return null;
+  return Math.round(arr.reduce((a,b)=>a+b,0)/arr.length * 10)/10;
+}
+
+function renk(v) {
+  if(v===null) return 'bos';
+  if(v>=85) return 'iyi';
+  if(v>=60) return 'orta';
+  return 'kotu';
+}
+
+function yorum(v) {
+  if(v===null) return 'Henüz not girilmedi';
+  if(v>=85) return '🏆 Harika! Süper gidiyorsun!';
+  if(v>=70) return '👍 İyi! Devam et!';
+  if(v>=60) return '📚 Orta. Biraz daha çalış!';
+  if(v>=50) return '⚠️ Dikkat! Geçer not seviyesinde.';
+  return '🚨 Düşük! Hemen çalışmaya başla!';
+}
+
+function ekleNot(ders, inputId) {
+  const input = document.getElementById(inputId);
+  const val = parseNot(input.value);
+  if(val === null) { input.style.borderColor='var(--red)'; setTimeout(()=>input.style.borderColor='',1000); return; }
+  if(!notlar[ders]) notlar[ders] = [];
+  notlar[ders].push(val);
+  input.value = '';
+  render();
+}
+
+function silNot(ders, idx) {
+  notlar[ders].splice(idx, 1);
+  render();
+}
+
+function sifirla() {
+  if(confirm('Tüm notlar silinecek. Emin misin?')) { notlar = {}; render(); }
+}
+
+function toggleTablo() {
+  document.getElementById('harfTablo').classList.toggle('goster');
+}
+
+function render() {
+  const dersler = SINIFLAR[seciliSinif] || [];
+  const grid = document.getElementById('derslerGrid');
+  const placeholder = sistem==='harf' ? 'A, B, C...' : sistem==='5' ? '1-5' : '0-100';
+
+  grid.innerHTML = dersler.map(ders => {
+    const arr = notlar[ders] || [];
+    const o = ort(arr);
+    const r = renk(o);
+    const inputId = 'inp_' + ders.replace(/\s/g,'_');
+    const chips = arr.map((v,i) =>
+      `<div class="not-chip">${displayNot(v)}<button onclick="silNot('${ders}',${i})">✕</button></div>`
+    ).join('');
+
+    return `
+      <div class="ders-kart ${r}">
+        <div class="ders-ust">
+          <div class="ders-ad">${ders}</div>
+          <div class="ders-ort ${r}">${o!==null ? displayNot(o) : '—'}</div>
+        </div>
+        <div class="notlar-row">${chips}</div>
+        <div class="not-ekle-row">
+          <input class="not-input" id="${inputId}" placeholder="${placeholder}"
+            onkeydown="if(event.key==='Enter')ekleNot('${ders}','${inputId}')"/>
+          <button class="ekle-btn" onclick="ekleNot('${ders}','${inputId}')">Ekle</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Genel ortalama
+  const tumNotlar = Object.values(notlar).flat();
+  const tumOrtalar = dersler.map(d => ort(notlar[d])).filter(v=>v!==null);
+  const genelVal = tumOrtalar.length ? Math.round(tumOrtalar.reduce((a,b)=>a+b,0)/tumOrtalar.length*10)/10 : null;
+  const genelR = renk(genelVal);
+
+  const ortEl = document.getElementById('genelOrt');
+  ortEl.className = 'ozet-sayi ' + genelR;
+  ortEl.textContent = genelVal !== null ? displayNot(genelVal) : '—';
+  document.getElementById('genelYorum').textContent = yorum(genelVal);
+
+  document.getElementById('toplamDers').textContent = tumOrtalar.length;
+  document.getElementById('iyiDers').textContent = tumOrtalar.filter(v=>v>=85).length;
+  document.getElementById('kotuDers').textContent = tumOrtalar.filter(v=>v<60).length;
+}
+
+// INIT
+buildSinifBar();
+render();
+</script>
+</body>
+</html>
