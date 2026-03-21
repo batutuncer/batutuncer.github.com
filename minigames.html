@@ -6,666 +6,367 @@
   <title>🎮 Minigames</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg:#0f1117; --card:#1a1d27; --border:rgba(255,255,255,0.08);
-      --yellow:#FFE135; --green:#4ade80; --red:#f87171; --blue:#60a5fa;
-      --purple:#c084fc; --orange:#fb923c; --text:#f1f5f9; --muted:rgba(255,255,255,0.4);
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
-
-    header {
-      padding:20px 24px; border-bottom:1px solid var(--border);
-      display:flex; align-items:center; justify-content:space-between;
-      position:sticky; top:0; background:var(--bg); z-index:10; backdrop-filter:blur(10px);
-    }
-    header h1 { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--yellow); }
-    .back-btn {
-      background:none; border:1px solid var(--border); color:var(--muted);
-      padding:6px 14px; border-radius:8px; font-size:0.8rem; cursor:pointer;
-      font-family:'DM Sans',sans-serif; font-weight:600; transition:all 0.2s; text-decoration:none;
-    }
-    .back-btn:hover { border-color:rgba(255,255,255,0.2); color:var(--text); }
-
-    .container { max-width:900px; margin:0 auto; padding:24px; }
-
-    /* OYUN SEÇİCİ */
-    .oyun-secici {
-      display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:28px;
-    }
-    .oyun-btn {
-      background:var(--card); border:2px solid var(--border);
-      border-radius:14px; padding:14px 8px; text-align:center;
-      cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif;
-    }
-    .oyun-btn:hover { border-color:rgba(255,255,255,0.2); transform:translateY(-2px); }
-    .oyun-btn.active { border-color:var(--yellow); background:#1e1f10; }
-    .oyun-btn .emoji { font-size:1.8rem; display:block; margin-bottom:6px; }
-    .oyun-btn .isim { font-size:0.72rem; font-weight:600; color:var(--muted); }
-    .oyun-btn.active .isim { color:var(--yellow); }
-
-    /* OYUN ALANI */
-    .oyun-alani { display:none; }
-    .oyun-alani.aktif { display:block; }
-
-    .oyun-kart {
-      background:var(--card); border:1.5px solid var(--border);
-      border-radius:20px; padding:24px; text-align:center;
-    }
-    .oyun-baslik { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; margin-bottom:4px; }
-    .oyun-skor { color:var(--muted); font-size:0.85rem; margin-bottom:16px; }
-    canvas { border-radius:12px; max-width:100%; display:block; margin:0 auto; }
-    .oyun-kontrol { margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-    .btn {
-      padding:10px 24px; border-radius:10px; border:none;
-      font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem;
-      cursor:pointer; transition:all 0.2s;
-    }
-    .btn-yellow { background:var(--yellow); color:#111; }
-    .btn-yellow:hover { background:#f0d400; transform:translateY(-1px); }
-    .btn-gray { background:rgba(255,255,255,0.08); color:var(--text); border:1px solid var(--border); }
-    .btn-gray:hover { background:rgba(255,255,255,0.12); }
-
-    .mesaj {
-      font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700;
-      margin:12px 0; min-height:28px;
-    }
-
-    /* KART EŞLEŞTİRME */
-    .kart-grid {
-      display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
-      max-width:360px; margin:0 auto 16px;
-    }
-    .kart {
-      aspect-ratio:1; border-radius:12px; border:2px solid var(--border);
-      background:var(--card); font-size:1.8rem; display:flex;
-      align-items:center; justify-content:center; cursor:pointer;
-      transition:all 0.3s; user-select:none;
-    }
-    .kart:hover:not(.acik):not(.eslesik) { border-color:var(--yellow); transform:scale(1.05); }
-    .kart.acik, .kart.eslesik { background:#1e2030; }
-    .kart.eslesik { border-color:var(--green); }
-    .kart-arka { display:none; }
-    .kart.acik .kart-arka, .kart.eslesik .kart-arka { display:flex; align-items:center; justify-content:center; width:100%; height:100%; }
-    .kart.acik .kart-on, .kart.eslesik .kart-on { display:none; }
-    .kart-on { font-size:1.4rem; }
-
-    /* MAYINTARLASI */
-    .mayın-grid {
-      display:inline-grid; gap:3px; margin:0 auto 16px;
-    }
-    .hucre {
-      width:36px; height:36px; border-radius:6px;
-      border:1.5px solid var(--border); background:rgba(255,255,255,0.06);
-      font-size:0.85rem; font-weight:700; display:flex;
-      align-items:center; justify-content:center; cursor:pointer;
-      transition:all 0.15s; user-select:none;
-    }
-    .hucre:hover:not(.acik) { background:rgba(255,255,255,0.12); }
-    .hucre.acik { background:rgba(255,255,255,0.03); cursor:default; border-color:rgba(255,255,255,0.04); }
-    .hucre.bayrak { background:rgba(251,163,60,0.15); border-color:var(--orange); }
-    .hucre.patladi { background:rgba(248,113,113,0.2); border-color:var(--red); }
-    .sayi-1{color:#60a5fa} .sayi-2{color:#4ade80} .sayi-3{color:#f87171}
-    .sayi-4{color:#c084fc} .sayi-5{color:#fb923c} .sayi-6{color:#22d3ee}
-    .sayi-7{color:#f1f5f9} .sayi-8{color:#94a3b8}
-
-    /* PING PONG */
-    #pongCanvas { background:#0a0c12; border:2px solid var(--border); }
-
-    @media(max-width:600px) {
-      .oyun-secici { grid-template-columns:repeat(3,1fr); }
-      .hucre { width:28px; height:28px; font-size:0.72rem; }
-      .kart-grid { gap:6px; }
-    }
+    :root{--bg:#0f1117;--card:#1a1d27;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--purple:#c084fc;--orange:#fb923c;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:10;}
+    header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+    .back-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+    .container{max-width:900px;margin:0 auto;padding:24px;}
+    .oyun-secici{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px;}
+    .oyun-btn{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+    .oyun-btn:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-2px);}
+    .oyun-btn.active{border-color:var(--yellow);background:#1e1f10;}
+    .oyun-btn .emoji{font-size:1.8rem;display:block;margin-bottom:6px;}
+    .oyun-btn .isim{font-size:0.72rem;font-weight:600;color:var(--muted);}
+    .oyun-btn.active .isim{color:var(--yellow);}
+    .oyun-alani{display:none;}
+    .oyun-alani.aktif{display:block;}
+    .oyun-kart{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px;text-align:center;}
+    .oyun-baslik{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:4px;}
+    .oyun-skor{color:var(--muted);font-size:0.85rem;margin-bottom:16px;}
+    canvas{border-radius:12px;max-width:100%;display:block;margin:0 auto;}
+    .oyun-kontrol{margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;}
+    .btn{padding:10px 24px;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}
+    .btn-yellow{background:var(--yellow);color:#111;}
+    .btn-yellow:hover{background:#f0d400;transform:translateY(-1px);}
+    .mesaj{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin:10px 0;min-height:24px;}
+    .hint{color:var(--muted);font-size:0.78rem;}
+    .kart-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:360px;margin:0 auto 16px;}
+    .kart{aspect-ratio:1;border-radius:12px;border:2px solid var(--border);background:var(--card);font-size:1.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;user-select:none;}
+    .kart:hover:not(.acik):not(.eslesik){border-color:var(--yellow);transform:scale(1.05);}
+    .kart.acik,.kart.eslesik{background:#1e2030;}
+    .kart.eslesik{border-color:var(--green);}
+    .mayın-wrap{overflow-x:auto;margin-bottom:16px;}
+    .mayın-grid{display:inline-grid;gap:3px;}
+    .hucre{width:34px;height:34px;border-radius:6px;border:1.5px solid var(--border);background:rgba(255,255,255,0.06);font-size:0.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:background 0.15s;}
+    .hucre:hover:not(.acik){background:rgba(255,255,255,0.14);}
+    .hucre.acik{background:rgba(255,255,255,0.03);cursor:default;border-color:rgba(255,255,255,0.04);}
+    .hucre.bayrak{background:rgba(251,163,60,0.15);border-color:var(--orange);}
+    .hucre.patladi{background:rgba(248,113,113,0.2);border-color:var(--red);}
+    .s1{color:#60a5fa}.s2{color:#4ade80}.s3{color:#f87171}.s4{color:#c084fc}.s5{color:#fb923c}.s6{color:#22d3ee}.s7{color:#f1f5f9}.s8{color:#94a3b8}
+    #pongCanvas{background:#0a0c12;border:2px solid var(--border);}
+    @media(max-width:600px){.oyun-secici{grid-template-columns:repeat(3,1fr);}.hucre{width:28px;height:28px;font-size:0.7rem;}}
   </style>
 </head>
 <body>
-
 <header>
   <h1>🎮 Minigames</h1>
   <a href="index.html" class="back-btn">← Ana Sayfa</a>
 </header>
-
 <div class="container">
-
-  <!-- OYUN SEÇİCİ -->
-  <div class="oyun-secici">
-    <div class="oyun-btn active" onclick="oyunSec('yilan')">
-      <span class="emoji">🐍</span><span class="isim">Yılan</span>
-    </div>
-    <div class="oyun-btn" onclick="oyunSec('tetris')">
-      <span class="emoji">🧱</span><span class="isim">Tetris</span>
-    </div>
-    <div class="oyun-btn" onclick="oyunSec('kart')">
-      <span class="emoji">🃏</span><span class="isim">Kart</span>
-    </div>
-    <div class="oyun-btn" onclick="oyunSec('mayin')">
-      <span class="emoji">💣</span><span class="isim">Mayın</span>
-    </div>
-    <div class="oyun-btn" onclick="oyunSec('pong')">
-      <span class="emoji">🏓</span><span class="isim">Ping Pong</span>
-    </div>
-  </div>
-
-  <!-- YILAN -->
+  <div class="oyun-secici" id="secici"></div>
   <div class="oyun-alani aktif" id="oyun-yilan">
     <div class="oyun-kart">
       <div class="oyun-baslik">🐍 Yılan</div>
-      <div class="oyun-skor">Skor: <span id="yilanSkor">0</span> &nbsp;|&nbsp; En iyi: <span id="yilanEnIyi">0</span></div>
+      <div class="oyun-skor">Skor: <span id="yilanSkor">0</span> | En iyi: <span id="yilanEnIyi">0</span></div>
       <canvas id="yilanCanvas" width="400" height="400"></canvas>
       <div class="mesaj" id="yilanMesaj"></div>
       <div class="oyun-kontrol">
-        <button class="btn btn-yellow" onclick="yilanBaslat()">▶ Başlat</button>
-        <div style="color:var(--muted);font-size:0.78rem;align-self:center">Ok tuşları veya WASD</div>
+        <button class="btn btn-yellow" id="yilanBtn">▶ Başlat</button>
+        <span class="hint">Ok tuşları veya WASD</span>
       </div>
     </div>
   </div>
-
-  <!-- TETRİS -->
   <div class="oyun-alani" id="oyun-tetris">
     <div class="oyun-kart">
       <div class="oyun-baslik">🧱 Tetris</div>
-      <div class="oyun-skor">Skor: <span id="tetrisSkor">0</span> &nbsp;|&nbsp; Seviye: <span id="tetrisSeviye">1</span></div>
-      <div style="display:flex;gap:16px;justify-content:center;align-items:flex-start">
+      <div class="oyun-skor">Skor: <span id="tetrisSkor">0</span> | Seviye: <span id="tetrisSeviye">1</span></div>
+      <div style="display:flex;gap:16px;justify-content:center;align-items:flex-start;">
         <canvas id="tetrisCanvas" width="200" height="400"></canvas>
-        <div style="text-align:left">
-          <div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px">Sıradaki:</div>
-          <canvas id="tetrisNext" width="80" height="80"></canvas>
-        </div>
+        <div><div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px;">Sıradaki:</div><canvas id="tetrisNext" width="80" height="80"></canvas></div>
       </div>
       <div class="mesaj" id="tetrisMesaj"></div>
       <div class="oyun-kontrol">
-        <button class="btn btn-yellow" onclick="tetrisBaslat()">▶ Başlat</button>
-        <div style="color:var(--muted);font-size:0.78rem;align-self:center">← → ↓ döndür: ↑</div>
+        <button class="btn btn-yellow" id="tetrisBtn">▶ Başlat</button>
+        <span class="hint">← → ↓ | Döndür: ↑ | Hızlı düş: Boşluk</span>
       </div>
     </div>
   </div>
-
-  <!-- KART EŞLEŞTİRME -->
   <div class="oyun-alani" id="oyun-kart">
     <div class="oyun-kart">
       <div class="oyun-baslik">🃏 Kart Eşleştirme</div>
-      <div class="oyun-skor">Hamle: <span id="kartHamle">0</span> &nbsp;|&nbsp; Eşleşme: <span id="kartEslesme">0</span>/8</div>
+      <div class="oyun-skor">Hamle: <span id="kartHamle">0</span> | Eşleşme: <span id="kartEslesme">0</span>/8</div>
       <div class="kart-grid" id="kartGrid"></div>
       <div class="mesaj" id="kartMesaj"></div>
       <div class="oyun-kontrol">
-        <button class="btn btn-yellow" onclick="kartBaslat()">🔀 Yeni Oyun</button>
+        <button class="btn btn-yellow" id="kartBtn">🔀 Yeni Oyun</button>
       </div>
     </div>
   </div>
-
-  <!-- MAYIN TARLASI -->
   <div class="oyun-alani" id="oyun-mayin">
     <div class="oyun-kart">
       <div class="oyun-baslik">💣 Mayın Tarlası</div>
-      <div class="oyun-skor">Mayın: <span id="mayinSayi">10</span> &nbsp;|&nbsp; Bayrak: <span id="mayinBayrak">0</span> &nbsp;|&nbsp; Süre: <span id="mayinSure">0</span>s</div>
-      <div id="mayinGrid" style="overflow-x:auto"></div>
+      <div class="oyun-skor">Mayın: <span id="mayinKalan">10</span> | Süre: <span id="mayinSure">0</span>s</div>
+      <div class="mayın-wrap"><div class="mayın-grid" id="mayinGrid"></div></div>
       <div class="mesaj" id="mayinMesaj"></div>
       <div class="oyun-kontrol">
-        <button class="btn btn-yellow" onclick="mayinBaslat()">▶ Yeni Oyun</button>
-        <div style="color:var(--muted);font-size:0.78rem;align-self:center">Sağ tık = bayrak</div>
+        <button class="btn btn-yellow" id="mayinBtn">▶ Yeni Oyun</button>
+        <span class="hint">Sol tık = aç | Sağ tık = bayrak</span>
       </div>
     </div>
   </div>
-
-  <!-- PING PONG -->
   <div class="oyun-alani" id="oyun-pong">
     <div class="oyun-kart">
       <div class="oyun-baslik">🏓 Ping Pong</div>
-      <div class="oyun-skor">Sen: <span id="pongSen">0</span> &nbsp;|&nbsp; Bilgisayar: <span id="pongBilgisayar">0</span></div>
+      <div class="oyun-skor">Sen: <span id="pongSen">0</span> | Bilgisayar: <span id="pongBil">0</span></div>
       <canvas id="pongCanvas" width="480" height="300"></canvas>
       <div class="mesaj" id="pongMesaj"></div>
       <div class="oyun-kontrol">
-        <button class="btn btn-yellow" onclick="pongBaslat()">▶ Başlat</button>
-        <div style="color:var(--muted);font-size:0.78rem;align-self:center">↑ ↓ veya W S</div>
+        <button class="btn btn-yellow" id="pongBtn">▶ Başlat</button>
+        <span class="hint">↑ ↓ veya W S</span>
       </div>
     </div>
   </div>
-
 </div>
-
 <script>
-// ══════════════════════════════
-// OYUN SEÇİCİ
-// ══════════════════════════════
-let aktifOyun = 'yilan';
-function oyunSec(oyun) {
-  // durdur
-  if(aktifOyun==='yilan') clearInterval(yilanInterval);
-  if(aktifOyun==='tetris') clearInterval(tetrisInterval);
-  if(aktifOyun==='pong') { clearInterval(pongInterval); pongCalisiyor=false; }
-  if(aktifOyun==='mayin') clearInterval(mayinTimer);
-
-  aktifOyun = oyun;
-  document.querySelectorAll('.oyun-alani').forEach(e=>e.classList.remove('aktif'));
-  document.querySelectorAll('.oyun-btn').forEach(e=>e.classList.remove('active'));
-  document.getElementById('oyun-'+oyun).classList.add('aktif');
-  event.currentTarget.classList.add('active');
-
-  if(oyun==='kart') kartBaslat();
-  if(oyun==='mayin') mayinBaslat();
-}
-
-// ══════════════════════════════
-// YILAN OYUNU
-// ══════════════════════════════
-const yilanC = document.getElementById('yilanCanvas');
-const yilanCtx = yilanC.getContext('2d');
-const HUCRE = 20, SATIR = 20;
-let yilan, yon, yiyecek, yilanSkor, yilanInterval, yilanCalisiyor=false, yilanEnIyi=0;
-
-function yilanBaslat() {
-  clearInterval(yilanInterval);
-  yilan = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
-  yon = {x:1,y:0};
-  yilanSkor = 0;
-  yilanCalisiyor = true;
-  document.getElementById('yilanSkor').textContent = 0;
-  document.getElementById('yilanMesaj').textContent = '';
-  yiyecekKoy();
-  yilanInterval = setInterval(yilanAdim, 130);
-}
-
-function yiyecekKoy() {
-  do { yiyecek = {x:Math.floor(Math.random()*SATIR), y:Math.floor(Math.random()*SATIR)}; }
-  while(yilan.some(s=>s.x===yiyecek.x&&s.y===yiyecek.y));
-}
-
-function yilanAdim() {
-  const bas = {x:yilan[0].x+yon.x, y:yilan[0].y+yon.y};
-  if(bas.x<0||bas.x>=SATIR||bas.y<0||bas.y>=SATIR||yilan.slice(1).some(s=>s.x===bas.x&&s.y===bas.y)) {
-    clearInterval(yilanInterval); yilanCalisiyor=false;
-    if(yilanSkor>yilanEnIyi){yilanEnIyi=yilanSkor;document.getElementById('yilanEnIyi').textContent=yilanEnIyi;}
-    document.getElementById('yilanMesaj').textContent = '💀 Oyun bitti! Skor: '+yilanSkor;
-    return;
-  }
-  yilan.unshift(bas);
-  if(bas.x===yiyecek.x&&bas.y===yiyecek.y) {
-    yilanSkor++; document.getElementById('yilanSkor').textContent=yilanSkor; yiyecekKoy();
-  } else yilan.pop();
-  yilanCiz();
-}
-
-function yilanCiz() {
-  yilanCtx.fillStyle='#0a0c12'; yilanCtx.fillRect(0,0,yilanC.width,yilanC.height);
-  // Grid
-  yilanCtx.strokeStyle='rgba(255,255,255,0.03)';
-  for(let i=0;i<=SATIR;i++){yilanCtx.beginPath();yilanCtx.moveTo(i*HUCRE,0);yilanCtx.lineTo(i*HUCRE,yilanC.height);yilanCtx.stroke();}
-  for(let i=0;i<=SATIR;i++){yilanCtx.beginPath();yilanCtx.moveTo(0,i*HUCRE);yilanCtx.lineTo(yilanC.width,i*HUCRE);yilanCtx.stroke();}
-  // Yiyecek
-  yilanCtx.fillStyle='#f87171';
-  yilanCtx.beginPath();
-  yilanCtx.arc(yiyecek.x*HUCRE+HUCRE/2, yiyecek.y*HUCRE+HUCRE/2, HUCRE/2-2, 0, Math.PI*2);
-  yilanCtx.fill();
-  // Yılan
-  yilan.forEach((s,i)=>{
-    yilanCtx.fillStyle = i===0?'#FFE135':'#4ade80';
-    yilanCtx.beginPath();
-    yilanCtx.roundRect(s.x*HUCRE+1, s.y*HUCRE+1, HUCRE-2, HUCRE-2, 4);
-    yilanCtx.fill();
+// ── SEÇİCİ ──
+const OYUNLAR = [
+  {id:'yilan', emoji:'🐍', isim:'Yılan'},
+  {id:'tetris', emoji:'🧱', isim:'Tetris'},
+  {id:'kart', emoji:'🃏', isim:'Kart'},
+  {id:'mayin', emoji:'💣', isim:'Mayın'},
+  {id:'pong', emoji:'🏓', isim:'Ping Pong'},
+];
+let aktif = 'yilan';
+const secici = document.getElementById('secici');
+secici.innerHTML = OYUNLAR.map(o =>
+  `<div class="oyun-btn${o.id===aktif?' active':''}" id="btn-${o.id}">
+    <span class="emoji">${o.emoji}</span><span class="isim">${o.isim}</span>
+  </div>`
+).join('');
+OYUNLAR.forEach(o => {
+  document.getElementById('btn-'+o.id).addEventListener('click', () => {
+    if(aktif==='yilan') clearInterval(yilanIV);
+    if(aktif==='tetris') clearInterval(tetrisIV);
+    if(aktif==='pong'){clearInterval(pongIV);pongOn=false;}
+    if(aktif==='mayin') clearInterval(mayinIV);
+    document.querySelectorAll('.oyun-alani').forEach(e=>e.classList.remove('aktif'));
+    document.querySelectorAll('.oyun-btn').forEach(e=>e.classList.remove('active'));
+    document.getElementById('oyun-'+o.id).classList.add('aktif');
+    document.getElementById('btn-'+o.id).classList.add('active');
+    aktif = o.id;
+    if(o.id==='kart') kartBaslat();
+    if(o.id==='mayin') mayinBaslat();
   });
-}
-
-document.addEventListener('keydown', e=>{
-  if(!yilanCalisiyor) return;
-  if((e.key==='ArrowUp'||e.key==='w')&&yon.y!==1) yon={x:0,y:-1};
-  else if((e.key==='ArrowDown'||e.key==='s')&&yon.y!==-1) yon={x:0,y:1};
-  else if((e.key==='ArrowLeft'||e.key==='a')&&yon.x!==1) yon={x:-1,y:0};
-  else if((e.key==='ArrowRight'||e.key==='d')&&yon.x!==-1) yon={x:1,y:0};
 });
 
-yilanCiz();
-
-// ══════════════════════════════
-// TETRİS
-// ══════════════════════════════
-const tetrisC = document.getElementById('tetrisCanvas');
-const tetrisCtx = tetrisC.getContext('2d');
-const nextC = document.getElementById('tetrisNext');
-const nextCtx = nextC.getContext('2d');
-const TW=20, TCols=10, TRows=20;
-const PARCALAR = [
-  [[1,1,1,1]],
-  [[1,1],[1,1]],
-  [[0,1,0],[1,1,1]],
-  [[1,0,0],[1,1,1]],
-  [[0,0,1],[1,1,1]],
-  [[1,1,0],[0,1,1]],
-  [[0,1,1],[1,1,0]],
-];
-const RENKLER = ['#60a5fa','#FFE135','#c084fc','#fb923c','#4ade80','#f87171','#22d3ee'];
-let tetrisTahta, tetrisParca, tetrisSonraki, tetrisSkor2, tetrisSeviye2, tetrisInterval, tetrisCalisiyor=false;
-
-function tetrisYeniParca() {
-  const idx = Math.floor(Math.random()*PARCALAR.length);
-  return { sekil:PARCALAR[idx].map(r=>[...r]), renk:RENKLER[idx], x:3, y:0 };
+// ── YILAN ──
+const yC=document.getElementById('yilanCanvas'), yX=yC.getContext('2d');
+const HZ=20,GR=20;
+let yilan,yon,yem,ySkor,yilanIV,yOn=false,yEnIyi=0;
+document.getElementById('yilanBtn').addEventListener('click', () => {
+  clearInterval(yilanIV);
+  yilan=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+  yon={x:1,y:0}; ySkor=0; yOn=true;
+  document.getElementById('yilanSkor').textContent=0;
+  document.getElementById('yilanMesaj').textContent='';
+  yemKoy();
+  yilanIV=setInterval(yAdim,130);
+});
+function yemKoy(){do{yem={x:Math.floor(Math.random()*GR),y:Math.floor(Math.random()*GR)};}while(yilan.some(s=>s.x===yem.x&&s.y===yem.y));}
+function yAdim(){
+  const b={x:yilan[0].x+yon.x,y:yilan[0].y+yon.y};
+  if(b.x<0||b.x>=GR||b.y<0||b.y>=GR||yilan.slice(1).some(s=>s.x===b.x&&s.y===b.y)){
+    clearInterval(yilanIV);yOn=false;
+    if(ySkor>yEnIyi){yEnIyi=ySkor;document.getElementById('yilanEnIyi').textContent=yEnIyi;}
+    document.getElementById('yilanMesaj').textContent='💀 Bitti! Skor: '+ySkor;return;
+  }
+  yilan.unshift(b);
+  if(b.x===yem.x&&b.y===yem.y){ySkor++;document.getElementById('yilanSkor').textContent=ySkor;yemKoy();}
+  else yilan.pop();
+  yCiz();
 }
+function yCiz(){
+  yX.fillStyle='#0a0c12';yX.fillRect(0,0,400,400);
+  yX.strokeStyle='rgba(255,255,255,0.03)';
+  for(let i=0;i<=GR;i++){yX.beginPath();yX.moveTo(i*HZ,0);yX.lineTo(i*HZ,400);yX.stroke();yX.beginPath();yX.moveTo(0,i*HZ);yX.lineTo(400,i*HZ);yX.stroke();}
+  yX.fillStyle='#f87171';yX.beginPath();yX.arc(yem.x*HZ+HZ/2,yem.y*HZ+HZ/2,HZ/2-2,0,Math.PI*2);yX.fill();
+  yilan.forEach((s,i)=>{yX.fillStyle=i===0?'#FFE135':'#4ade80';yX.fillRect(s.x*HZ+1,s.y*HZ+1,HZ-2,HZ-2);});
+}
+yCiz();
 
-function tetrisBaslat() {
-  clearInterval(tetrisInterval);
-  tetrisTahta = Array.from({length:TRows},()=>Array(TCols).fill(0));
-  tetrisSkor2=0; tetrisSeviye2=1;
+// ── TETRİS ──
+const tC=document.getElementById('tetrisCanvas'),tX=tC.getContext('2d');
+const nC=document.getElementById('tetrisNext'),nX=nC.getContext('2d');
+const TW=20,TC=10,TR=20;
+const SEKILLER=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]]];
+const RENKLER=['#60a5fa','#FFE135','#c084fc','#fb923c','#4ade80','#f87171','#22d3ee'];
+let tahta,parca,sonraki,tSkor,tSev,tetrisIV,tOn=false;
+function yeniParca(){const i=Math.floor(Math.random()*SEKILLER.length);return{s:SEKILLER[i].map(r=>[...r]),r:RENKLER[i],x:3,y:0};}
+document.getElementById('tetrisBtn').addEventListener('click', () => {
+  clearInterval(tetrisIV);
+  tahta=Array.from({length:TR},()=>Array(TC).fill(0));
+  tSkor=0;tSev=1;tOn=true;
   document.getElementById('tetrisSkor').textContent=0;
   document.getElementById('tetrisSeviye').textContent=1;
   document.getElementById('tetrisMesaj').textContent='';
-  tetrisParca = tetrisYeniParca();
-  tetrisSonraki = tetrisYeniParca();
-  tetrisCalisiyor=true;
-  tetrisInterval = setInterval(tetrisAdim, 500);
-  tetrisCiz();
-}
-
-function tetrisAdim() {
-  if(!tetrisHareketEt(0,1)) {
-    tetrisYerlestir();
-    const temiz = tetrisSatirTemizle();
-    tetrisSkor2 += [0,100,300,500,800][temiz]*tetrisSeviye2;
-    tetrisSeviye2 = Math.floor(tetrisSkor2/500)+1;
-    document.getElementById('tetrisSkor').textContent=tetrisSkor2;
-    document.getElementById('tetrisSeviye').textContent=tetrisSeviye2;
-    clearInterval(tetrisInterval);
-    tetrisInterval = setInterval(tetrisAdim, Math.max(100,500-tetrisSeviye2*50));
-    tetrisParca = tetrisSonraki;
-    tetrisSonraki = tetrisYeniParca();
-    if(!tetrisGecerli(tetrisParca,0,0)) {
-      clearInterval(tetrisInterval); tetrisCalisiyor=false;
-      document.getElementById('tetrisMesaj').textContent='💀 Oyun bitti! Skor: '+tetrisSkor2;
-    }
-  }
-  tetrisCiz();
-}
-
-function tetrisGecerli(p,dx,dy) {
-  return p.sekil.every((satir,y)=>satir.every((h,x)=>{
-    if(!h) return true;
-    const nx=p.x+x+dx, ny=p.y+y+dy;
-    return nx>=0&&nx<TCols&&ny<TRows&&(ny<0||!tetrisTahta[ny][nx]);
-  }));
-}
-
-function tetrisHareketEt(dx,dy) {
-  if(tetrisGecerli(tetrisParca,dx,dy)){tetrisParca.x+=dx;tetrisParca.y+=dy;tetrisCiz();return true;}
-  return false;
-}
-
-function tetrisDondur() {
-  const rot = tetrisParca.sekil[0].map((_,i)=>tetrisParca.sekil.map(r=>r[i]).reverse());
-  const eski = tetrisParca.sekil;
-  tetrisParca.sekil = rot;
-  if(!tetrisGecerli(tetrisParca,0,0)) tetrisParca.sekil = eski;
-  tetrisCiz();
-}
-
-function tetrisYerlestir() {
-  tetrisParca.sekil.forEach((satir,y)=>satir.forEach((h,x)=>{
-    if(h&&tetrisParca.y+y>=0) tetrisTahta[tetrisParca.y+y][tetrisParca.x+x]=tetrisParca.renk;
-  }));
-}
-
-function tetrisSatirTemizle() {
-  let temiz=0;
-  for(let y=TRows-1;y>=0;y--) {
-    if(tetrisTahta[y].every(h=>h)) {
-      tetrisTahta.splice(y,1); tetrisTahta.unshift(Array(TCols).fill(0));
-      temiz++; y++;
-    }
-  }
-  return temiz;
-}
-
-function tetrisCiz() {
-  tetrisCtx.fillStyle='#0a0c12'; tetrisCtx.fillRect(0,0,tetrisC.width,tetrisC.height);
-  tetrisTahta.forEach((satir,y)=>satir.forEach((h,x)=>{
-    if(h){tetrisCtx.fillStyle=h;tetrisCtx.fillRect(x*TW+1,y*TW+1,TW-2,TW-2);}
-  }));
-  if(tetrisParca) {
-    tetrisCtx.fillStyle=tetrisParca.renk;
-    tetrisParca.sekil.forEach((satir,y)=>satir.forEach((h,x)=>{
-      if(h) tetrisCtx.fillRect((tetrisParca.x+x)*TW+1,(tetrisParca.y+y)*TW+1,TW-2,TW-2);
-    }));
-  }
-  // Grid
-  tetrisCtx.strokeStyle='rgba(255,255,255,0.04)';
-  for(let i=0;i<=TCols;i++){tetrisCtx.beginPath();tetrisCtx.moveTo(i*TW,0);tetrisCtx.lineTo(i*TW,tetrisC.height);tetrisCtx.stroke();}
-  // Next
-  nextCtx.fillStyle='#0a0c12'; nextCtx.fillRect(0,0,80,80);
-  if(tetrisSonraki) {
-    nextCtx.fillStyle=tetrisSonraki.renk;
-    const ox=Math.floor((4-tetrisSonraki.sekil[0].length)/2)*TW;
-    const oy=Math.floor((4-tetrisSonraki.sekil.length)/2)*TW;
-    tetrisSonraki.sekil.forEach((satir,y)=>satir.forEach((h,x)=>{
-      if(h) nextCtx.fillRect(ox+x*TW+1,oy+y*TW+1,TW-2,TW-2);
-    }));
-  }
-}
-
-document.addEventListener('keydown', e=>{
-  if(aktifOyun!=='tetris'||!tetrisCalisiyor) return;
-  if(e.key==='ArrowLeft') tetrisHareketEt(-1,0);
-  else if(e.key==='ArrowRight') tetrisHareketEt(1,0);
-  else if(e.key==='ArrowDown') tetrisAdim();
-  else if(e.key==='ArrowUp') tetrisDondur();
-  else if(e.key===' ') { e.preventDefault(); while(tetrisHareketEt(0,1));tetrisAdim(); }
+  parca=yeniParca();sonraki=yeniParca();
+  tetrisIV=setInterval(tAdim,500);
+  tCiz();
 });
-tetrisCiz();
+function gecerli(p,dx,dy){return p.s.every((r,y)=>r.every((h,x)=>{if(!h)return true;const nx=p.x+x+dx,ny=p.y+y+dy;return nx>=0&&nx<TC&&ny<TR&&(ny<0||!tahta[ny][nx]);}));}
+function tHareket(dx,dy){if(gecerli(parca,dx,dy)){parca.x+=dx;parca.y+=dy;tCiz();return true;}return false;}
+function tDon(){const r=parca.s[0].map((_,i)=>parca.s.map(row=>row[i]).reverse());const e=parca.s;parca.s=r;if(!gecerli(parca,0,0))parca.s=e;tCiz();}
+function tYerlestir(){parca.s.forEach((r,y)=>r.forEach((h,x)=>{if(h&&parca.y+y>=0)tahta[parca.y+y][parca.x+x]=parca.r;}));}
+function tTemizle(){let n=0;for(let y=TR-1;y>=0;y--){if(tahta[y].every(h=>h)){tahta.splice(y,1);tahta.unshift(Array(TC).fill(0));n++;y++;}}return n;}
+function tAdim(){
+  if(!tHareket(0,1)){
+    tYerlestir();
+    const t=tTemizle();
+    tSkor+=[0,100,300,500,800][t]*tSev;tSev=Math.floor(tSkor/500)+1;
+    document.getElementById('tetrisSkor').textContent=tSkor;
+    document.getElementById('tetrisSeviye').textContent=tSev;
+    clearInterval(tetrisIV);tetrisIV=setInterval(tAdim,Math.max(100,500-tSev*50));
+    parca=sonraki;sonraki=yeniParca();
+    if(!gecerli(parca,0,0)){clearInterval(tetrisIV);tOn=false;document.getElementById('tetrisMesaj').textContent='💀 Oyun bitti! Skor: '+tSkor;}
+  }
+  tCiz();
+}
+function tCiz(){
+  tX.fillStyle='#0a0c12';tX.fillRect(0,0,200,400);
+  tahta.forEach((r,y)=>r.forEach((h,x)=>{if(h){tX.fillStyle=h;tX.fillRect(x*TW+1,y*TW+1,TW-2,TW-2);}}));
+  if(parca)parca.s.forEach((r,y)=>r.forEach((h,x)=>{if(h){tX.fillStyle=parca.r;tX.fillRect((parca.x+x)*TW+1,(parca.y+y)*TW+1,TW-2,TW-2);}}));
+  tX.strokeStyle='rgba(255,255,255,0.04)';for(let i=0;i<=TC;i++){tX.beginPath();tX.moveTo(i*TW,0);tX.lineTo(i*TW,400);tX.stroke();}
+  nX.fillStyle='#0a0c12';nX.fillRect(0,0,80,80);
+  if(sonraki){nX.fillStyle=sonraki.r;const ox=Math.floor((4-sonraki.s[0].length)/2)*TW,oy=Math.floor((4-sonraki.s.length)/2)*TW;sonraki.s.forEach((r,y)=>r.forEach((h,x)=>{if(h)nX.fillRect(ox+x*TW+1,oy+y*TW+1,TW-2,TW-2);}));}
+}
+tCiz();
 
-// ══════════════════════════════
-// KART EŞLEŞTİRME
-// ══════════════════════════════
-const EMOJILER = ['🐶','🐱','🦊','🐸','🦁','🐯','🐼','🦄'];
-let kartlar, acikKartlar, kartHamle, kartEslesme, kartKilitli;
-
-function kartBaslat() {
-  const ciftler = [...EMOJILER,...EMOJILER].sort(()=>Math.random()-0.5);
-  kartlar = ciftler.map((e,i)=>({id:i,emoji:e,acik:false,eslesik:false}));
-  acikKartlar=[]; kartHamle=0; kartEslesme=0; kartKilitli=false;
+// ── KART EŞLEŞTİRME ──
+const EMOJILER=['🐶','🐱','🦊','🐸','🦁','🐯','🐼','🦄'];
+let kartlar,aciklar,kHamle,kEslesme,kKilitli;
+function kartBaslat(){
+  const c=[...EMOJILER,...EMOJILER].sort(()=>Math.random()-0.5);
+  kartlar=c.map((e,i)=>({id:i,emoji:e,acik:false,eslesik:false}));
+  aciklar=[];kHamle=0;kEslesme=0;kKilitli=false;
   document.getElementById('kartHamle').textContent=0;
   document.getElementById('kartEslesme').textContent=0;
   document.getElementById('kartMesaj').textContent='';
-  kartCiz();
+  kCiz();
 }
-
-function kartCiz() {
-  const grid = document.getElementById('kartGrid');
-  grid.innerHTML = kartlar.map(k=>`
-    <div class="kart ${k.acik?'acik':''} ${k.eslesik?'eslesik':''}" onclick="kartTikla(${k.id})">
-      <div class="kart-on">❓</div>
-      <div class="kart-arka">${k.emoji}</div>
-    </div>
-  `).join('');
+function kCiz(){
+  document.getElementById('kartGrid').innerHTML=kartlar.map(k=>
+    `<div class="kart${k.acik||k.eslesik?' acik':''}${k.eslesik?' eslesik':''}" data-id="${k.id}" style="font-size:${k.acik||k.eslesik?'1.8rem':'1.4rem'}">${k.acik||k.eslesik?k.emoji:'❓'}</div>`
+  ).join('');
+  document.querySelectorAll('.kart').forEach(el=>{
+    el.addEventListener('click',()=>{
+      if(kKilitli)return;
+      const k=kartlar[+el.dataset.id];
+      if(k.acik||k.eslesik)return;
+      k.acik=true;aciklar.push(k);kCiz();
+      if(aciklar.length===2){
+        kHamle++;document.getElementById('kartHamle').textContent=kHamle;kKilitli=true;
+        setTimeout(()=>{
+          if(aciklar[0].emoji===aciklar[1].emoji){aciklar.forEach(k=>k.eslesik=true);kEslesme++;document.getElementById('kartEslesme').textContent=kEslesme;if(kEslesme===8)document.getElementById('kartMesaj').textContent='🎉 Kazandın! '+kHamle+' hamlede!';}
+          else aciklar.forEach(k=>k.acik=false);
+          aciklar=[];kKilitli=false;kCiz();
+        },800);
+      }
+    });
+  });
 }
+document.getElementById('kartBtn').addEventListener('click', kartBaslat);
 
-function kartTikla(id) {
-  if(kartKilitli) return;
-  const k = kartlar[id];
-  if(k.acik||k.eslesik) return;
-  k.acik=true; acikKartlar.push(k); kartCiz();
-  if(acikKartlar.length===2) {
-    kartHamle++; document.getElementById('kartHamle').textContent=kartHamle;
-    kartKilitli=true;
-    setTimeout(()=>{
-      if(acikKartlar[0].emoji===acikKartlar[1].emoji) {
-        acikKartlar.forEach(k=>k.eslesik=true);
-        kartEslesme++; document.getElementById('kartEslesme').textContent=kartEslesme;
-        if(kartEslesme===8) document.getElementById('kartMesaj').textContent='🎉 Kazandın! '+kartHamle+' hamlede!';
-      } else acikKartlar.forEach(k=>k.acik=false);
-      acikKartlar=[]; kartKilitli=false; kartCiz();
-    },800);
-  }
-}
-
-// ══════════════════════════════
-// MAYIN TARLASI
-// ══════════════════════════════
-const MSATIR=9, MSUTUN=9, MMAYIN=10;
-let mayinTahta, mayinAcik, mayinBayraklar, mayinBitti, mayinTimer2, mayinSure2, mayinIlkTik;
-
-function mayinBaslat() {
-  clearInterval(mayinTimer);
-  mayinTahta=Array.from({length:MSATIR},()=>Array(MSUTUN).fill(0));
-  mayinAcik=Array.from({length:MSATIR},()=>Array(MSUTUN).fill(false));
-  mayinBayraklar=Array.from({length:MSATIR},()=>Array(MSUTUN).fill(false));
-  mayinBitti=false; mayinSure2=0; mayinIlkTik=true;
-  document.getElementById('mayinSayi').textContent=MMAYIN;
-  document.getElementById('mayinBayrak').textContent=0;
+// ── MAYIN TARLASI ──
+const MR=9,MC=9,MM=10;
+let mTahta,mAcik,mBayrak,mBitti,mayinIV,mSure,mIlk;
+function mayinBaslat(){
+  clearInterval(mayinIV);
+  mTahta=Array.from({length:MR},()=>Array(MC).fill(0));
+  mAcik=Array.from({length:MR},()=>Array(MC).fill(false));
+  mBayrak=Array.from({length:MR},()=>Array(MC).fill(false));
+  mBitti=false;mSure=0;mIlk=true;
+  document.getElementById('mayinKalan').textContent=MM;
   document.getElementById('mayinSure').textContent=0;
   document.getElementById('mayinMesaj').textContent='';
-  mayinCiz();
+  mCiz();
 }
-
-function mayinMayinKoy(ilkR, ilkS) {
-  let koyulan=0;
-  while(koyulan<MMAYIN) {
-    const r=Math.floor(Math.random()*MSATIR), s=Math.floor(Math.random()*MSUTUN);
-    if(mayinTahta[r][s]!=-1&&!(Math.abs(r-ilkR)<=1&&Math.abs(s-ilkS)<=1)) {
-      mayinTahta[r][s]=-1; koyulan++;
-    }
-  }
-  for(let r=0;r<MSATIR;r++) for(let s=0;s<MSUTUN;s++) {
-    if(mayinTahta[r][s]===-1) continue;
-    let sayi=0;
-    for(let dr=-1;dr<=1;dr++) for(let ds=-1;ds<=1;ds++) {
-      const nr=r+dr, ns=s+ds;
-      if(nr>=0&&nr<MSATIR&&ns>=0&&ns<MSUTUN&&mayinTahta[nr][ns]===-1) sayi++;
-    }
-    mayinTahta[r][s]=sayi;
+function mMayinKoy(ir,ic){
+  let k=0;while(k<MM){const r=Math.floor(Math.random()*MR),c=Math.floor(Math.random()*MC);if(mTahta[r][c]!==-1&&!(Math.abs(r-ir)<=1&&Math.abs(c-ic)<=1)){mTahta[r][c]=-1;k++;}}
+  for(let r=0;r<MR;r++)for(let c=0;c<MC;c++){if(mTahta[r][c]===-1)continue;let s=0;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const nr=r+dr,nc=c+dc;if(nr>=0&&nr<MR&&nc>=0&&nc<MC&&mTahta[nr][nc]===-1)s++;}mTahta[r][c]=s;}
+}
+function mAc(r,c){if(r<0||r>=MR||c<0||c>=MC||mAcik[r][c]||mBayrak[r][c])return;mAcik[r][c]=true;if(mTahta[r][c]===0)for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++)mAc(r+dr,c+dc);}
+function mCiz(){
+  const g=document.getElementById('mayinGrid');
+  g.style.gridTemplateColumns=`repeat(${MC},34px)`;
+  g.innerHTML='';
+  for(let r=0;r<MR;r++)for(let c=0;c<MC;c++){
+    const div=document.createElement('div');
+    div.className='hucre';
+    const a=mAcik[r][c],b=mBayrak[r][c],v=mTahta[r][c];
+    if(a){div.classList.add('acik');if(v===-1){div.classList.add('patladi');div.textContent='💣';}else if(v>0){div.innerHTML=`<span class="s${v}">${v}</span>`;}}
+    else if(b){div.classList.add('bayrak');div.textContent='🚩';}
+    div.addEventListener('click',()=>{
+      if(mBitti||mAcik[r][c])return;
+      if(mBayrak[r][c])return;
+      if(mIlk){mIlk=false;mMayinKoy(r,c);mayinIV=setInterval(()=>{mSure++;document.getElementById('mayinSure').textContent=mSure;},1000);}
+      if(mTahta[r][c]===-1){mAcik[r][c]=true;mBitti=true;clearInterval(mayinIV);for(let i=0;i<MR;i++)for(let j=0;j<MC;j++)if(mTahta[i][j]===-1)mAcik[i][j]=true;mCiz();document.getElementById('mayinMesaj').textContent='💥 Patladin!';return;}
+      mAc(r,c);
+      if(mAcik.flat().filter(Boolean).length===MR*MC-MM){clearInterval(mayinIV);mBitti=true;document.getElementById('mayinMesaj').textContent='🎉 Kazandın! '+mSure+'s';}
+      mCiz();
+    });
+    div.addEventListener('contextmenu',e=>{
+      e.preventDefault();if(mBitti||mAcik[r][c])return;
+      mBayrak[r][c]=!mBayrak[r][c];
+      const bf=mBayrak.flat().filter(Boolean).length;
+      document.getElementById('mayinKalan').textContent=MM-bf;
+      mCiz();
+    });
+    g.appendChild(div);
   }
 }
+document.getElementById('mayinBtn').addEventListener('click', mayinBaslat);
 
-function mayinAc(r,s) {
-  if(r<0||r>=MSATIR||s<0||s>=MSUTUN||mayinAcik[r][s]||mayinBayraklar[r][s]) return;
-  mayinAcik[r][s]=true;
-  if(mayinTahta[r][s]===0) for(let dr=-1;dr<=1;dr++) for(let ds=-1;ds<=1;ds++) mayinAc(r+dr,s+ds);
-}
-
-function mayinTikla(r,s,e) {
-  e.preventDefault();
-  if(mayinBitti||mayinAcik[r][s]) return;
-  if(e.type==='contextmenu') {
-    mayinBayraklar[r][s]=!mayinBayraklar[r][s];
-    const bf=mayinBayraklar.flat().filter(Boolean).length;
-    document.getElementById('mayinBayrak').textContent=bf;
-    document.getElementById('mayinSayi').textContent=MMAYIN-bf;
-    mayinCiz(); return;
-  }
-  if(mayinBayraklar[r][s]) return;
-  if(mayinIlkTik) {
-    mayinIlkTik=false;
-    mayinMayinKoy(r,s);
-    mayinTimer = setInterval(()=>{
-      mayinSure2++;
-      document.getElementById('mayinSure').textContent=mayinSure2;
-    },1000);
-  }
-  if(mayinTahta[r][s]===-1) {
-    mayinAcik[r][s]=true; mayinBitti=true;
-    clearInterval(mayinTimer);
-    for(let i=0;i<MSATIR;i++) for(let j=0;j<MSUTUN;j++) if(mayinTahta[i][j]===-1) mayinAcik[i][j]=true;
-    mayinCiz();
-    document.getElementById('mayinMesaj').textContent='💥 PATLADIN! Yeniden dene!';
-    return;
-  }
-  mayinAc(r,s);
-  const kalanGizli=mayinAcik.flat().filter(Boolean).length;
-  if(kalanGizli===MSATIR*MSUTUN-MMAYIN) {
-    clearInterval(mayinTimer); mayinBitti=true;
-    document.getElementById('mayinMesaj').textContent='🎉 Kazandın! '+mayinSure2+' saniyede!';
-  }
-  mayinCiz();
-}
-
-function mayinCiz() {
-  const grid = document.getElementById('mayinGrid');
-  grid.style.display='grid';
-  grid.style.gridTemplateColumns=`repeat(${MSUTUN},36px)`;
-  grid.style.gap='3px';
-  let html='';
-  for(let r=0;r<MSATIR;r++) for(let s=0;s<MSUTUN;s++) {
-    const acik=mayinAcik[r][s], bayrak=mayinBayraklar[r][s];
-    const val=mayinTahta[r][s];
-    let cls='hucre', icerik='';
-    if(acik) { cls+=' acik'; if(val===-1){cls+=' patladi';icerik='💣';} else if(val>0){icerik=`<span class="sayi-${val}">${val}</span>`;} }
-    else if(bayrak){cls+=' bayrak';icerik='🚩';}
-    html+=`<div class="${cls}" onclick="mayinTikla(${r},${s},event)" oncontextmenu="mayinTikla(${r},${s},event)">${icerik}</div>`;
-  }
-  grid.innerHTML=html;
-}
-
-// ══════════════════════════════
-// PING PONG
-// ══════════════════════════════
-const pongC = document.getElementById('pongCanvas');
-const pongCtx = pongC.getContext('2d');
-const PW=pongC.width, PH=pongC.height;
-let pongTop, pongSol, pongSag, pongSkorS, pongSkorB, pongInterval, pongCalisiyor=false;
-const pongTUSLAR={};
-document.addEventListener('keydown',e=>pongTUSLAR[e.key]=true);
-document.addEventListener('keyup',e=>pongTUSLAR[e.key]=false);
-
-function pongBaslat() {
-  clearInterval(pongInterval);
-  pongTop={x:PW/2,y:PH/2,vx:4*(Math.random()>0.5?1:-1),vy:3*(Math.random()>0.5?1:-1),r:7};
-  pongSol={x:12,y:PH/2-35,w:10,h:70,hiz:5};
-  pongSag={x:PW-22,y:PH/2-35,w:10,h:70,hiz:4};
-  pongSkorS=0; pongSkorB=0; pongCalisiyor=true;
+// ── PING PONG ──
+const pC=document.getElementById('pongCanvas'),pX=pC.getContext('2d');
+const PW=480,PH=300;
+let top,sol,sag,pSen,pBil,pongIV,pongOn=false;
+const tuslar={};
+document.addEventListener('keydown',e=>tuslar[e.key]=true);
+document.addEventListener('keyup',e=>tuslar[e.key]=false);
+document.getElementById('pongBtn').addEventListener('click',()=>{
+  clearInterval(pongIV);
+  top={x:PW/2,y:PH/2,vx:4*(Math.random()>0.5?1:-1),vy:3*(Math.random()>0.5?1:-1),r:7};
+  sol={x:12,y:PH/2-35,w:10,h:70,hz:5};
+  sag={x:PW-22,y:PH/2-35,w:10,h:70,hz:4};
+  pSen=0;pBil=0;pongOn=true;
   document.getElementById('pongSen').textContent=0;
-  document.getElementById('pongBilgisayar').textContent=0;
+  document.getElementById('pongBil').textContent=0;
   document.getElementById('pongMesaj').textContent='';
-  pongInterval=setInterval(pongAdim,1000/60);
+  pongIV=setInterval(pAdim,1000/60);
+});
+function pAdim(){
+  if(tuslar['ArrowUp']||tuslar['w'])sol.y=Math.max(0,sol.y-sol.hz);
+  if(tuslar['ArrowDown']||tuslar['s'])sol.y=Math.min(PH-sol.h,sol.y+sol.hz);
+  const om=sag.y+sag.h/2;
+  if(om<top.y-10)sag.y=Math.min(PH-sag.h,sag.y+sag.hz);
+  else if(om>top.y+10)sag.y=Math.max(0,sag.y-sag.hz);
+  top.x+=top.vx;top.y+=top.vy;
+  if(top.y-top.r<0||top.y+top.r>PH)top.vy*=-1;
+  if(top.x-top.r<sol.x+sol.w&&top.y>sol.y&&top.y<sol.y+sol.h){top.vx=Math.min(Math.abs(top.vx)+0.2,10);top.vy+=(top.y-(sol.y+sol.h/2))*0.1;}
+  if(top.x+top.r>sag.x&&top.y>sag.y&&top.y<sag.y+sag.h){top.vx=-Math.min(Math.abs(top.vx)+0.2,10);top.vy+=(top.y-(sag.y+sag.h/2))*0.1;}
+  if(top.x<0){pBil++;document.getElementById('pongBil').textContent=pBil;if(pBil>=5){clearInterval(pongIV);pongOn=false;document.getElementById('pongMesaj').textContent='😢 Kaybettin!';return;}top={x:PW/2,y:PH/2,vx:4,vy:3*(Math.random()>0.5?1:-1),r:7};}
+  if(top.x>PW){pSen++;document.getElementById('pongSen').textContent=pSen;if(pSen>=5){clearInterval(pongIV);pongOn=false;document.getElementById('pongMesaj').textContent='🎉 Kazandın!';return;}top={x:PW/2,y:PH/2,vx:-4,vy:3*(Math.random()>0.5?1:-1),r:7};}
+  pCiz();
+}
+function pCiz(){
+  pX.fillStyle='#0a0c12';pX.fillRect(0,0,PW,PH);
+  pX.setLineDash([8,8]);pX.strokeStyle='rgba(255,255,255,0.1)';pX.beginPath();pX.moveTo(PW/2,0);pX.lineTo(PW/2,PH);pX.stroke();pX.setLineDash([]);
+  pX.fillStyle='#FFE135';pX.fillRect(sol.x,sol.y,sol.w,sol.h);
+  pX.fillStyle='#f87171';pX.fillRect(sag.x,sag.y,sag.w,sag.h);
+  pX.fillStyle='white';pX.beginPath();pX.arc(top.x,top.y,top.r,0,Math.PI*2);pX.fill();
 }
 
-function pongAdim() {
-  // Oyuncu
-  if((pongTUSLAR['ArrowUp']||pongTUSLAR['w'])&&pongSol.y>0) pongSol.y-=pongSol.hiz;
-  if((pongTUSLAR['ArrowDown']||pongTUSLAR['s'])&&pongSol.y+pongSol.h<PH) pongSol.y+=pongSol.hiz;
-  // AI
-  const ortaSag=pongSag.y+pongSag.h/2;
-  if(ortaSag<pongTop.y-10&&pongSag.y+pongSag.h<PH) pongSag.y+=pongSag.hiz;
-  else if(ortaSag>pongTop.y+10&&pongSag.y>0) pongSag.y-=pongSag.hiz;
-  // Top hareket
-  pongTop.x+=pongTop.vx; pongTop.y+=pongTop.vy;
-  if(pongTop.y-pongTop.r<0||pongTop.y+pongTop.r>PH) pongTop.vy*=-1;
-  // Raket çarpışma
-  if(pongTop.x-pongTop.r<pongSol.x+pongSol.w&&pongTop.y>pongSol.y&&pongTop.y<pongSol.y+pongSol.h) {
-    pongTop.vx=Math.abs(pongTop.vx)+0.2; pongTop.vy+=(pongTop.y-(pongSol.y+pongSol.h/2))*0.1;
-  }
-  if(pongTop.x+pongTop.r>pongSag.x&&pongTop.y>pongSag.y&&pongTop.y<pongSag.y+pongSag.h) {
-    pongTop.vx=-(Math.abs(pongTop.vx)+0.2); pongTop.vy+=(pongTop.y-(pongSag.y+pongSag.h/2))*0.1;
-  }
-  // Sayı
-  if(pongTop.x<0) {
-    pongSkorB++; document.getElementById('pongBilgisayar').textContent=pongSkorB;
-    if(pongSkorB>=5){clearInterval(pongInterval);pongCalisiyor=false;document.getElementById('pongMesaj').textContent='😢 Kaybettin!';return;}
-    pongTop={...pongTop,x:PW/2,y:PH/2,vx:4,vy:3*(Math.random()>0.5?1:-1)};
-  }
-  if(pongTop.x>PW) {
-    pongSkorS++; document.getElementById('pongSen').textContent=pongSkorS;
-    if(pongSkorS>=5){clearInterval(pongInterval);pongCalisiyor=false;document.getElementById('pongMesaj').textContent='🎉 Kazandın!';return;}
-    pongTop={...pongTop,x:PW/2,y:PH/2,vx:-4,vy:3*(Math.random()>0.5?1:-1)};
-  }
-  pongCiz();
-}
+// keyboard for games
+document.addEventListener('keydown',e=>{
+  if(aktif==='yilan'&&yOn){if(e.key==='ArrowUp'||e.key==='w'){if(yon.y!==1)yon={x:0,y:-1};}else if(e.key==='ArrowDown'||e.key==='s'){if(yon.y!==-1)yon={x:0,y:1};}else if(e.key==='ArrowLeft'||e.key==='a'){if(yon.x!==1)yon={x:-1,y:0};}else if(e.key==='ArrowRight'||e.key==='d'){if(yon.x!==-1)yon={x:1,y:0};}}
+  if(aktif==='tetris'&&tOn){if(e.key==='ArrowLeft')tHareket(-1,0);else if(e.key==='ArrowRight')tHareket(1,0);else if(e.key==='ArrowDown')tAdim();else if(e.key==='ArrowUp')tDon();else if(e.key===' '){e.preventDefault();while(tHareket(0,1));tAdim();}}
+});
 
-function pongCiz() {
-  pongCtx.fillStyle='#0a0c12'; pongCtx.fillRect(0,0,PW,PH);
-  // Orta çizgi
-  pongCtx.setLineDash([8,8]); pongCtx.strokeStyle='rgba(255,255,255,0.1)';
-  pongCtx.beginPath(); pongCtx.moveTo(PW/2,0); pongCtx.lineTo(PW/2,PH); pongCtx.stroke();
-  pongCtx.setLineDash([]);
-  // Raketler
-  pongCtx.fillStyle='#FFE135';
-  pongCtx.beginPath(); pongCtx.roundRect(pongSol.x,pongSol.y,pongSol.w,pongSol.h,5); pongCtx.fill();
-  pongCtx.fillStyle='#f87171';
-  pongCtx.beginPath(); pongCtx.roundRect(pongSag.x,pongSag.y,pongSag.w,pongSag.h,5); pongCtx.fill();
-  // Top
-  pongCtx.fillStyle='white';
-  pongCtx.beginPath(); pongCtx.arc(pongTop.x,pongTop.y,pongTop.r,0,Math.PI*2); pongCtx.fill();
-}
-pongCiz();
-
-// İnit
 kartBaslat();
 mayinBaslat();
+pCiz();
 </script>
 </body>
 </html>
