@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>2048</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+header{width:100%;padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{padding:24px;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:460px;}
+.ust{display:flex;justify-content:space-between;align-items:center;width:100%;}
+.skorlar{display:flex;gap:10px;}
+.skor-kutu{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 18px;text-align:center;min-width:80px;}
+.skor-lbl{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;}
+.skor-sayi{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+.btns{display:flex;gap:8px;}
+.btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;background:var(--yellow);color:#111;transition:all 0.2s;}
+.btn:hover{background:#f0d400;}
+.btn-gray{background:rgba(255,255,255,0.08);color:var(--text);border:1px solid var(--border);}
+.btn-gray:hover{background:rgba(255,255,255,0.14);}
+
+/* TAHTA */
+.tahta-wrap{position:relative;width:100%;}
+.tahta-arka{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:#13151f;padding:12px;border-radius:18px;border:1.5px solid var(--border);}
+.bos-hucre{border-radius:10px;background:rgba(255,255,255,0.04);aspect-ratio:1;}
+.tahta-on{position:absolute;top:12px;left:12px;right:12px;bottom:12px;}
+.tas{position:absolute;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;transition:top 0.12s ease, left 0.12s ease, width 0.12s ease, height 0.12s ease;}
+.tas.yeni{animation:cikis 0.18s ease;}
+.tas.birlesti{animation:birlesti 0.18s ease;}
+@keyframes cikis{0%{transform:scale(0);}60%{transform:scale(1.12);}100%{transform:scale(1);}}
+@keyframes birlesti{0%{transform:scale(1);}40%{transform:scale(1.2);}100%{transform:scale(1);}}
+
+.v2{background:#3d3a2e;color:#ffe135;}
+.v4{background:#4a3d1a;color:#ffd000;}
+.v8{background:#c45a1a;color:#fff;}
+.v16{background:#d44a10;color:#fff;}
+.v32{background:#e03a10;color:#fff;}
+.v64{background:#e02010;color:#fff;}
+.v128{background:#8b5cf6;color:#fff;}
+.v256{background:#7c3aed;color:#fff;}
+.v512{background:#6d28d9;color:#fff;}
+.v1024{background:#4ade80;color:#111;}
+.v2048{background:#FFE135;color:#111;}
+
+.overlay{position:absolute;inset:0;background:rgba(10,12,16,0.88);border-radius:18px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:10;}
+.overlay.goster{display:flex;}
+.overlay h2{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;}
+.overlay p{color:var(--muted);font-size:0.9rem;}
+.ipucu{color:var(--muted);font-size:0.78rem;text-align:center;}
+.swipe-area{position:absolute;inset:0;z-index:5;}
+</style>
+</head>
+<body>
+<header>
+<h1>2048</h1>
+<a href="index.html" class="back">← Ana Sayfa</a>
+</header>
+<div class="wrap">
+  <div class="ust">
+    <div class="skorlar">
+      <div class="skor-kutu"><div class="skor-lbl">Skor</div><div class="skor-sayi" id="skor">0</div></div>
+      <div class="skor-kutu"><div class="skor-lbl">En İyi</div><div class="skor-sayi" id="enIyi">0</div></div>
+    </div>
+    <div class="btns">
+      <button class="btn btn-gray" onclick="geriAl()">↩ Geri</button>
+      <button class="btn" onclick="yeniOyun()">Yeni</button>
+    </div>
+  </div>
+  <div class="tahta-wrap" id="tahtaWrap">
+    <div class="tahta-arka" id="tahtaArka">
+      <div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div>
+      <div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div>
+      <div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div>
+      <div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div><div class="bos-hucre"></div>
+    </div>
+    <div class="tahta-on" id="tahtaOn"></div>
+    <div class="overlay" id="overlay">
+      <h2 id="overlayBaslik"></h2>
+      <p id="overlayAlt"></p>
+      <button class="btn" onclick="yeniOyun()">Tekrar Oyna</button>
+    </div>
+    <div class="swipe-area" id="swipeArea"></div>
+  </div>
+  <div class="ipucu">Ok tuşları veya kaydır · Hedef: 2048!</div>
+</div>
+<script>
+var tahta=[], skor=0, enIyi=parseInt(localStorage.getItem('2048enIyi')||'0'), bitti=false;
+var oncekiTahta=null, oncekiSkor=0;
+var hucreW=0, hucreH=0, gap=10;
+document.getElementById('enIyi').textContent=enIyi;
+
+function olcumAl(){
+  var on=document.getElementById('tahtaOn');
+  var w=on.offsetWidth, h=on.offsetHeight;
+  hucreW=(w-gap*3)/4; hucreH=(h-gap*3)/4;
+}
+
+function tasPos(r,c){
+  return {top:r*(hucreH+gap), left:c*(hucreW+gap), width:hucreW, height:hucreH};
+}
+
+function fontBoyut(v){
+  if(v>=1024) return Math.max(0.7,1.4-String(v).length*0.15)+'rem';
+  if(v>=128) return '1.2rem';
+  return '1.6rem';
+}
+
+function ciz(yeniKonumlar, birlesimler){
+  olcumAl();
+  var on=document.getElementById('tahtaOn');
+  on.innerHTML='';
+  for(var r=0;r<4;r++) for(var c=0;c<4;c++){
+    var v=tahta[r][c];
+    if(v===0) continue;
+    var pos=tasPos(r,c);
+    var div=document.createElement('div');
+    div.className='tas v'+v;
+    div.style.top=pos.top+'px';
+    div.style.left=pos.left+'px';
+    div.style.width=pos.width+'px';
+    div.style.height=pos.height+'px';
+    div.style.fontSize=fontBoyut(v);
+    div.textContent=v;
+    var key=r+','+c;
+    if(yeniKonumlar && yeniKonumlar.indexOf(key)!==-1) div.classList.add('yeni');
+    if(birlesimler && birlesimler.indexOf(key)!==-1) div.classList.add('birlesti');
+    on.appendChild(div);
+  }
+}
+
+function yeniOyun(){
+  tahta=Array.from({length:4},function(){return Array(4).fill(0);});
+  skor=0; bitti=false; oncekiTahta=null;
+  skorGuncelle();
+  rastgele(); rastgele();
+  document.getElementById('overlay').classList.remove('goster');
+  setTimeout(function(){ciz(['0,0','0,1','0,2','0,3'].slice(0,0),[]);},50);
+  setTimeout(function(){
+    var yeni=[];
+    for(var r=0;r<4;r++) for(var c=0;c<4;c++) if(tahta[r][c]!==0) yeni.push(r+','+c);
+    ciz(yeni,[]);
+  },60);
+}
+
+function rastgele(){
+  var boslar=[];
+  for(var r=0;r<4;r++) for(var c=0;c<4;c++) if(tahta[r][c]===0) boslar.push([r,c]);
+  if(!boslar.length) return null;
+  var pos=boslar[Math.floor(Math.random()*boslar.length)];
+  tahta[pos[0]][pos[1]]=Math.random()<0.9?2:4;
+  return pos[0]+','+pos[1];
+}
+
+function skorGuncelle(){
+  document.getElementById('skor').textContent=skor;
+  if(skor>enIyi){enIyi=skor;localStorage.setItem('2048enIyi',enIyi);document.getElementById('enIyi').textContent=enIyi;}
+}
+
+function satirKaydir(satir){
+  var f=satir.filter(function(x){return x!==0;});
+  var y=[]; var birlesimPozlar=[]; var i=0;
+  while(i<f.length){
+    if(i+1<f.length&&f[i]===f[i+1]){y.push(f[i]*2);skor+=f[i]*2;birlesimPozlar.push(y.length-1);i+=2;}
+    else{y.push(f[i]);i++;}
+  }
+  while(y.length<4) y.push(0);
+  return{satir:y,birlesimler:birlesimPozlar};
+}
+
+function hareket(yon){
+  if(bitti) return;
+  oncekiTahta=tahta.map(function(r){return r.slice();});
+  oncekiSkor=skor;
+  var yeniTahta=tahta.map(function(r){return r.slice();});
+  var degisti=false;
+  var birlesimler=[];
+
+  if(yon==='sol'){
+    for(var r=0;r<4;r++){
+      var res=satirKaydir(yeniTahta[r]);
+      if(res.satir.join()!==yeniTahta[r].join()) degisti=true;
+      res.birlesimler.forEach(function(c){birlesimler.push(r+','+c);});
+      yeniTahta[r]=res.satir;
+    }
+  } else if(yon==='sag'){
+    for(var r=0;r<4;r++){
+      var ters=yeniTahta[r].slice().reverse();
+      var res=satirKaydir(ters);
+      var geri=res.satir.reverse();
+      if(geri.join()!==yeniTahta[r].join()) degisti=true;
+      res.birlesimler.forEach(function(c){birlesimler.push(r+','+(3-c));});
+      yeniTahta[r]=geri;
+    }
+  } else if(yon==='yukari'){
+    for(var c=0;c<4;c++){
+      var sutun=[yeniTahta[0][c],yeniTahta[1][c],yeniTahta[2][c],yeniTahta[3][c]];
+      var res=satirKaydir(sutun);
+      if(res.satir.join()!==sutun.join()) degisti=true;
+      res.birlesimler.forEach(function(r){birlesimler.push(r+','+c);});
+      for(var r=0;r<4;r++) yeniTahta[r][c]=res.satir[r];
+    }
+  } else if(yon==='asagi'){
+    for(var c=0;c<4;c++){
+      var sutun=[yeniTahta[0][c],yeniTahta[1][c],yeniTahta[2][c],yeniTahta[3][c]];
+      var ters=sutun.slice().reverse();
+      var res=satirKaydir(ters);
+      var geri=res.satir.reverse();
+      if(geri.join()!==sutun.join()) degisti=true;
+      res.birlesimler.forEach(function(r){birlesimler.push((3-r)+','+c);});
+      for(var r=0;r<4;r++) yeniTahta[r][c]=geri[r];
+    }
+  }
+
+  if(!degisti) return;
+  tahta=yeniTahta;
+  var yeniPos=rastgele();
+  skorGuncelle();
+  var yeniArr=yeniPos?[yeniPos]:[];
+  ciz(yeniArr,birlesimler);
+
+  if(tahta.some(function(r){return r.some(function(v){return v===2048;});})){
+    setTimeout(function(){
+      document.getElementById('overlayBaslik').textContent='🎉 2048!';
+      document.getElementById('overlayAlt').textContent='Tebrikler, kazandın!';
+      document.getElementById('overlay').classList.add('goster');
+    },200);
+    bitti=true; return;
+  }
+
+  var hamleVar=false;
+  for(var r=0;r<4;r++) for(var c=0;c<4;c++){
+    if(tahta[r][c]===0){hamleVar=true;break;}
+    if(c<3&&tahta[r][c]===tahta[r][c+1]){hamleVar=true;break;}
+    if(r<3&&tahta[r][c]===tahta[r+1][c]){hamleVar=true;break;}
+  }
+  if(!hamleVar){
+    setTimeout(function(){
+      document.getElementById('overlayBaslik').textContent='💀 Oyun Bitti';
+      document.getElementById('overlayAlt').textContent='Skor: '+skor;
+      document.getElementById('overlay').classList.add('goster');
+    },200);
+    bitti=true;
+  }
+}
+
+function geriAl(){
+  if(!oncekiTahta) return;
+  tahta=oncekiTahta.map(function(r){return r.slice();});
+  skor=oncekiSkor; oncekiTahta=null;
+  skorGuncelle(); ciz([],[]);
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft'){e.preventDefault();hareket('sol');}
+  else if(e.key==='ArrowRight'){e.preventDefault();hareket('sag');}
+  else if(e.key==='ArrowUp'){e.preventDefault();hareket('yukari');}
+  else if(e.key==='ArrowDown'){e.preventDefault();hareket('asagi');}
+});
+
+var tx=0,ty=0;
+var sw=document.getElementById('swipeArea');
+sw.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+sw.addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>Math.abs(dy)){if(dx>30)hareket('sag');else if(dx<-30)hareket('sol');}
+  else{if(dy>30)hareket('asagi');else if(dy<-30)hareket('yukari');}
+},{passive:true});
+
+window.addEventListener('resize',function(){if(!bitti)ciz([],[]);});
+setTimeout(yeniOyun,100);
+</script>
+</body>
+</html>
