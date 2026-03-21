@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎲 Zar & Karar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--purple:#c084fc;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:700px;margin:0 auto;padding:24px;}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+.tab{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.tab.on{border-color:var(--yellow);background:#1a1b10;}
+.tab em{font-style:normal;font-size:1.6rem;display:block;margin-bottom:4px;}
+.tab span{font-size:0.72rem;font-weight:700;color:var(--muted);}
+.tab.on span{color:var(--yellow);}
+.panel{display:none;}
+.panel.on{display:block;}
+.box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:28px;text-align:center;}
+.box h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--yellow);margin-bottom:6px;}
+.box p{font-size:0.82rem;color:var(--muted);margin-bottom:24px;line-height:1.5;}
+.btn{padding:12px 28px;border-radius:12px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all 0.2s;background:var(--yellow);color:#111;display:inline-block;}
+.btn:hover{background:#f0d400;transform:translateY(-2px);}
+.btn:active{transform:scale(0.97);}
+.btn-sm{padding:8px 18px;font-size:0.85rem;background:rgba(255,255,255,0.07);color:var(--text);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;}
+.btn-sm:hover{background:rgba(255,255,255,0.12);}
+
+/* ZAR */
+.zarlar{display:flex;gap:16px;justify-content:center;margin:24px 0;flex-wrap:wrap;}
+.zar{width:90px;height:90px;background:var(--card);border:2px solid var(--border);border-radius:16px;display:grid;place-items:center;font-size:3rem;transition:all 0.3s;user-select:none;}
+.zar.animasyon{animation:zarSal 0.4s ease;}
+@keyframes zarSal{0%{transform:rotate(0deg) scale(1);}25%{transform:rotate(-15deg) scale(1.1);}50%{transform:rotate(15deg) scale(0.9);}75%{transform:rotate(-10deg) scale(1.05);}100%{transform:rotate(0deg) scale(1);}}
+.zar-kontrol{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.zar-tip-btn{padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.zar-tip-btn.on{background:var(--yellow);color:#111;border-color:var(--yellow);}
+.toplam{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--yellow);margin:8px 0;}
+.toplam-lbl{font-size:0.78rem;color:var(--muted);}
+.gecmis{margin-top:20px;text-align:left;}
+.gecmis h3{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;font-weight:600;}
+.gecmis-liste{display:flex;flex-wrap:wrap;gap:6px;}
+.gecmis-chip{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:0.78rem;font-family:'DM Sans',sans-serif;}
+
+/* KARAR */
+.secenekler{text-align:left;margin-bottom:20px;}
+.secenek-satir{display:flex;gap:8px;margin-bottom:8px;}
+.secenek-input{flex:1;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;transition:border-color 0.2s;}
+.secenek-input:focus{outline:none;border-color:var(--yellow);}
+.secenek-input::placeholder{color:var(--muted);}
+.sil-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);width:36px;cursor:pointer;font-size:1rem;transition:all 0.2s;}
+.sil-btn:hover{color:var(--red);border-color:var(--red);}
+.sonuc-kutu{background:rgba(255,225,53,0.1);border:2px solid var(--yellow);border-radius:16px;padding:20px;margin:16px 0;display:none;}
+.sonuc-kutu.goster{display:block;animation:pop 0.4s ease;}
+@keyframes pop{0%{transform:scale(0.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.sonuc-kutu .sonuc-text{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+.sonuc-kutu .sonuc-lbl{font-size:0.78rem;color:var(--muted);margin-bottom:6px;}
+
+/* PARA */
+.para{width:120px;height:120px;margin:20px auto;perspective:600px;}
+.para-ic{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.6s ease;}
+.para-ic.cevir{animation:paraAnim 0.6s ease;}
+@keyframes paraAnim{0%{transform:rotateY(0deg);}50%{transform:rotateY(900deg);}100%{transform:rotateY(1080deg);}}
+.para-yuz{position:absolute;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:800;backface-visibility:hidden;}
+.para-on{background:var(--yellow);color:#111;font-family:'Syne',sans-serif;}
+.para-arka{background:var(--card);border:3px solid var(--yellow);color:var(--yellow);font-family:'Syne',sans-serif;transform:rotateY(180deg);}
+.para-sonuc{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin:12px 0;min-height:36px;}
+</style>
+</head>
+<body>
+<header>
+<h1>🎲 Zar & Karar</h1>
+<a href="index.html" class="back">← Ana Sayfa</a>
+</header>
+<div class="wrap">
+<div class="tabs">
+<div class="tab on" data-t="zar"><em>🎲</em><span>Zar At</span></div>
+<div class="tab" data-t="karar"><em>🤔</em><span>Karar Ver</span></div>
+<div class="tab" data-t="para"><em>🪙</em><span>Para At</span></div>
+</div>
+
+<!-- ZAR -->
+<div class="panel on" id="p-zar">
+<div class="box">
+<h2>🎲 Zar At</h2>
+<p>Kaç zar atmak istiyorsun? Hangi tür zar kullanacaksın seç!</p>
+<div class="zar-kontrol">
+  <span style="font-size:0.8rem;color:var(--muted);font-weight:600;">Zar tipi:</span>
+  <button class="zar-tip-btn on" data-y="6">D6</button>
+  <button class="zar-tip-btn" data-y="4">D4</button>
+  <button class="zar-tip-btn" data-y="8">D8</button>
+  <button class="zar-tip-btn" data-y="10">D10</button>
+  <button class="zar-tip-btn" data-y="12">D12</button>
+  <button class="zar-tip-btn" data-y="20">D20</button>
+</div>
+<div class="zar-kontrol">
+  <span style="font-size:0.8rem;color:var(--muted);font-weight:600;">Zar sayısı:</span>
+  <button class="btn-sm" onclick="zarSayiDegis(-1)">−</button>
+  <span id="zarSayi" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;min-width:30px;">1</span>
+  <button class="btn-sm" onclick="zarSayiDegis(1)">+</button>
+</div>
+<div class="zarlar" id="zarlar"></div>
+<div class="toplam-lbl" id="toplamLbl"></div>
+<div class="toplam" id="toplamSayi"></div>
+<button class="btn" onclick="zarAt()">🎲 At!</button>
+<div class="gecmis">
+  <h3>Geçmiş</h3>
+  <div class="gecmis-liste" id="gecmis"></div>
+</div>
+</div>
+</div>
+
+<!-- KARAR -->
+<div class="panel" id="p-karar">
+<div class="box">
+<h2>🤔 Karar Verici</h2>
+<p>Ne yapacağına karar veremiyor musun? Seçenekleri yaz, rastgele birini seçelim!</p>
+<div class="secenekler" id="secenekler"></div>
+<div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;">
+  <button class="btn-sm" onclick="secenekEkle()">+ Seçenek Ekle</button>
+  <button class="btn-sm" onclick="secenekleriTemizle()">Temizle</button>
+</div>
+<button class="btn" onclick="kararVer()">🎯 Karar Ver!</button>
+<div class="sonuc-kutu" id="sonucKutu">
+  <div class="sonuc-lbl">Seçilen:</div>
+  <div class="sonuc-text" id="sonucText"></div>
+</div>
+</div>
+</div>
+
+<!-- PARA -->
+<div class="panel" id="p-para">
+<div class="box">
+<h2>🪙 Para At</h2>
+<p>Tura mı yazı mı? Parayı çevir ve öğren!</p>
+<div class="para" id="para">
+  <div class="para-ic" id="paraIc">
+    <div class="para-yuz para-on" id="paraOn">T</div>
+    <div class="para-yuz para-arka" id="paraArka">Y</div>
+  </div>
+</div>
+<div class="para-sonuc" id="paraSonuc"></div>
+<button class="btn" onclick="paraAt()">🪙 Çevir!</button>
+<div style="margin-top:20px;">
+  <div style="display:flex;gap:20px;justify-content:center;">
+    <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);" id="turaSayi">0</div><div style="font-size:0.75rem;color:var(--muted);">Tura</div></div>
+    <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--blue);" id="yaziSayi">0</div><div style="font-size:0.75rem;color:var(--muted);">Yazı</div></div>
+    <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--muted);" id="toplamSayiPara">0</div><div style="font-size:0.75rem;color:var(--muted);">Toplam</div></div>
+  </div>
+  <button class="btn-sm" style="margin-top:12px;" onclick="paraTemizle()">Sıfırla</button>
+</div>
+</div>
+</div>
+
+</div>
+<script>
+// TABS
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on');
+    document.getElementById('p-'+t.dataset.t).classList.add('on');
+  });
+});
+
+// ZAR
+var zarYuz = 6;
+var zarSayisi = 1;
+var gecmisAtislar = [];
+var zarEmojiler = {6:['⚀','⚁','⚂','⚃','⚄','⚅']};
+
+document.querySelectorAll('.zar-tip-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.zar-tip-btn').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    zarYuz = parseInt(b.dataset.y);
+    zarlarCiz([]);
+  });
+});
+
+function zarSayiDegis(d){
+  zarSayisi = Math.max(1, Math.min(6, zarSayisi+d));
+  document.getElementById('zarSayi').textContent = zarSayisi;
+  zarlarCiz([]);
+}
+
+function zarlarCiz(sonuclar){
+  var el = document.getElementById('zarlar');
+  el.innerHTML = '';
+  for(var i=0;i<zarSayisi;i++){
+    var div = document.createElement('div');
+    div.className = 'zar';
+    div.id = 'zar-'+i;
+    if(sonuclar.length>i){
+      var v = sonuclar[i];
+      div.textContent = zarYuz===6 ? zarEmojiler[6][v-1] : v;
+      div.style.fontSize = zarYuz===6 ? '3rem' : '2rem';
+      div.style.fontFamily = "'Syne',sans-serif";
+      div.style.fontWeight = '800';
+    } else {
+      div.textContent = zarYuz===6 ? '⚀' : '?';
+    }
+    el.appendChild(div);
+  }
+}
+
+function zarAt(){
+  var sonuclar = [];
+  for(var i=0;i<zarSayisi;i++) sonuclar.push(Math.floor(Math.random()*zarYuz)+1);
+  zarlarCiz(sonuclar);
+  document.querySelectorAll('.zar').forEach(function(z){
+    z.classList.remove('animasyon');
+    void z.offsetWidth;
+    z.classList.add('animasyon');
+  });
+  var toplam = sonuclar.reduce(function(a,b){return a+b;},0);
+  if(zarSayisi>1){
+    document.getElementById('toplamLbl').textContent = 'Toplam';
+    document.getElementById('toplamSayi').textContent = toplam;
+  } else {
+    document.getElementById('toplamLbl').textContent = '';
+    document.getElementById('toplamSayi').textContent = '';
+  }
+  gecmisAtislar.unshift(sonuclar.join(zarSayisi>1?'+':''));
+  if(gecmisAtislar.length>12) gecmisAtislar.pop();
+  document.getElementById('gecmis').innerHTML = gecmisAtislar.map(function(a){
+    return '<div class="gecmis-chip">'+a+'</div>';
+  }).join('');
+}
+
+zarlarCiz([]);
+
+// KARAR
+var secenekSayisi = 0;
+function secenekEkle(){
+  secenekSayisi++;
+  var div = document.createElement('div');
+  div.className = 'secenek-satir';
+  div.id = 'sec-'+secenekSayisi;
+  div.innerHTML = '<input class="secenek-input" placeholder="Seçenek '+(document.getElementById('secenekler').children.length+1)+'..." /><button class="sil-btn" onclick="secenekSil(\'sec-'+secenekSayisi+'\')">✕</button>';
+  document.getElementById('secenekler').appendChild(div);
+}
+function secenekSil(id){
+  var el = document.getElementById(id);
+  if(el) el.remove();
+}
+function secenekleriTemizle(){
+  document.getElementById('secenekler').innerHTML='';
+  document.getElementById('sonucKutu').classList.remove('goster');
+  secenekSayisi=0;
+}
+function kararVer(){
+  var inputlar = document.querySelectorAll('.secenek-input');
+  var secenekler = [];
+  inputlar.forEach(function(i){if(i.value.trim()) secenekler.push(i.value.trim());});
+  if(secenekler.length<2){alert('En az 2 seçenek gir!');return;}
+  var secilen = secenekler[Math.floor(Math.random()*secenekler.length)];
+  var kutu = document.getElementById('sonucKutu');
+  kutu.classList.remove('goster');
+  void kutu.offsetWidth;
+  document.getElementById('sonucText').textContent = secilen;
+  kutu.classList.add('goster');
+}
+
+// Başlangıçta 3 seçenek ekle
+secenekEkle(); secenekEkle(); secenekEkle();
+
+// PARA
+var turaSayisi=0, yaziSayisi=0, paraAniyor=false;
+function paraAt(){
+  if(paraAniyor) return;
+  paraAniyor=true;
+  var sonuc = Math.random()<0.5 ? 'tura' : 'yazi';
+  var ic = document.getElementById('paraIc');
+  ic.classList.remove('cevir');
+  void ic.offsetWidth;
+  ic.classList.add('cevir');
+  document.getElementById('paraSonuc').textContent='...';
+  setTimeout(function(){
+    if(sonuc==='tura'){turaSayisi++;document.getElementById('paraSonuc').textContent='TURA! 🟡';document.getElementById('paraSonuc').style.color='var(--yellow)';}
+    else{yaziSayisi++;document.getElementById('paraSonuc').textContent='YAZI! 🔵';document.getElementById('paraSonuc').style.color='var(--blue)';}
+    document.getElementById('turaSayi').textContent=turaSayisi;
+    document.getElementById('yaziSayi').textContent=yaziSayisi;
+    document.getElementById('toplamSayiPara').textContent=turaSayisi+yaziSayisi;
+    paraAniyor=false;
+  },650);
+}
+function paraTemizle(){turaSayisi=0;yaziSayisi=0;document.getElementById('turaSayi').textContent=0;document.getElementById('yaziSayi').textContent=0;document.getElementById('toplamSayiPara').textContent=0;document.getElementById('paraSonuc').textContent='';}
+</script>
+</body>
+</html>
