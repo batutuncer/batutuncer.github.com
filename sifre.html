@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sifreli Mesaj</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--blue:#60a5fa;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:780px;margin:0 auto;padding:24px;}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.tab{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.tab.on{border-color:var(--yellow);background:#1a1b10;}
+.tab em{font-style:normal;font-size:1.6rem;display:block;margin-bottom:4px;}
+.tab span{font-size:0.72rem;font-weight:700;color:var(--muted);}
+.tab.on span{color:var(--yellow);}
+.panel{display:none;}
+.panel.on{display:block;}
+.box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:26px;}
+.box h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--yellow);margin-bottom:6px;}
+.box p{font-size:0.82rem;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+textarea{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:12px;padding:13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.87rem;resize:vertical;min-height:88px;transition:border-color 0.2s;line-height:1.6;}
+textarea:focus{outline:none;border-color:var(--yellow);}
+textarea::placeholder{color:var(--muted);}
+textarea.out{background:rgba(255,255,255,0.02);border-style:dashed;}
+.row{display:flex;gap:8px;margin:12px 0;align-items:center;flex-wrap:wrap;}
+.lbl{font-size:0.8rem;color:var(--muted);font-weight:600;}
+input{background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;padding:8px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.87rem;}
+input:focus{outline:none;border-color:var(--yellow);}
+input[type=number]{width:80px;}
+input[type=text]{width:190px;}
+.btn{padding:9px 20px;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.87rem;cursor:pointer;}
+.by{background:var(--yellow);color:#111;}
+.bb{background:rgba(96,165,250,0.15);color:var(--blue);border:1px solid rgba(96,165,250,0.3);}
+.bg{background:rgba(255,255,255,0.07);color:var(--text);border:1px solid var(--border);font-size:0.78rem;padding:7px 13px;}
+.arrow{text-align:center;padding:6px;color:var(--muted);}
+.rel{position:relative;}
+.cpbtn{position:absolute;top:10px;right:10px;padding:4px 11px;font-size:0.72rem;background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;}
+.alfmap{display:flex;flex-wrap:wrap;gap:4px;margin-top:14px;}
+.hc{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:3px 7px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;}
+.hc .o{color:var(--muted);}
+.hc .s{color:var(--yellow);font-weight:700;}
+</style>
+</head>
+<body>
+<header>
+<h1>&#128272; Sifreli Mesaj</h1>
+<a href="index.html" class="back">&#8592; Ana Sayfa</a>
+</header>
+<div class="wrap">
+<div class="tabs">
+<div class="tab on" data-t="caesar"><em>&#128292;</em><span>Caesar</span></div>
+<div class="tab" data-t="karistir"><em>&#128256;</em><span>Karistirma</span></div>
+<div class="tab" data-t="sayi"><em>&#128290;</em><span>Sayi Kodu</span></div>
+<div class="tab" data-t="ters"><em>&#128260;</em><span>Ters Yazi</span></div>
+</div>
+<div class="panel on" id="p-caesar">
+<div class="box">
+<h2>Caesar Sifresi</h2>
+<p>Her harfi alfabede belirlenen sayi kadar kaydirır. Julius Caesar bu yontemi kullanirdi!</p>
+<div class="row">
+<span class="lbl">Kaydirma:</span>
+<input type="number" id="cK" value="3" min="1" max="28" oninput="cGoster()"/>
+<span style="font-size:0.8rem;color:var(--muted)">A &rarr; <b id="cOrnek" style="color:var(--yellow)">D</b></span>
+</div>
+<textarea id="cG" placeholder="Sifrelenecek mesaji yaz..."></textarea>
+<div class="row">
+<button class="btn by" onclick="cSifre()">Sifrele</button>
+<button class="btn bb" onclick="cCoz()">Coz</button>
+<button class="btn bg" onclick="cTemiz()">Temizle</button>
+</div>
+<div class="arrow">&darr;</div>
+<div class="rel">
+<textarea class="out" id="cC" placeholder="Sifreli mesaj..." readonly></textarea>
+<button class="cpbtn" onclick="kopyala('cC')">Kopyala</button>
+</div>
+<div class="alfmap" id="cAlf"></div>
+</div>
+</div>
+<div class="panel" id="p-karistir">
+<div class="box">
+<h2>Karistirma Sifresi</h2>
+<p>Her harfe rastgele baska bir harf atanir. Ayni anahtar ile sifrele ve coz. Anahtari arkadasina gonder!</p>
+<div class="row">
+<span class="lbl">Anahtar:</span>
+<input type="text" id="kA" placeholder="Bos birak = rastgele" maxlength="29"/>
+<button class="btn bg" onclick="kYeniA()">Rastgele</button>
+</div>
+<textarea id="kG" placeholder="Sifrelenecek mesaji yaz..."></textarea>
+<div class="row">
+<button class="btn by" onclick="kSifre()">Sifrele</button>
+<button class="btn bb" onclick="kCoz()">Coz</button>
+<button class="btn bg" onclick="kTemiz()">Temizle</button>
+</div>
+<div class="arrow">&darr;</div>
+<div class="rel">
+<textarea class="out" id="kC" placeholder="Sifreli mesaj..." readonly></textarea>
+<button class="cpbtn" onclick="kopyala('kC')">Kopyala</button>
+</div>
+</div>
+</div>
+<div class="panel" id="p-sayi">
+<div class="box">
+<h2>Sayi Kodu</h2>
+<p>Her harfi sayiya cevirir. A=1, B=2... Sayilari tire ile, kelimeleri / ile ayirir.</p>
+<textarea id="sG" placeholder="Sifrelenecek mesaji yaz..."></textarea>
+<div class="row">
+<button class="btn by" onclick="sSifre()">Sifrele</button>
+<button class="btn bb" onclick="sCoz()">Coz</button>
+<button class="btn bg" onclick="sTemiz()">Temizle</button>
+</div>
+<div class="arrow">&darr;</div>
+<div class="rel">
+<textarea class="out" id="sC" placeholder="Sifreli mesaj..." readonly></textarea>
+<button class="cpbtn" onclick="kopyala('sC')">Kopyala</button>
+</div>
+</div>
+</div>
+<div class="panel" id="p-ters">
+<div class="box">
+<h2>Ters Yazi</h2>
+<p>Mesaji tersine cevirir. Ayni butona basarak geri cevirebilirsin!</p>
+<textarea id="tG" placeholder="Ters yazilacak mesaji yaz..."></textarea>
+<div class="row">
+<button class="btn by" onclick="tCevir()">Tersine Cevir</button>
+<button class="btn bg" onclick="tTemiz()">Temizle</button>
+</div>
+<div class="arrow">&darr;</div>
+<div class="rel">
+<textarea class="out" id="tC" placeholder="Ters mesaj..." readonly></textarea>
+<button class="cpbtn" onclick="kopyala('tC')">Kopyala</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on');
+    document.getElementById('p-'+t.dataset.t).classList.add('on');
+  });
+});
+function kopyala(id){
+  var el=document.getElementById(id);
+  navigator.clipboard.writeText(el.value).then(function(){
+    var b=el.parentElement.querySelector('.cpbtn');
+    b.textContent='Kopyalandi!';b.style.color='var(--green)';
+    setTimeout(function(){b.textContent='Kopyala';b.style.color='';},2000);
+  });
+}
+var ALF='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var N=ALF.length;
+function cGoster(){
+  var k=parseInt(document.getElementById('cK').value)||3;
+  document.getElementById('cOrnek').textContent=ALF[(ALF.indexOf('A')+k)%N];
+  document.getElementById('cAlf').innerHTML=ALF.split('').map(function(h){
+    var i=ALF.indexOf(h);
+    return '<div class="hc"><div class="o">'+h+'</div><div class="s">'+ALF[(i+k)%N]+'</div></div>';
+  }).join('');
+}
+function cDon(m,s){
+  var k=parseInt(document.getElementById('cK').value)||3;
+  return m.toUpperCase().split('').map(function(h){
+    var i=ALF.indexOf(h);if(i===-1)return h;
+    return ALF[s?(i+k)%N:(i-k+N)%N];
+  }).join('');
+}
+function cSifre(){document.getElementById('cC').value=cDon(document.getElementById('cG').value,true);}
+function cCoz(){document.getElementById('cC').value=cDon(document.getElementById('cG').value,false);}
+function cTemiz(){document.getElementById('cG').value='';document.getElementById('cC').value='';}
+cGoster();
+function kYeniA(){
+  document.getElementById('kA').value=ALF.split('').sort(function(){return Math.random()-0.5;}).join('');
+}
+function kHarita(){
+  var a=document.getElementById('kA').value.trim().toUpperCase();
+  if(a.length<N){kYeniA();a=document.getElementById('kA').value;}
+  var m={},t={};
+  ALF.split('').forEach(function(h,i){var s=a[i]||h;m[h]=s;t[s]=h;});
+  return{m:m,t:t};
+}
+function kSifre(){var h=kHarita();document.getElementById('kC').value=document.getElementById('kG').value.toUpperCase().split('').map(function(c){return h.m[c]||c;}).join('');}
+function kCoz(){var h=kHarita();document.getElementById('kC').value=document.getElementById('kG').value.toUpperCase().split('').map(function(c){return h.t[c]||c;}).join('');}
+function kTemiz(){document.getElementById('kG').value='';document.getElementById('kC').value='';}
+function sSifre(){
+  document.getElementById('sC').value=document.getElementById('sG').value.toUpperCase().split('').map(function(h){
+    if(h===' ')return'/';var i=ALF.indexOf(h);return i!==-1?(i+1).toString():h;
+  }).join('-');
+}
+function sCoz(){
+  document.getElementById('sC').value=document.getElementById('sG').value.trim().split('-').map(function(p){
+    if(p==='/')return' ';var n=parseInt(p);return(!isNaN(n)&&n>=1&&n<=N)?ALF[n-1]:p;
+  }).join('');
+}
+function sTemiz(){document.getElementById('sG').value='';document.getElementById('sC').value='';}
+function tCevir(){document.getElementById('tC').value=document.getElementById('tG').value.split('').reverse().join('');}
+function tTemiz(){document.getElementById('tG').value='';document.getElementById('tC').value='';}
+</script>
+</body>
+</html>
+
+
