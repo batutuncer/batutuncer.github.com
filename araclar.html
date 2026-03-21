@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>⏱️ Araçlar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--purple:#c084fc;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:800px;margin:0 auto;padding:24px;}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.tab{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.tab.on{border-color:var(--yellow);background:#1a1b10;}
+.tab em{font-style:normal;font-size:1.5rem;display:block;margin-bottom:4px;}
+.tab span{font-size:0.7rem;font-weight:700;color:var(--muted);}
+.tab.on span{color:var(--yellow);}
+.panel{display:none;}
+.panel.on{display:block;}
+.box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:28px;text-align:center;}
+.box h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--yellow);margin-bottom:20px;}
+.big-time{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:700;letter-spacing:2px;margin:16px 0;}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+.btn{padding:11px 24px;border-radius:11px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}
+.by{background:var(--yellow);color:#111;}
+.by:hover{background:#f0d400;}
+.bg{background:rgba(255,255,255,0.07);color:var(--text);border:1px solid var(--border);}
+.bg:hover{background:rgba(255,255,255,0.12);}
+.br{background:rgba(248,113,113,0.15);color:var(--red);border:1px solid rgba(248,113,113,0.3);}
+.br:hover{background:rgba(248,113,113,0.25);}
+.bbl{background:rgba(96,165,250,0.15);color:var(--blue);border:1px solid rgba(96,165,250,0.3);}
+.bbl:hover{background:rgba(96,165,250,0.25);}
+
+/* KRONOMETRE LAP */
+.laps{max-height:200px;overflow-y:auto;margin-top:16px;text-align:left;}
+.lap{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.82rem;}
+.lap:last-child{border-bottom:none;}
+.lap .n{color:var(--muted);}
+.lap .t{color:var(--yellow);}
+.lap.best .t{color:var(--green);}
+.lap.worst .t{color:var(--red);}
+
+/* ZAMANLAYICI */
+.zaman-input-row{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:20px;flex-wrap:wrap;}
+.zaman-kutu{text-align:center;}
+.zaman-kutu input{width:70px;background:rgba(255,255,255,0.06);border:1.5px solid var(--border);border-radius:10px;padding:10px 6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:1.4rem;text-align:center;font-weight:700;}
+.zaman-kutu input:focus{outline:none;border-color:var(--yellow);}
+.zaman-kutu label{display:block;font-size:0.7rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+.sep{font-family:'JetBrains Mono',monospace;font-size:2rem;color:var(--muted);padding-top:4px;}
+.progress-ring{margin:16px auto;display:block;}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8;}
+.ring-fill{fill:none;stroke:var(--yellow);stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 1s linear;}
+.ring-text{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;fill:var(--text);}
+
+/* TAKVİM */
+.takvim{width:100%;max-width:380px;margin:0 auto;}
+.takvim-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.takvim-header h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;}
+.nav-btn{background:rgba(255,255,255,0.07);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:1rem;transition:all 0.2s;}
+.nav-btn:hover{background:rgba(255,255,255,0.12);}
+.takvim-gunler{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
+.gun-lbl{text-align:center;font-size:0.7rem;font-weight:700;color:var(--muted);padding:4px 0;text-transform:uppercase;}
+.takvim-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.gun{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;border:1.5px solid transparent;}
+.gun:hover:not(.bos):not(.bugun){background:rgba(255,255,255,0.07);}
+.gun.bos{cursor:default;}
+.gun.bugun{background:var(--yellow);color:#111;font-weight:800;}
+.gun.secili:not(.bugun){border-color:var(--yellow);color:var(--yellow);}
+.gun.hafta-sonu:not(.bugun){color:rgba(248,113,113,0.7);}
+.saat-buyuk{font-family:'JetBrains Mono',monospace;font-size:3.5rem;font-weight:700;letter-spacing:3px;margin:8px 0;}
+.tarih-alt{color:var(--muted);font-size:0.9rem;margin-bottom:20px;}
+
+/* SAYAÇ */
+.sayac-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;}
+.sayac-kutu{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;padding:16px 8px;}
+.sayac-sayi{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:var(--yellow);}
+.sayac-lbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-top:4px;}
+.sayac-input-row{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.sayac-input-row input{width:200px;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;}
+.sayac-input-row input:focus{outline:none;border-color:var(--yellow);}
+.sayac-input-row input[type=date]{width:170px;}
+
+@media(max-width:500px){.tabs{grid-template-columns:repeat(2,1fr);}.big-time{font-size:2.8rem;}.sayac-grid{grid-template-columns:repeat(2,1fr);}.saat-buyuk{font-size:2.5rem;}}
+</style>
+</head>
+<body>
+<header>
+<h1>⏱️ Araçlar</h1>
+<a href="index.html" class="back">← Ana Sayfa</a>
+</header>
+<div class="wrap">
+<div class="tabs">
+  <div class="tab on" data-t="krono"><em>⏱️</em><span>Kronometre</span></div>
+  <div class="tab" data-t="zamanlayici"><em>⏳</em><span>Zamanlayıcı</span></div>
+  <div class="tab" data-t="takvim"><em>📅</em><span>Takvim & Saat</span></div>
+  <div class="tab" data-t="sayac"><em>🏖️</em><span>Geri Sayım</span></div>
+</div>
+
+<!-- KRONOMETRE -->
+<div class="panel on" id="p-krono">
+<div class="box">
+<h2>⏱️ Kronometre</h2>
+<div class="big-time" id="kronoZaman">00:00.00</div>
+<div class="btns">
+  <button class="btn by" id="kronoBaslatBtn" onclick="kronoBaslat()">▶ Başlat</button>
+  <button class="btn bg" onclick="kronoLap()">Tur</button>
+  <button class="btn br" onclick="kronoSifirla()">↺ Sıfırla</button>
+</div>
+<div class="laps" id="kronoLaplar"></div>
+</div>
+</div>
+
+<!-- ZAMANLAYICI -->
+<div class="panel" id="p-zamanlayici">
+<div class="box">
+<h2>⏳ Zamanlayıcı</h2>
+<div class="zaman-input-row">
+  <div class="zaman-kutu"><input type="number" id="zSaat" value="0" min="0" max="99" oninput="zamanGuncelle()"/><label>Saat</label></div>
+  <div class="sep">:</div>
+  <div class="zaman-kutu"><input type="number" id="zDakika" value="5" min="0" max="59" oninput="zamanGuncelle()"/><label>Dakika</label></div>
+  <div class="sep">:</div>
+  <div class="zaman-kutu"><input type="number" id="zSaniye" value="0" min="0" max="59" oninput="zamanGuncelle()"/><label>Saniye</label></div>
+</div>
+<svg class="progress-ring" width="120" height="120" viewBox="0 0 120 120">
+  <circle class="ring-bg" cx="60" cy="60" r="52"/>
+  <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"/>
+  <text class="ring-text" x="60" y="65" text-anchor="middle" id="ringText">00:00</text>
+</svg>
+<div class="big-time" id="zamanZaman" style="font-size:2.8rem;">05:00</div>
+<div class="btns">
+  <button class="btn by" id="zamanBtn" onclick="zamanBaslat()">▶ Başlat</button>
+  <button class="btn bg" onclick="zamanDurdur()">⏸ Durdur</button>
+  <button class="btn br" onclick="zamanSifirla()">↺ Sıfırla</button>
+</div>
+<div id="zamanMesaj" style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-top:12px;min-height:28px;color:var(--green);"></div>
+</div>
+</div>
+
+<!-- TAKVİM -->
+<div class="panel" id="p-takvim">
+<div class="box">
+<h2>📅 Takvim & Saat</h2>
+<div class="saat-buyuk" id="saatBuyuk">00:00:00</div>
+<div class="tarih-alt" id="tarihAlt"></div>
+<div class="takvim">
+  <div class="takvim-header">
+    <button class="nav-btn" onclick="takvimNav(-1)">&#8592;</button>
+    <h3 id="takvimBaslik"></h3>
+    <button class="nav-btn" onclick="takvimNav(1)">&#8594;</button>
+  </div>
+  <div class="takvim-gunler">
+    <div class="gun-lbl">Pzt</div><div class="gun-lbl">Sal</div><div class="gun-lbl">Çar</div>
+    <div class="gun-lbl">Per</div><div class="gun-lbl">Cum</div>
+    <div class="gun-lbl" style="color:rgba(248,113,113,0.7)">Cmt</div>
+    <div class="gun-lbl" style="color:rgba(248,113,113,0.7)">Paz</div>
+  </div>
+  <div class="takvim-grid" id="takvimGrid"></div>
+</div>
+</div>
+</div>
+
+<!-- GERİ SAYIM -->
+<div class="panel" id="p-sayac">
+<div class="box">
+<h2>🏖️ Geri Sayım</h2>
+<div class="sayac-input-row">
+  <input type="text" id="sayacAd" placeholder="Ne için? (Tatil, Doğum günü...)" maxlength="30" style="width:220px;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;"/>
+  <input type="datetime-local" id="sayacTarih" style="background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;"/>
+  <button class="btn by" onclick="sayacKaydet()">Ayarla</button>
+</div>
+<div id="sayacBaslik" style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--yellow);margin-bottom:8px;min-height:28px;"></div>
+<div class="sayac-grid">
+  <div class="sayac-kutu"><div class="sayac-sayi" id="sGun">--</div><div class="sayac-lbl">Gün</div></div>
+  <div class="sayac-kutu"><div class="sayac-sayi" id="sSaat">--</div><div class="sayac-lbl">Saat</div></div>
+  <div class="sayac-kutu"><div class="sayac-sayi" id="sDakika">--</div><div class="sayac-lbl">Dakika</div></div>
+  <div class="sayac-kutu"><div class="sayac-sayi" id="sSaniye">--</div><div class="sayac-lbl">Saniye</div></div>
+</div>
+<div id="sayacMesaj" style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--green);min-height:28px;"></div>
+</div>
+</div>
+
+</div>
+<script>
+// TABS
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on');
+    document.getElementById('p-'+t.dataset.t).classList.add('on');
+  });
+});
+
+// ── KRONOMETRE ──
+var kronoMs=0, kronoBaslangic=null, kronoInterval=null, kronoCalisiyor=false;
+var laplar=[], lapBaslangic=0;
+
+function kronoFormat(ms){
+  var dk=Math.floor(ms/60000), sn=Math.floor((ms%60000)/1000), ys=Math.floor((ms%1000)/10);
+  return pad(dk)+':'+pad(sn)+'.'+pad(ys);
+}
+function pad(n){return n<10?'0'+n:n;}
+
+function kronoBaslat(){
+  if(kronoCalisiyor){
+    clearInterval(kronoInterval); kronoCalisiyor=false;
+    kronoMs += Date.now()-kronoBaslangic;
+    document.getElementById('kronoBaslatBtn').textContent='▶ Devam';
+  } else {
+    kronoCalisiyor=true; kronoBaslangic=Date.now();
+    document.getElementById('kronoBaslatBtn').textContent='⏸ Durdur';
+    kronoInterval=setInterval(function(){
+      var toplam=kronoMs+(Date.now()-kronoBaslangic);
+      document.getElementById('kronoZaman').textContent=kronoFormat(toplam);
+    },10);
+  }
+}
+function kronoLap(){
+  if(!kronoCalisiyor&&kronoMs===0) return;
+  var toplam=kronoCalisiyor?kronoMs+(Date.now()-kronoBaslangic):kronoMs;
+  var lapSure=toplam-lapBaslangic; lapBaslangic=toplam;
+  laplar.push(lapSure);
+  var min=Math.min.apply(null,laplar), max=Math.max.apply(null,laplar);
+  var html=laplar.map(function(l,i){
+    var cls='lap'+(laplar.length>1&&l===min?' best':l===max?' worst':'');
+    return '<div class="'+cls+'"><span class="n">Tur '+(i+1)+'</span><span class="t">'+kronoFormat(l)+'</span></div>';
+  }).reverse().join('');
+  document.getElementById('kronoLaplar').innerHTML=html;
+}
+function kronoSifirla(){
+  clearInterval(kronoInterval); kronoCalisiyor=false; kronoMs=0; lapBaslangic=0; laplar=[];
+  document.getElementById('kronoZaman').textContent='00:00.00';
+  document.getElementById('kronoBaslatBtn').textContent='▶ Başlat';
+  document.getElementById('kronoLaplar').innerHTML='';
+}
+
+// ── ZAMANLAYICI ──
+var zamanKalan=300, zamanToplam=300, zamanInterval=null, zamanCalisiyor=false;
+var CIRCUM=326.7;
+
+function zamanGuncelle(){
+  var s=parseInt(document.getElementById('zSaat').value)||0;
+  var d=parseInt(document.getElementById('zDakika').value)||0;
+  var sn=parseInt(document.getElementById('zSaniye').value)||0;
+  zamanToplam=s*3600+d*60+sn; zamanKalan=zamanToplam;
+  zamanGoster(); document.getElementById('zamanMesaj').textContent='';
+}
+function zamanGoster(){
+  var h=Math.floor(zamanKalan/3600), m=Math.floor((zamanKalan%3600)/60), s=zamanKalan%60;
+  var str = h>0 ? pad(h)+':'+pad(m)+':'+pad(s) : pad(m)+':'+pad(s);
+  document.getElementById('zamanZaman').textContent=str;
+  document.getElementById('ringText').textContent=pad(m)+':'+pad(s);
+  var yuzde=zamanToplam>0?zamanKalan/zamanToplam:0;
+  document.getElementById('ringFill').style.strokeDashoffset=CIRCUM*(1-yuzde);
+  document.getElementById('ringFill').style.stroke=yuzde>0.3?'var(--yellow)':yuzde>0.1?'var(--red)':'var(--red)';
+}
+function zamanBaslat(){
+  if(zamanCalisiyor) return;
+  if(zamanKalan<=0) zamanSifirla();
+  zamanCalisiyor=true;
+  document.getElementById('zamanMesaj').textContent='';
+  zamanInterval=setInterval(function(){
+    zamanKalan--;
+    zamanGoster();
+    if(zamanKalan<=0){
+      clearInterval(zamanInterval); zamanCalisiyor=false;
+      document.getElementById('zamanMesaj').textContent='🔔 Süre doldu!';
+      try{var a=new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAA');a.play();}catch(e){}
+    }
+  },1000);
+}
+function zamanDurdur(){clearInterval(zamanInterval);zamanCalisiyor=false;}
+function zamanSifirla(){clearInterval(zamanInterval);zamanCalisiyor=false;zamanGuncelle();document.getElementById('zamanMesaj').textContent='';}
+zamanGuncelle();
+
+// ── TAKVİM & SAAT ──
+var takvimYil=new Date().getFullYear(), takvimAy=new Date().getMonth();
+var AYLAR=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+var GUNLER_TR=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'];
+
+function saatiGuncelle(){
+  var now=new Date();
+  document.getElementById('saatBuyuk').textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  document.getElementById('tarihAlt').textContent=GUNLER_TR[(now.getDay()+6)%7]+', '+now.getDate()+' '+AYLAR[now.getMonth()]+' '+now.getFullYear();
+}
+setInterval(saatiGuncelle,1000); saatiGuncelle();
+
+function takvimCiz(){
+  document.getElementById('takvimBaslik').textContent=AYLAR[takvimAy]+' '+takvimYil;
+  var ilkGun=new Date(takvimYil,takvimAy,1).getDay();
+  var ilkPzt=(ilkGun+6)%7;
+  var gunSayisi=new Date(takvimYil,takvimAy+1,0).getDate();
+  var bugun=new Date(); var bugunD=bugun.getDate(), bugunA=bugun.getMonth(), bugunY=bugun.getFullYear();
+  var html='';
+  for(var i=0;i<ilkPzt;i++) html+='<div class="gun bos"></div>';
+  for(var d=1;d<=gunSayisi;d++){
+    var haftaGun=(ilkPzt+d-1)%7;
+    var cls='gun';
+    if(d===bugunD&&takvimAy===bugunA&&takvimYil===bugunY) cls+=' bugun';
+    else if(haftaGun>=5) cls+=' hafta-sonu';
+    html+='<div class="'+cls+'">'+d+'</div>';
+  }
+  document.getElementById('takvimGrid').innerHTML=html;
+}
+function takvimNav(y){takvimAy+=y;if(takvimAy>11){takvimAy=0;takvimYil++;}else if(takvimAy<0){takvimAy=11;takvimYil--;}takvimCiz();}
+takvimCiz();
+
+// ── GERİ SAYIM ──
+var sayacHedef=null, sayacInterval=null;
+var kayitliTarih=localStorage.getItem('sayacTarih'), kayitliAd=localStorage.getItem('sayacAd');
+if(kayitliTarih){sayacHedef=new Date(kayitliTarih);document.getElementById('sayacTarih').value=kayitliTarih;if(kayitliAd)document.getElementById('sayacAd').value=kayitliAd;sayacBaslat();}
+
+function sayacKaydet(){
+  var tarih=document.getElementById('sayacTarih').value;
+  var ad=document.getElementById('sayacAd').value.trim()||'Etkinlik';
+  if(!tarih){alert('Tarih seç!');return;}
+  sayacHedef=new Date(tarih);
+  localStorage.setItem('sayacTarih',tarih); localStorage.setItem('sayacAd',ad);
+  sayacBaslat();
+}
+function sayacBaslat(){
+  if(sayacInterval) clearInterval(sayacInterval);
+  var ad=localStorage.getItem('sayacAd')||'Etkinlik';
+  document.getElementById('sayacBaslik').textContent=ad+' için:';
+  sayacGuncelle();
+  sayacInterval=setInterval(sayacGuncelle,1000);
+}
+function sayacGuncelle(){
+  if(!sayacHedef) return;
+  var fark=sayacHedef-new Date();
+  if(fark<=0){
+    document.getElementById('sGun').textContent='0';document.getElementById('sSaat').textContent='0';
+    document.getElementById('sDakika').textContent='0';document.getElementById('sSaniye').textContent='0';
+    document.getElementById('sayacMesaj').textContent='🎉 Geldi!';
+    clearInterval(sayacInterval); return;
+  }
+  document.getElementById('sayacMesaj').textContent='';
+  var gun=Math.floor(fark/86400000);
+  var saat=Math.floor((fark%86400000)/3600000);
+  var dk=Math.floor((fark%3600000)/60000);
+  var sn=Math.floor((fark%60000)/1000);
+  document.getElementById('sGun').textContent=gun;
+  document.getElementById('sSaat').textContent=saat;
+  document.getElementById('sDakika').textContent=dk;
+  document.getElementById('sSaniye').textContent=sn;
+}
+</script>
+</body>
+</html>
