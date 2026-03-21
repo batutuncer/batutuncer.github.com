@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>📝 Not Defteri</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--purple:#c084fc;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:900px;margin:0 auto;padding:24px;display:grid;grid-template-columns:280px 1fr;gap:20px;}
+
+/* SOL PANEL */
+.sol{display:flex;flex-direction:column;gap:12px;}
+.arama-wrap{position:relative;}
+.arama{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px 10px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;transition:border-color 0.2s;}
+.arama:focus{outline:none;border-color:var(--yellow);}
+.arama::placeholder{color:var(--muted);}
+.arama-ikon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.9rem;}
+.yeni-btn{width:100%;padding:11px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}
+.yeni-btn:hover{background:#f0d400;transform:translateY(-1px);}
+.notlar-listesi{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 220px);overflow-y:auto;padding-right:4px;}
+.not-kart{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:all 0.2s;position:relative;}
+.not-kart:hover{border-color:rgba(255,255,255,0.18);transform:translateX(2px);}
+.not-kart.aktif{border-color:var(--yellow);background:#1a1b10;}
+.not-kart .renk-serit{width:4px;height:100%;position:absolute;left:0;top:0;border-radius:14px 0 0 14px;}
+.not-baslik{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.not-onizleme{font-size:0.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;}
+.not-meta{display:flex;justify-content:space-between;align-items:center;}
+.not-tarih{font-size:0.68rem;color:var(--muted);}
+.not-sil-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;padding:2px 6px;border-radius:4px;transition:all 0.15s;}
+.not-sil-btn:hover{color:var(--red);background:rgba(248,113,113,0.1);}
+.bos-liste{text-align:center;padding:32px 16px;color:var(--muted);font-size:0.85rem;}
+.bos-liste div{font-size:2rem;margin-bottom:8px;}
+
+/* SAĞ PANEL - EDITOR */
+.sag{display:flex;flex-direction:column;gap:12px;}
+.editor-ust{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.baslik-input{flex:1;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;color:var(--text);font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;transition:border-color 0.2s;}
+.baslik-input:focus{outline:none;border-color:var(--yellow);}
+.baslik-input::placeholder{color:var(--muted);}
+.renkler{display:flex;gap:6px;}
+.renk-btn{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all 0.15s;}
+.renk-btn.secili{border-color:white;transform:scale(1.2);}
+.kaydet-btn{padding:10px 20px;border-radius:10px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.kaydet-btn:hover{background:#f0d400;}
+.icerik-input{flex:1;width:100%;background:rgba(255,255,255,0.03);border:1.5px solid var(--border);border-radius:14px;padding:18px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;resize:none;min-height:calc(100vh - 260px);transition:border-color 0.2s;line-height:1.7;}
+.icerik-input:focus{outline:none;border-color:var(--yellow);}
+.icerik-input::placeholder{color:var(--muted);}
+.bos-editor{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted);min-height:400px;}
+.bos-editor div{font-size:3rem;}
+.bos-editor p{font-size:0.88rem;}
+.sayac-bar{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);padding:0 4px;}
+
+@media(max-width:700px){.wrap{grid-template-columns:1fr;}.notlar-listesi{max-height:300px;}.icerik-input{min-height:300px;}}
+</style>
+</head>
+<body>
+<header>
+<h1>📝 Not Defteri</h1>
+<a href="index.html" class="back">← Ana Sayfa</a>
+</header>
+<div class="wrap">
+
+<!-- SOL: NOT LİSTESİ -->
+<div class="sol">
+  <button class="yeni-btn" onclick="yeniNot()">+ Yeni Not</button>
+  <div class="arama-wrap">
+    <span class="arama-ikon">🔍</span>
+    <input class="arama" id="aramaInput" placeholder="Notlarda ara..." oninput="aramaYap()"/>
+  </div>
+  <div class="notlar-listesi" id="notlarListesi"></div>
+</div>
+
+<!-- SAĞ: EDITOR -->
+<div class="sag" id="editor" style="display:none;">
+  <div class="editor-ust">
+    <input class="baslik-input" id="baslikInput" placeholder="Başlık..." maxlength="50" oninput="otomatikKaydet()"/>
+    <div class="renkler" id="renkler"></div>
+    <button class="kaydet-btn" onclick="kaydet()">💾 Kaydet</button>
+  </div>
+  <textarea class="icerik-input" id="icerikInput" placeholder="Notunu buraya yaz..." oninput="otomatikKaydet()"></textarea>
+  <div class="sayac-bar">
+    <span id="kelimeSayac">0 kelime</span>
+    <span id="karakterSayac">0 karakter</span>
+  </div>
+</div>
+<div class="bos-editor" id="bosEditor">
+  <div>📝</div>
+  <p>Sol taraftan not seç veya yeni not oluştur</p>
+</div>
+
+</div>
+<script>
+var RENKLER = ['#FFE135','#4ade80','#60a5fa','#c084fc','#f87171','#fb923c','#22d3ee'];
+var notlar = JSON.parse(localStorage.getItem('notDefteri') || '[]');
+var aktifId = null;
+var secilenRenk = RENKLER[0];
+var otomatikTimer = null;
+
+// Renk butonları oluştur
+document.getElementById('renkler').innerHTML = RENKLER.map(function(r){
+  return '<div class="renk-btn'+(r===secilenRenk?' secili':'')+'" style="background:'+r+'" data-r="'+r+'" onclick="renkSec(\''+r+'\')"></div>';
+}).join('');
+
+function renkSec(r){
+  secilenRenk=r;
+  document.querySelectorAll('.renk-btn').forEach(function(b){b.classList.toggle('secili',b.dataset.r===r);});
+  if(aktifId) otomatikKaydet();
+}
+
+function tarihFormat(ts){
+  var d=new Date(ts);
+  return d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+function pad(n){return n<10?'0'+n:n;}
+
+function listeCiz(aramaKelime){
+  var liste = notlar.slice().sort(function(a,b){return b.guncelleme-a.guncelleme;});
+  if(aramaKelime){
+    var k=aramaKelime.toLowerCase();
+    liste=liste.filter(function(n){return (n.baslik+n.icerik).toLowerCase().includes(k);});
+  }
+  if(!liste.length){
+    document.getElementById('notlarListesi').innerHTML='<div class="bos-liste"><div>'+(aramaKelime?'🔍':'📭')+'</div>'+(aramaKelime?'Sonuç bulunamadı':'Henüz not yok')+'</div>';
+    return;
+  }
+  document.getElementById('notlarListesi').innerHTML = liste.map(function(n){
+    return '<div class="not-kart'+(n.id===aktifId?' aktif':'')+'" onclick="notAc(\''+n.id+'\')">'+
+      '<div class="renk-serit" style="background:'+n.renk+'"></div>'+
+      '<div class="not-baslik" style="padding-left:8px">'+(n.baslik||'Başlıksız not')+'</div>'+
+      '<div class="not-onizleme" style="padding-left:8px">'+(n.icerik||'İçerik yok...')+'</div>'+
+      '<div class="not-meta" style="padding-left:8px">'+
+        '<span class="not-tarih">'+tarihFormat(n.guncelleme)+'</span>'+
+        '<button class="not-sil-btn" onclick="notSil(event,\''+n.id+'\')">🗑️</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function notAc(id){
+  aktifId=id;
+  var not=notlar.find(function(n){return n.id===id;});
+  if(!not) return;
+  document.getElementById('baslikInput').value=not.baslik||'';
+  document.getElementById('icerikInput').value=not.icerik||'';
+  secilenRenk=not.renk||RENKLER[0];
+  document.querySelectorAll('.renk-btn').forEach(function(b){b.classList.toggle('secili',b.dataset.r===secilenRenk);});
+  document.getElementById('editor').style.display='flex';
+  document.getElementById('bosEditor').style.display='none';
+  sayacGuncelle();
+  listeCiz(document.getElementById('aramaInput').value);
+}
+
+function yeniNot(){
+  var id=Date.now().toString();
+  notlar.unshift({id:id,baslik:'',icerik:'',renk:RENKLER[0],olusturma:Date.now(),guncelleme:Date.now()});
+  localStorage.setItem('notDefteri',JSON.stringify(notlar));
+  notAc(id);
+}
+
+function kaydet(){
+  if(!aktifId) return;
+  var not=notlar.find(function(n){return n.id===aktifId;});
+  if(!not) return;
+  not.baslik=document.getElementById('baslikInput').value.trim();
+  not.icerik=document.getElementById('icerikInput').value;
+  not.renk=secilenRenk;
+  not.guncelleme=Date.now();
+  localStorage.setItem('notDefteri',JSON.stringify(notlar));
+  listeCiz(document.getElementById('aramaInput').value);
+}
+
+function otomatikKaydet(){
+  sayacGuncelle();
+  clearTimeout(otomatikTimer);
+  otomatikTimer=setTimeout(kaydet,1000);
+}
+
+function sayacGuncelle(){
+  var icerik=document.getElementById('icerikInput').value;
+  var kelime=icerik.trim()?icerik.trim().split(/\s+/).length:0;
+  document.getElementById('kelimeSayac').textContent=kelime+' kelime';
+  document.getElementById('karakterSayac').textContent=icerik.length+' karakter';
+}
+
+function notSil(e,id){
+  e.stopPropagation();
+  if(!confirm('Bu notu silmek istediğine emin misin?')) return;
+  notlar=notlar.filter(function(n){return n.id!==id;});
+  localStorage.setItem('notDefteri',JSON.stringify(notlar));
+  if(aktifId===id){
+    aktifId=null;
+    document.getElementById('editor').style.display='none';
+    document.getElementById('bosEditor').style.display='flex';
+  }
+  listeCiz(document.getElementById('aramaInput').value);
+}
+
+function aramaYap(){listeCiz(document.getElementById('aramaInput').value);}
+
+listeCiz();
+</script>
+</body>
+</html>
