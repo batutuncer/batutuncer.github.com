@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <path id="textCircle" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0"/>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="#0D0D0D"/>
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#FFE135" stroke-width="2"/>
+  <circle cx="100" cy="100" r="55" fill="none" stroke="#FFE135" stroke-width="1.5"/>
+  <text x="100" y="113" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="32" fill="#FFE135">BT</text>
+  <text font-family="Syne,sans-serif" font-weight="700" font-size="8" fill="#FFE135" letter-spacing="3">
+    <textPath href="#textCircle">BT · BT · BT · BT · BT · BT · BT · BT · BT · BT · BT · BT · BT · BT · BT · BT ·</textPath>
+  </text>
+</svg>
