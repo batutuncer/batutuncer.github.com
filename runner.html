@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🏃 Koşucu</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+header{width:100%;padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{padding:24px;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:620px;}
+.ust{display:flex;justify-content:space-between;align-items:center;width:100%;}
+.skorlar{display:flex;gap:10px;}
+.skor-kutu{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 18px;text-align:center;min-width:80px;}
+.skor-lbl{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;}
+.skor-sayi{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+canvas{border-radius:16px;border:1.5px solid var(--border);display:block;width:100%;cursor:pointer;}
+.tema-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:100%;}
+.tema-btn{padding:7px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.tema-btn.on{border-color:var(--yellow);color:var(--yellow);background:#1a1b10;}
+.ipucu{color:var(--muted);font-size:0.75rem;text-align:center;}
+</style>
+</head>
+<body>
+<header><h1>🏃 Koşucu</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<div class="wrap">
+  <div class="ust">
+    <div class="skorlar">
+      <div class="skor-kutu"><div class="skor-lbl">Skor</div><div class="skor-sayi" id="skor">0</div></div>
+      <div class="skor-kutu"><div class="skor-lbl">En İyi</div><div class="skor-sayi" id="enIyi">0</div></div>
+    </div>
+    <div id="seviyeGos" style="font-family:'Syne',sans-serif;font-weight:800;color:var(--muted);font-size:0.9rem;">Seviye 1</div>
+  </div>
+  <canvas id="c" height="300"></canvas>
+  <div class="tema-bar" id="temaBar"></div>
+  <div class="ipucu">Boşluk / Tıkla / Dokun = Zıpla &nbsp;|&nbsp; Çift zıplama var!</div>
+</div>
+<script>
+var TEMALAR = [
+  {
+    id:'klasik', ad:'🌙 Klasik',
+    bgRenk:'#0a0c10', zeminRenk:'rgba(255,255,255,0.12)', zeminBgRenk:'rgba(255,255,255,0.04)',
+    kosucuRenk:'#FFE135', gozRenk:'#0a0c10',
+    bulutRenk:'rgba(255,255,255,0.05)',
+    yildiz:true, yildizRenk:'rgba(255,255,255,0.6)',
+    engel1Renk:'#4ade80', engel2Renk:'#60a5fa',
+    yazıRenk:'#FFE135'
+  },
+  {
+    id:'sabah', ad:'🌅 Sabah',
+    bgRenk:'#fff5e6', zeminRenk:'rgba(100,80,20,0.4)', zeminBgRenk:'rgba(200,150,50,0.12)',
+    kosucuRenk:'#f97316', gozRenk:'#fff5e6',
+    bulutRenk:'rgba(255,200,150,0.3)',
+    yildiz:false, yildizRenk:'',
+    engel1Renk:'#16a34a', engel2Renk:'#dc2626',
+    yazıRenk:'#f97316',
+    sabah:true
+  },
+  {
+    id:'flash', ad:'⚡ Flash',
+    bgRenk:'#0a0010', zeminRenk:'rgba(200,0,255,0.5)', zeminBgRenk:'rgba(200,0,255,0.1)',
+    kosucuRenk:'#f0f', gozRenk:'#0a0010',
+    bulutRenk:'rgba(200,0,255,0.08)',
+    yildiz:true, yildizRenk:'rgba(255,0,255,0.8)',
+    engel1Renk:'#0ff', engel2Renk:'#ff0',
+    yazıRenk:'#f0f',
+    flash:true
+  },
+  {
+    id:'birthday', ad:'🎂 Doğum Günü',
+    bgRenk:'#1a0a2e', zeminRenk:'rgba(255,100,200,0.4)', zeminBgRenk:'rgba(255,100,200,0.1)',
+    kosucuRenk:'#ff6ec7', gozRenk:'#1a0a2e',
+    bulutRenk:'rgba(255,150,255,0.12)',
+    yildiz:true, yildizRenk:'rgba(255,200,255,0.7)',
+    engel1Renk:'#ff6ec7', engel2Renk:'#ffd700',
+    yazıRenk:'#ff6ec7',
+    confetti:true
+  },
+  {
+    id:'worker', ad:'👷 İşçi',
+    bgRenk:'#1a1000', zeminRenk:'rgba(200,150,50,0.5)', zeminBgRenk:'rgba(200,150,50,0.15)',
+    kosucuRenk:'#f59e0b', gozRenk:'#1a1000',
+    bulutRenk:'rgba(200,150,50,0.1)',
+    yildiz:false, yildizRenk:'',
+    engel1Renk:'#ef4444', engel2Renk:'#f97316',
+    yazıRenk:'#f59e0b',
+    baret:true
+  },
+  {
+    id:'uzay', ad:'🚀 Uzay',
+    bgRenk:'#000510', zeminRenk:'rgba(100,150,255,0.3)', zeminBgRenk:'rgba(100,150,255,0.08)',
+    kosucuRenk:'#60a5fa', gozRenk:'#000510',
+    bulutRenk:'rgba(100,150,255,0.08)',
+    yildiz:true, yildizRenk:'rgba(200,220,255,0.8)',
+    engel1Renk:'#a78bfa', engel2Renk:'#34d399',
+    yazıRenk:'#60a5fa',
+    gezegen:true
+  },
+  {
+    id:'orman', ad:'🌲 Orman',
+    bgRenk:'#0a1a0a', zeminRenk:'rgba(50,200,50,0.3)', zeminBgRenk:'rgba(50,200,50,0.1)',
+    kosucuRenk:'#4ade80', gozRenk:'#0a1a0a',
+    bulutRenk:'rgba(100,255,100,0.08)',
+    yildiz:false, yildizRenk:'',
+    engel1Renk:'#86efac', engel2Renk:'#fbbf24',
+    yazıRenk:'#4ade80',
+    agac:true
+  },
+  {
+    id:'deniz', ad:'🌊 Deniz',
+    bgRenk:'#001a2e', zeminRenk:'rgba(0,150,255,0.4)', zeminBgRenk:'rgba(0,150,255,0.1)',
+    kosucuRenk:'#38bdf8', gozRenk:'#001a2e',
+    bulutRenk:'rgba(100,200,255,0.1)',
+    yildiz:true, yildizRenk:'rgba(150,220,255,0.5)',
+    engel1Renk:'#f87171', engel2Renk:'#fbbf24',
+    yazıRenk:'#38bdf8',
+    dalga:true
+  },
+];
+
+var aktifTema = TEMALAR[0];
+
+// Tema butonları
+var temaBar = document.getElementById('temaBar');
+TEMALAR.forEach(function(t){
+  var btn = document.createElement('button');
+  btn.className = 'tema-btn' + (t.id===aktifTema.id?' on':'');
+  btn.textContent = t.ad;
+  btn.addEventListener('click', function(){
+    aktifTema = t;
+    document.querySelectorAll('.tema-btn').forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    if(durum==='oynuyor') baslat();
+  });
+  temaBar.appendChild(btn);
+});
+
+var c=document.getElementById('c'), ctx=c.getContext('2d');
+var W,H;
+function olcu(){W=c.offsetWidth;c.width=W*devicePixelRatio;c.height=300*devicePixelRatio;c.style.height='300px';ctx.scale(devicePixelRatio,devicePixelRatio);H=300;}
+window.addEventListener('resize',function(){olcu();});
+olcu();
+
+var enIyi=parseInt(localStorage.getItem('runnerEnIyi')||'0');
+document.getElementById('enIyi').textContent=enIyi;
+
+var durum='bekle';
+var skor=0,hiz=5,frame=0,zeminY=240,engeller=[],bulutlar=[],yildizlar=[],konfetiler=[],gezegen={x:400,y:60,r:35};
+var kosucuX=80,kosucuY=200,kosucuW=30,kosucuH=40;
+var yerCekimi=0.6,vY=0,zipSayisi=0;
+var zemin=[];
+
+function baslat(){
+  skor=0;hiz=5;frame=0;vY=0;zipSayisi=0;
+  zeminY=H-60;
+  kosucuY=zeminY-kosucuH;
+  engeller=[];
+  bulutlar=[{x:W*0.3,y:55,w:80,h:30,hz:0.5},{x:W*0.65,y:40,w:60,h:25,hz:0.3},{x:W*0.9,y:75,w:70,h:28,hz:0.4}];
+  yildizlar=Array.from({length:60},function(){return{x:Math.random()*W,y:Math.random()*(zeminY-80),p:Math.random()*Math.PI*2};});
+  konfetiler=Array.from({length:30},function(){return{x:Math.random()*W,y:Math.random()*H,renk:['#ff6ec7','#ffd700','#60a5fa','#4ade80'][Math.floor(Math.random()*4)],vx:(Math.random()-0.5)*2,vy:Math.random()*2+0.5,r:Math.random()*4+2};});
+  gezegen={x:W*0.8,y:60,r:35};
+  zemin=Array.from({length:20},function(_,i){return{x:i*(W/10),y:zeminY+Math.random()*6-3};});
+  durum='oynuyor';
+  document.getElementById('skor').textContent=0;
+}
+
+function zipla(){
+  if(zipSayisi<2){vY=zipSayisi===0?-13:-10;zipSayisi++;}
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.code==='Space'){e.preventDefault();
+    if(durum!=='oynuyor') baslat(); else zipla();
+  }
+});
+c.addEventListener('click',function(){if(durum!=='oynuyor') baslat(); else zipla();});
+c.addEventListener('touchstart',function(e){e.preventDefault();if(durum!=='oynuyor') baslat(); else zipla();},{passive:false});
+
+var sonEngel=0;
+function guncelle(){
+  frame++;skor=Math.floor(frame/6);hiz=5+Math.floor(skor/200)*0.5;
+  document.getElementById('skor').textContent=skor;
+  document.getElementById('seviyeGos').textContent='Seviye '+(1+Math.floor(skor/200));
+  vY+=yerCekimi;kosucuY+=vY;
+  if(kosucuY>=zeminY-kosucuH){kosucuY=zeminY-kosucuH;vY=0;zipSayisi=0;}
+  sonEngel++;
+  var aralik=Math.max(55,115-Math.floor(skor/100)*5);
+  if(sonEngel>aralik&&Math.random()<0.045){
+    var tip=Math.random()<0.55?'yer':'hava';
+    var ey=tip==='hava'?zeminY-kosucuH-28:zeminY-38;
+    engeller.push({x:W+20,y:ey,w:tip==='yer'?22:26,h:tip==='yer'?38:22,tip:tip});
+    sonEngel=0;
+  }
+  engeller.forEach(function(e){e.x-=hiz;});
+  engeller=engeller.filter(function(e){return e.x>-60;});
+  var m=5;
+  for(var i=0;i<engeller.length;i++){
+    var e=engeller[i];
+    if(kosucuX+m<e.x+e.w&&kosucuX+kosucuW-m>e.x&&kosucuY+m<e.y+e.h&&kosucuY+kosucuH-m>e.y){
+      durum='bitti';
+      if(skor>enIyi){enIyi=skor;localStorage.setItem('runnerEnIyi',enIyi);document.getElementById('enIyi').textContent=enIyi;}
+      return;
+    }
+  }
+  bulutlar.forEach(function(b){b.x-=b.hz;if(b.x<-b.w)b.x=W+b.w;});
+  zemin.forEach(function(z){z.x-=hiz;if(z.x<-W/10)z.x+=W+W/10;});
+  if(aktifTema.confetti) konfetiler.forEach(function(k){k.x+=k.vx;k.y+=k.vy;if(k.y>H)k.y=-10;if(k.x<0)k.x=W;if(k.x>W)k.x=0;});
+}
+
+function cizKosucu(){
+  var t=aktifTema;
+  var bx=kosucuX,by=kosucuY;
+  var ba=Math.sin(frame*0.3)*15;
+
+  // Gövde rengi temaya göre
+  var govdeRenk=t.kosucuRenk;
+
+  // İşçi: turuncu yelek
+  if(t.id==='worker'){
+    ctx.fillStyle='#f97316';
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+    // Yansıtıcı şerit
+    ctx.fillStyle='#fbbf24';
+    ctx.fillRect(bx,by+22,kosucuW,4);
+    ctx.fillRect(bx,by+30,kosucuW,4);
+  }
+  // Flash: kırmızı kostüm
+  else if(t.id==='flash'){
+    ctx.fillStyle='#dc2626';
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+    // Şimşek logosu
+    ctx.fillStyle='#fbbf24';
+    ctx.beginPath();ctx.moveTo(bx+12,by+15);ctx.lineTo(bx+7,by+26);ctx.lineTo(bx+13,by+26);ctx.lineTo(bx+8,by+37);ctx.lineTo(bx+20,by+22);ctx.lineTo(bx+14,by+22);ctx.lineTo(bx+19,by+15);ctx.fill();
+  }
+  // Deniz: mavi mayo
+  else if(t.id==='deniz'){
+    ctx.fillStyle='#0284c7';
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+    // Palet (ayak)
+    ctx.fillStyle='#22c55e';
+    ctx.beginPath();ctx.ellipse(bx+8+ba/2,by+kosucuH+10,12,5,0.3,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(bx+18-ba/2,by+kosucuH+10,12,5,0.3,0,Math.PI*2);ctx.fill();
+  }
+  // Sabah: pijama
+  else if(t.id==='sabah'){
+    ctx.fillStyle='#a78bfa';
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+    // Pijama çizgileri
+    ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=2;
+    for(var pi=0;pi<3;pi++){ctx.beginPath();ctx.moveTo(bx+pi*10+4,by+14);ctx.lineTo(bx+pi*10+4,by+kosucuH+2);ctx.stroke();}
+  }
+  // Orman: kampçı yeşil
+  else if(t.id==='orman'){
+    ctx.fillStyle='#15803d';
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+    // Yelek detayı
+    ctx.fillStyle='rgba(0,0,0,0.2)';
+    ctx.fillRect(bx+10,by+13,10,kosucuH-14);
+    // Cep
+    ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1;
+    ctx.strokeRect(bx+3,by+20,8,7);
+  }
+  // Doğum günü: renkli tişört
+  else if(t.id==='birthday'){
+    ctx.fillStyle='#db2777';
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+    // Puantiye
+    ctx.fillStyle='rgba(255,255,0,0.5)';
+    [[4,5],[14,8],[8,18],[18,15],[5,25],[16,28]].forEach(function(p){
+      ctx.beginPath();ctx.arc(bx+p[0],by+12+p[1],2,0,Math.PI*2);ctx.fill();
+    });
+  }
+  // Diğer
+  else {
+    ctx.fillStyle=govdeRenk;
+    ctx.beginPath();ctx.roundRect(bx,by+12,kosucuW,kosucuH-12,6);ctx.fill();
+  }
+
+  // Kafa
+  ctx.fillStyle=t.kosucuRenk;
+  ctx.beginPath();ctx.arc(bx+kosucuW/2,by+10,10,0,Math.PI*2);ctx.fill();
+
+  // Göz
+  ctx.fillStyle=t.gozRenk;
+  ctx.beginPath();ctx.arc(bx+kosucuW/2+4,by+8,2.5,0,Math.PI*2);ctx.fill();
+
+  // Sabah: uyuklu göz (yarı kapalı)
+  if(t.id==='sabah'){
+    ctx.fillStyle=t.kosucuRenk;
+    ctx.fillRect(bx+kosucuW/2+1,by+6,7,3);
+    // Zzz
+    ctx.fillStyle='rgba(200,180,255,0.8)';
+    ctx.font='700 8px Syne,sans-serif';
+    ctx.fillText('z',bx+kosucuW+2,by+4);
+    ctx.font='700 6px Syne,sans-serif';
+    ctx.fillText('z',bx+kosucuW+7,by);
+  }
+
+  // İşçi: baret
+  if(t.id==='worker'){
+    ctx.fillStyle='#fbbf24';
+    ctx.fillRect(bx+kosucuW/2-12,by-2,24,8);
+    ctx.fillRect(bx+kosucuW/2-8,by-8,16,8);
+    // Baret ışığı
+    ctx.fillStyle='#ef4444';
+    ctx.beginPath();ctx.arc(bx+kosucuW/2,by-8,3,0,Math.PI*2);ctx.fill();
+  }
+
+  // Flash: kask/maske
+  if(t.id==='flash'){
+    ctx.fillStyle='#dc2626';
+    ctx.fillRect(bx+kosucuW/2-10,by+2,20,10);
+    // Kulak detayı (şimşek)
+    ctx.fillStyle='#fbbf24';
+    ctx.fillRect(bx+kosucuW/2-12,by+4,4,6);
+    ctx.fillRect(bx+kosucuW/2+8,by+4,4,6);
+    ctx.shadowColor='#fbbf24';ctx.shadowBlur=8;
+    ctx.fillRect(bx+kosucuW/2-12,by+4,4,6);
+    ctx.shadowBlur=0;
+  }
+
+  // Deniz: şnorkel + maske
+  if(t.id==='deniz'){
+    // Maske
+    ctx.fillStyle='rgba(0,150,255,0.4)';
+    ctx.strokeStyle='#0284c7';ctx.lineWidth=2;
+    ctx.beginPath();ctx.roundRect(bx+kosucuW/2-8,by+3,16,10,4);ctx.fill();ctx.stroke();
+    // Şnorkel borusu
+    ctx.strokeStyle='#f97316';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(bx+kosucuW/2+6,by+5);ctx.lineTo(bx+kosucuW+4,by+5);ctx.lineTo(bx+kosucuW+4,by-8);ctx.stroke();
+    ctx.fillStyle='#f97316';ctx.beginPath();ctx.arc(bx+kosucuW+4,by-8,4,0,Math.PI*2);ctx.fill();
+  }
+
+  // Doğum günü: parti şapkası
+  if(t.id==='birthday'){
+    ctx.fillStyle='#ffd700';
+    ctx.beginPath();ctx.moveTo(bx+kosucuW/2-8,by+2);ctx.lineTo(bx+kosucuW/2,by-16);ctx.lineTo(bx+kosucuW/2+8,by+2);ctx.fill();
+    // Şeritler
+    ctx.strokeStyle='#ff6ec7';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(bx+kosucuW/2-6,by);ctx.lineTo(bx+kosucuW/2+1,by-14);ctx.stroke();
+    // Üst top
+    ctx.fillStyle='#ff6ec7';ctx.beginPath();ctx.arc(bx+kosucuW/2,by-16,3,0,Math.PI*2);ctx.fill();
+  }
+
+  // Orman: kamp şapkası
+  if(t.id==='orman'){
+    // Şapka
+    ctx.fillStyle='#92400e';
+    ctx.beginPath();ctx.ellipse(bx+kosucuW/2,by+2,13,5,0,0,Math.PI*2);ctx.fill();
+    ctx.fillRect(bx+kosucuW/2-8,by-10,16,14);
+    ctx.beginPath();ctx.ellipse(bx+kosucuW/2,by-10,8,4,0,0,Math.PI*2);ctx.fill();
+    // Şerit
+    ctx.fillStyle='#fbbf24';
+    ctx.fillRect(bx+kosucuW/2-8,by-4,16,3);
+  }
+
+  // Uzay kaskı
+  if(t.id==='uzay'){
+    ctx.strokeStyle='rgba(100,150,255,0.5)';ctx.lineWidth=3;
+    ctx.beginPath();ctx.arc(bx+kosucuW/2,by+10,14,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='rgba(100,150,255,0.1)';ctx.fill();
+  }
+
+  // Bacaklar (denizde palet yoksa normal)
+  if(t.id!=='deniz'){
+    ctx.strokeStyle=t.id==='worker'?'#f97316':t.id==='flash'?'#dc2626':t.id==='sabah'?'#a78bfa':t.id==='orman'?'#15803d':t.id==='birthday'?'#db2777':t.kosucuRenk;
+    ctx.lineWidth=5;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(bx+8,by+kosucuH-4);ctx.lineTo(bx+8+ba,by+kosucuH+8);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx+18,by+kosucuH-4);ctx.lineTo(bx+18-ba,by+kosucuH+8);ctx.stroke();
+  } else {
+    // Denizde bacak (palet üstte çizildi)
+    ctx.strokeStyle='#0284c7';ctx.lineWidth=5;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(bx+8,by+kosucuH-4);ctx.lineTo(bx+8+ba/3,by+kosucuH+5);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx+18,by+kosucuH-4);ctx.lineTo(bx+18-ba/3,by+kosucuH+5);ctx.stroke();
+  }
+
+  // Kollar
+  ctx.lineWidth=4;
+  var kolRenk=t.id==='worker'?'#f97316':t.id==='flash'?'#dc2626':t.id==='sabah'?'#a78bfa':t.id==='orman'?'#15803d':t.id==='birthday'?'#db2777':t.kosucuRenk;
+  ctx.strokeStyle=kolRenk;
+  ctx.beginPath();ctx.moveTo(bx+4,by+18);ctx.lineTo(bx-8,by+24+ba/2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(bx+kosucuW-4,by+18);ctx.lineTo(bx+kosucuW+8,by+24-ba/2);ctx.stroke();
+
+  // Flash: hız çizgileri
+  if(t.id==='flash'){
+    ctx.shadowColor='#fbbf24';ctx.shadowBlur=6;
+    ctx.strokeStyle='rgba(255,200,0,0.6)';ctx.lineWidth=2;
+    for(var fi=0;fi<3;fi++){
+      ctx.beginPath();ctx.moveTo(bx-10-fi*8,by+15+fi*6);ctx.lineTo(bx-20-fi*8,by+15+fi*6);ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+  }
+}
+
+function cizEngel(e){
+  var t=aktifTema;
+  if(e.tip==='yer'){
+    ctx.fillStyle=t.engel1Renk;
+    ctx.fillRect(e.x+6,e.y,10,e.h);
+    ctx.fillRect(e.x,e.y+10,e.w,8);
+    ctx.fillRect(e.x,e.y+10,8,16);
+    ctx.fillRect(e.x+e.w-8,e.y+10,8,16);
+    // Tema özel
+    if(t.id==='worker'){
+      ctx.fillStyle='#fbbf24';
+      ctx.fillRect(e.x+4,e.y-6,14,6);
+    }
+    if(t.id==='birthday'){
+      ctx.fillStyle='#ffd700';
+      ctx.fillRect(e.x+9,e.y-8,3,8);
+      ctx.beginPath();ctx.arc(e.x+10,e.y-10,4,0,Math.PI*2);
+      ctx.fillStyle='#ff6ec7';ctx.fill();
+    }
+  } else {
+    ctx.fillStyle=t.engel2Renk;
+    ctx.beginPath();
+    ctx.ellipse(e.x+e.w/2,e.y+e.h/2,e.w/2,e.h/2,0,0,Math.PI*2);
+    ctx.fill();
+    var ka=Math.sin(frame*0.25)*7;
+    ctx.beginPath();ctx.moveTo(e.x+e.w/2,e.y+e.h/2);ctx.lineTo(e.x-10,e.y+ka);ctx.lineTo(e.x+e.w/2,e.y+e.h/3);ctx.fill();
+    ctx.beginPath();ctx.moveTo(e.x+e.w/2,e.y+e.h/2);ctx.lineTo(e.x+e.w+10,e.y+ka);ctx.lineTo(e.x+e.w/2,e.y+e.h/3);ctx.fill();
+  }
+}
+
+function ciz(){
+  var t=aktifTema;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=t.bgRenk;ctx.fillRect(0,0,W,H);
+
+  // Yıldızlar / konfeti / gezegen
+  if(t.yildiz){
+    yildizlar.forEach(function(y){
+      y.p+=0.02;
+      ctx.fillStyle=t.yildizRenk.replace('0.','('+Math.abs(Math.sin(y.p)).toFixed(2)+'*0.').replace('rgba(','rgba(').replace(',0.',',' );
+      ctx.globalAlpha=Math.abs(Math.sin(y.p))*0.7;
+      ctx.fillRect(y.x,y.y,1.5,1.5);
+      ctx.globalAlpha=1;
+    });
+  }
+  if(t.confetti){
+    konfetiler.forEach(function(k){
+      ctx.fillStyle=k.renk;ctx.globalAlpha=0.7;
+      ctx.beginPath();ctx.arc(k.x,k.y,k.r,0,Math.PI*2);ctx.fill();
+      ctx.globalAlpha=1;
+    });
+  }
+  if(t.gezegen){
+    ctx.fillStyle='rgba(100,80,200,0.3)';
+    ctx.beginPath();ctx.arc(gezegen.x,gezegen.y,gezegen.r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(150,120,255,0.4)';ctx.lineWidth=8;
+    ctx.beginPath();ctx.ellipse(gezegen.x,gezegen.y,gezegen.r+15,8,0.4,0,Math.PI*2);ctx.stroke();
+    ctx.lineWidth=1;
+  }
+  if(t.id==='worker'){
+    // Binalar
+    [[W*0.1,120,50,80],[W*0.25,80,40,100],[W*0.45,100,60,70],[W*0.65,60,45,110],[W*0.82,90,55,80],[W*0.95,70,35,100]].forEach(function(b){
+      ctx.fillStyle='rgba(180,120,40,0.2)';
+      ctx.fillRect(b[0],zeminY-b[1],b[2],b[1]);
+      ctx.fillStyle='rgba(255,200,50,0.3)';
+      for(var wi=0;wi<3;wi++) for(var wj=0;wj<2;wj++){
+        ctx.fillRect(b[0]+6+wi*14,zeminY-b[1]+10+wj*18,8,10);
+      }
+      ctx.strokeStyle='rgba(255,160,0,0.4)';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(b[0]+b[2]/2,zeminY-b[1]);ctx.lineTo(b[0]+b[2]/2,zeminY-b[1]-20);ctx.lineTo(b[0]+b[2]/2+20,zeminY-b[1]-20);ctx.stroke();
+    });
+  }
+  if(t.agac){
+    [W*0.2,W*0.5,W*0.75,W*0.95].forEach(function(ax){
+      ctx.fillStyle='rgba(50,200,50,0.15)';
+      ctx.beginPath();ctx.moveTo(ax,zeminY);ctx.lineTo(ax-20,zeminY-40);ctx.lineTo(ax+20,zeminY-40);ctx.fill();
+      ctx.beginPath();ctx.moveTo(ax,zeminY-25);ctx.lineTo(ax-25,zeminY-65);ctx.lineTo(ax+25,zeminY-65);ctx.fill();
+    });
+  }
+  if(t.sabah){
+    // Güneş
+    var gunY=60+Math.sin(frame*0.005)*5;
+    var grad=ctx.createRadialGradient(W-60,gunY,0,W-60,gunY,50);
+    grad.addColorStop(0,'rgba(255,200,50,0.9)');
+    grad.addColorStop(1,'rgba(255,150,0,0)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();ctx.arc(W-60,gunY,50,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(255,200,50,0.8)';
+    ctx.beginPath();ctx.arc(W-60,gunY,22,0,Math.PI*2);ctx.fill();
+    // Ufuk rengi
+    var skyGrad=ctx.createLinearGradient(0,0,0,zeminY);
+    skyGrad.addColorStop(0,'rgba(255,180,80,0.15)');
+    skyGrad.addColorStop(1,'rgba(255,120,50,0.05)');
+    ctx.fillStyle=skyGrad;ctx.fillRect(0,0,W,zeminY);
+  }
+  if(t.flash){
+    // Neon zemin parlaması
+    ctx.shadowColor='#f0f';ctx.shadowBlur=15;
+    ctx.strokeStyle='rgba(255,0,255,0.6)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(0,zeminY);ctx.lineTo(W,zeminY);ctx.stroke();
+    ctx.shadowBlur=0;
+    // Şimşek efekti (rastgele)
+    if(frame%45===0){
+      ctx.strokeStyle='rgba(255,255,0,0.7)';ctx.lineWidth=1.5;
+      ctx.beginPath();
+      var lx=Math.random()*W;
+      ctx.moveTo(lx,0);ctx.lineTo(lx+20,50);ctx.lineTo(lx-10,90);ctx.lineTo(lx+15,130);
+      ctx.stroke();
+    }
+    // Neon grid
+    ctx.strokeStyle='rgba(255,0,255,0.04)';ctx.lineWidth=1;
+    for(var gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+    for(var gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+  }
+  if(t.dalga){
+    ctx.strokeStyle='rgba(0,150,255,0.15)';ctx.lineWidth=2;
+    for(var i=0;i<3;i++){
+      ctx.beginPath();
+      for(var x=0;x<W;x+=5){
+        var wy=zeminY-20-i*15+Math.sin((x+frame*2)/30)*8;
+        if(x===0)ctx.moveTo(x,wy);else ctx.lineTo(x,wy);
+      }
+      ctx.stroke();
+    }
+  }
+
+  // Bulutlar
+  bulutlar.forEach(function(b){
+    ctx.fillStyle=t.bulutRenk;
+    ctx.beginPath();ctx.ellipse(b.x,b.y,b.w/2,b.h/2,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(b.x+18,b.y-7,b.w/3,b.h/2.5,0,0,Math.PI*2);ctx.fill();
+  });
+
+  // Zemin
+  ctx.strokeStyle=t.zeminRenk;ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,zeminY);ctx.lineTo(W,zeminY);ctx.stroke();
+  zemin.forEach(function(z){
+    ctx.fillStyle=t.zeminBgRenk;
+    ctx.fillRect(z.x,zeminY+2,W/10-4,4);
+  });
+
+  // Engeller
+  engeller.forEach(cizEngel);
+
+  // Koşucu
+  if(t.flash){ctx.shadowColor='#f0f';ctx.shadowBlur=12;}
+  if(durum==='oynuyor'||durum==='bitti') cizKosucu();
+  ctx.shadowBlur=0;
+
+  // Overlay
+  if(durum==='bekle'||durum==='bitti'){
+    ctx.fillStyle='rgba(0,0,0,0.72)';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle=t.yazıRenk;
+    ctx.font='800 26px Syne,sans-serif';ctx.textAlign='center';
+    ctx.fillText(durum==='bekle'?'🏃 KOŞUCU':'💀 OYUN BİTTİ',W/2,H/2-18);
+    ctx.fillStyle='rgba(255,255,255,0.45)';
+    ctx.font='500 15px DM Sans,sans-serif';
+    if(durum==='bitti') ctx.fillText('Skor: '+skor+' | En İyi: '+enIyi,W/2,H/2+10);
+    ctx.fillStyle='rgba(255,255,255,0.28)';
+    ctx.font='500 13px DM Sans,sans-serif';
+    ctx.fillText('Tıkla veya Boşluk',W/2,H/2+38);
+    ctx.textAlign='left';
+  }
+}
+
+function loop(){if(durum==='oynuyor')guncelle();ciz();requestAnimationFrame(loop);}
+loop();
+</script>
+</body>
+</html>
