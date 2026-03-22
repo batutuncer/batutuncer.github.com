@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>✊ Taş Kağıt Makas</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:500px;margin:0 auto;padding:24px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+
+/* SKOR */
+.skor-bar{display:flex;gap:12px;width:100%;justify-content:center;}
+.skor-kutu{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 24px;text-align:center;flex:1;}
+.skor-kutu.sen{border-color:rgba(74,222,128,0.3);}
+.skor-kutu.bil{border-color:rgba(248,113,113,0.3);}
+.skor-kutu.bera{border-color:rgba(255,255,255,0.15);}
+.skor-lbl{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.skor-sayi{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;}
+.skor-kutu.sen .skor-sayi{color:var(--green);}
+.skor-kutu.bil .skor-sayi{color:var(--red);}
+.skor-kutu.bera .skor-sayi{color:var(--muted);}
+
+/* ARENA */
+.arena{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:28px;text-align:center;}
+.vs-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.taraf{flex:1;text-align:center;}
+.taraf-lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;}
+.secim-emoji{font-size:4.5rem;display:block;min-height:72px;transition:all 0.3s;animation:none;}
+.secim-emoji.animasyon{animation:shake 0.4s ease;}
+@keyframes shake{0%{transform:scale(0.5) rotate(-10deg);}50%{transform:scale(1.2) rotate(5deg);}100%{transform:scale(1) rotate(0deg);}}
+.vs-text{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--muted);padding:0 12px;}
+.sonuc-text{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;min-height:36px;margin-bottom:4px;}
+.sonuc-aciklama{font-size:0.85rem;color:var(--muted);min-height:20px;}
+
+/* SEÇENEKLER */
+.secenekler{display:flex;gap:12px;width:100%;justify-content:center;}
+.sec{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px 20px;font-size:3rem;cursor:pointer;transition:all 0.2s;flex:1;text-align:center;position:relative;}
+.sec:hover{border-color:var(--yellow);transform:translateY(-4px) scale(1.05);}
+.sec:active{transform:scale(0.95);}
+.sec-lbl{font-size:0.7rem;font-weight:700;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:1px;}
+.sec.kazanan{border-color:var(--green);background:rgba(74,222,128,0.08);}
+.sec.kaybeden{border-color:var(--red);background:rgba(248,113,113,0.08);opacity:0.6;}
+
+/* GEÇMİŞ */
+.gecmis-wrap{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;}
+.gecmis-baslik{font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:10px;}
+.gecmis-liste{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow-y:auto;}
+.gecmis-satir{display:flex;align-items:center;gap:8px;font-size:0.82rem;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.gecmis-satir:last-child{border-bottom:none;}
+.g-sonuc{font-weight:800;min-width:60px;font-size:0.75rem;}
+.g-sonuc.kazandı{color:var(--green);}
+.g-sonuc.kaybettin{color:var(--red);}
+.g-sonuc.berabere{color:var(--muted);}
+.g-detay{color:var(--muted);flex:1;}
+.sifirla-btn{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:10px;width:100%;}
+.sifirla-btn:hover{color:var(--red);border-color:rgba(248,113,113,0.3);}
+
+/* MOD */
+.mod-row{display:flex;gap:8px;width:100%;}
+.mod-btn{flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.mod-btn.on{border-color:var(--yellow);color:var(--yellow);background:#1a1b10;}
+</style>
+</head>
+<body>
+<header>
+<h1>✊ Taş Kağıt Makas</h1>
+<div style="display:flex;gap:8px;align-items:center;">
+  <button id="yardimAcBtn" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);width:34px;height:34px;border-radius:50%;font-size:1rem;font-weight:800;cursor:pointer;">?</button>
+  <a href="index.html" class="back">← Ana Sayfa</a>
+</div>
+</header>
+<div class="modal-overlay" id="yardimModal">
+  <div style="background:#13151f;border:1.5px solid rgba(255,255,255,0.08);border-radius:20px;padding:28px;max-width:420px;width:100%;position:relative;max-height:80vh;overflow-y:auto;">
+    <button id="yardimKapatBtn" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.4);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;">x</button>
+    <div style="font-family:Syne,sans-serif;font-size:1.1rem;font-weight:800;color:#FFE135;margin-bottom:16px;">Kim Kimi Yener?</div>
+    <div id="kuralListesi" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+</div>
+<style>.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}.modal-overlay.on{display:flex;}</style>
+<div class="wrap">
+
+  <div class="mod-row">
+    <button class="mod-btn on" id="mod3" onclick="modSec(3)">3'lü Klasik</button>
+    <button class="mod-btn" id="mod5" onclick="modSec(5)">5'li Gelişmiş</button>
+  </div>
+
+  <div class="skor-bar">
+    <div class="skor-kutu sen"><div class="skor-lbl">Sen</div><div class="skor-sayi" id="senSkor">0</div></div>
+    <div class="skor-kutu bera"><div class="skor-lbl">Berabere</div><div class="skor-sayi" id="beraSkor">0</div></div>
+    <div class="skor-kutu bil"><div class="skor-lbl">Bilgisayar</div><div class="skor-sayi" id="bilSkor">0</div></div>
+  </div>
+
+  <div class="arena">
+    <div class="vs-row">
+      <div class="taraf">
+        <div class="taraf-lbl">Sen</div>
+        <span class="secim-emoji" id="senEmoji">🤔</span>
+      </div>
+      <div class="vs-text">VS</div>
+      <div class="taraf">
+        <div class="taraf-lbl">Bilgisayar</div>
+        <span class="secim-emoji" id="bilEmoji">🤖</span>
+      </div>
+    </div>
+    <div class="sonuc-text" id="sonucText">Bir seçim yap!</div>
+    <div class="sonuc-aciklama" id="sonucAciklama"></div>
+  </div>
+
+  <div class="secenekler" id="secenekler"></div>
+
+  <div class="gecmis-wrap">
+    <div class="gecmis-baslik">Son Oyunlar</div>
+    <div class="gecmis-liste" id="gecmisListe"></div>
+    <button class="sifirla-btn" onclick="sifirla()">🗑️ Sıfırla</button>
+  </div>
+
+</div>
+<script>
+var KLASIK = [
+  {id:'tas', emoji:'✊', ad:'Taş'},
+  {id:'kagit', emoji:'✋', ad:'Kağıt'},
+  {id:'makas', emoji:'✌️', ad:'Makas'},
+];
+var GELISMIS = [
+  {id:'tas', emoji:'✊', ad:'Taş'},
+  {id:'kagit', emoji:'✋', ad:'Kağıt'},
+  {id:'makas', emoji:'✌️', ad:'Makas'},
+  {id:'lisard', emoji:'🦎', ad:'Lizard'},
+  {id:'spock', emoji:'🖖', ad:'Spock'},
+];
+// Kazanma kuralları: key, value listesini yener
+var KAZANIR = {
+  tas:['makas','lisard'],
+  kagit:['tas','spock'],
+  makas:['kagit','lisard'],
+  lisard:['kagit','spock'],
+  spock:['tas','makas'],
+};
+var ACIKLAMALAR = {
+  'tas-makas':'Taş makası kırar!','tas-lisard':'Taş lizardı ezer!',
+  'kagit-tas':'Kağıt taşı sarar!','kagit-spock':'Kağıt Spocku çürütür!',
+  'makas-kagit':'Makas kağıdı keser!','makas-lisard':'Makas lizardı keser!',
+  'lisard-kagit':'Lizard kağıdı yer!','lisard-spock':'Lizard Spocku zehirler!',
+  'spock-tas':'Spock taşı buharlaştırır!','spock-makas':'Spock makası kırar!',
+};
+
+var aktifMod=3, secenekler=KLASIK;
+var senSkor=0, bilSkor=0, beraSkor=0;
+var gecmis=[];
+var bekliyor=false;
+
+function modSec(n){
+  aktifMod=n;
+  secenekler=n===3?KLASIK:GELISMIS;
+  document.getElementById('mod3').classList.toggle('on',n===3);
+  document.getElementById('mod5').classList.toggle('on',n===5);
+  secenekleriCiz();
+  sifirla();
+}
+
+function secenekleriCiz(){
+  var el=document.getElementById('secenekler');
+  el.innerHTML=secenekler.map(function(s){
+    return '<div class="sec" id="sec-'+s.id+'" onclick="oyna(\''+s.id+'\')">'+
+      s.emoji+'<div class="sec-lbl">'+s.ad+'</div></div>';
+  }).join('');
+}
+
+function oyna(secilen){
+  if(bekliyor) return;
+  bekliyor=true;
+
+  // Animasyon
+  var senEl=document.getElementById('senEmoji');
+  var bilEl=document.getElementById('bilEmoji');
+  senEl.className='secim-emoji animasyon';
+  bilEl.className='secim-emoji animasyon';
+
+  // Bilgisayar seçimi
+  var bilSecilen=secenekler[Math.floor(Math.random()*secenekler.length)].id;
+  var senObj=secenekler.find(function(x){return x.id===secilen;});
+  var bilObj=secenekler.find(function(x){return x.id===bilSecilen;});
+
+  setTimeout(function(){
+    senEl.textContent=senObj.emoji;
+    bilEl.textContent=bilObj.emoji;
+
+    // Sonuç
+    var sonuc, renk, aciklama='';
+    if(secilen===bilSecilen){
+      sonuc='🤝 Berabere!'; renk='var(--muted)'; beraSkor++;
+      document.getElementById('beraSkor').textContent=beraSkor;
+      gecmis.unshift({sonuc:'berabere',sen:senObj.emoji,bil:bilObj.emoji,sAd:senObj.ad,bAd:bilObj.ad});
+    } else if(KAZANIR[secilen]&&KAZANIR[secilen].indexOf(bilSecilen)!==-1){
+      sonuc='🎉 Kazandın!'; renk='var(--green)'; senSkor++;
+      document.getElementById('senSkor').textContent=senSkor;
+      aciklama=ACIKLAMALAR[secilen+'-'+bilSecilen]||senObj.ad+' kazandı!';
+      gecmis.unshift({sonuc:'kazandı',sen:senObj.emoji,bil:bilObj.emoji,sAd:senObj.ad,bAd:bilObj.ad});
+    } else {
+      sonuc='😢 Kaybettin!'; renk='var(--red)'; bilSkor++;
+      document.getElementById('bilSkor').textContent=bilSkor;
+      aciklama=ACIKLAMALAR[bilSecilen+'-'+secilen]||bilObj.ad+' kazandı!';
+      gecmis.unshift({sonuc:'kaybettin',sen:senObj.emoji,bil:bilObj.emoji,sAd:senObj.ad,bAd:bilObj.ad});
+    }
+
+    if(gecmis.length>15) gecmis.pop();
+
+    document.getElementById('sonucText').textContent=sonuc;
+    document.getElementById('sonucText').style.color=renk;
+    document.getElementById('sonucAciklama').textContent=aciklama;
+
+    gecmisCiz();
+    bekliyor=false;
+  },400);
+}
+
+function gecmisCiz(){
+  var el=document.getElementById('gecmisListe');
+  if(!gecmis.length){el.innerHTML='<div style="color:var(--muted);font-size:0.82rem;text-align:center;padding:8px;">Henüz oyun yok</div>';return;}
+  el.innerHTML=gecmis.map(function(g){
+    return '<div class="gecmis-satir">'+
+      '<span class="g-sonuc '+g.sonuc+'">'+
+        (g.sonuc==='kazandı'?'✅ Kazandın':g.sonuc==='kaybettin'?'❌ Kaybettin':'🤝 Berabere')+
+      '</span>'+
+      '<span class="g-detay">'+g.sen+' vs '+g.bil+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+function sifirla(){
+  senSkor=0;bilSkor=0;beraSkor=0;gecmis=[];
+  document.getElementById('senSkor').textContent=0;
+  document.getElementById('bilSkor').textContent=0;
+  document.getElementById('beraSkor').textContent=0;
+  document.getElementById('senEmoji').textContent='🤔';
+  document.getElementById('bilEmoji').textContent='🤖';
+  document.getElementById('sonucText').textContent='Bir seçim yap!';
+  document.getElementById('sonucText').style.color='';
+  document.getElementById('sonucAciklama').textContent='';
+  gecmisCiz();
+}
+
+// Klavye desteği
+document.addEventListener('keydown',function(e){
+  if(e.key==='1'||e.key==='t') oyna('tas');
+  else if(e.key==='2'||e.key==='k') oyna('kagit');
+  else if(e.key==='3'||e.key==='m') oyna('makas');
+  else if(aktifMod===5&&(e.key==='4'||e.key==='l')) oyna('lisard');
+  else if(aktifMod===5&&(e.key==='5'||e.key==='s')) oyna('spock');
+});
+
+secenekleriCiz();
+gecmisCiz();
+
+// Modal
+document.getElementById('yardimAcBtn').addEventListener('click',function(){
+  kurallarCiz();
+  document.getElementById('yardimModal').classList.add('on');
+});
+document.getElementById('yardimKapatBtn').addEventListener('click',function(){
+  document.getElementById('yardimModal').classList.remove('on');
+});
+document.getElementById('yardimModal').addEventListener('click',function(e){
+  if(e.target===this) this.classList.remove('on');
+});
+
+var KURAL_ACIKLAMA = {
+  'tas-makas':'Taş makası kırar','tas-lisard':'Taş lizardı ezer',
+  'kagit-tas':'Kağıt taşı sarar','kagit-spock':'Kağıt Spocku çürütür',
+  'makas-kagit':'Makas kağıdı keser','makas-lisard':'Makas lizardı keser',
+  'lisard-kagit':'Lizard kağıdı yer','lisard-spock':'Lizard Spocku zehirler',
+  'spock-tas':'Spock taşı buharlaştırır','spock-makas':'Spock makası kırar',
+};
+
+function kurallarCiz(){
+  var el = document.getElementById('kuralListesi');
+  var kurallar = [];
+  secenekler.forEach(function(s){
+    (KAZANIR[s.id]||[]).forEach(function(hedef){
+      var hedefObj = (aktifMod===5?GELISMIS:KLASIK).find(function(x){return x.id===hedef;});
+      if(hedefObj) kurallar.push({
+        kazanan:s, kaybeden:hedefObj,
+        aciklama:KURAL_ACIKLAMA[s.id+'-'+hedef]||s.ad+' kazanır'
+      });
+    });
+  });
+  el.innerHTML = kurallar.map(function(k){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;">'+
+      '<span style="font-size:1.4rem;">'+k.kazanan.emoji+'</span>'+
+      '<span style="color:rgba(255,255,255,0.3);font-size:0.9rem;">yener</span>'+
+      '<span style="font-size:1.4rem;opacity:0.5;">'+k.kaybeden.emoji+'</span>'+
+      '<span style="color:rgba(255,255,255,0.4);font-size:0.78rem;flex:1;">'+k.aciklama+'</span>'+
+    '</div>';
+  }).join('');
+}
+</script>
+</body>
+</html>
