@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🔲 QR Kod Üretici</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--blue:#60a5fa;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10;}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:600px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:16px;}
+
+.box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px;}
+.box h2{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--yellow);margin-bottom:16px;}
+
+/* TİP SEÇİCİ */
+.tip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.tip-btn{background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.tip-btn.on{border-color:var(--yellow);background:#1a1b10;}
+.tip-btn em{font-style:normal;font-size:1.4rem;display:block;margin-bottom:4px;}
+.tip-btn span{font-size:0.68rem;font-weight:700;color:var(--muted);}
+.tip-btn.on span{color:var(--yellow);}
+
+.input{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:border-color 0.2s;margin-bottom:10px;}
+.input:focus{outline:none;border-color:var(--yellow);}
+.input::placeholder{color:var(--muted);}
+.input-row{display:flex;gap:8px;margin-bottom:10px;}
+.input-row .input{margin-bottom:0;flex:1;}
+.lbl{font-size:0.78rem;color:var(--muted);font-weight:600;margin-bottom:6px;display:block;}
+
+/* RENK SEÇİCİ */
+.renk-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.renk-grup{display:flex;flex-direction:column;gap:6px;}
+.renk-input{width:44px;height:44px;border:2px solid var(--border);border-radius:10px;cursor:pointer;padding:0;background:none;}
+.renk-input::-webkit-color-swatch-wrapper{padding:3px;}
+.renk-input::-webkit-color-swatch{border-radius:6px;border:none;}
+
+/* BOYUT */
+.boyut-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.boyut-btn{padding:7px 16px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.boyut-btn.on{border-color:var(--yellow);color:var(--yellow);background:#1a1b10;}
+
+.uret-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;transition:all 0.2s;}
+.uret-btn:hover{background:#f0d400;}
+
+/* QR ÇIKTI */
+.qr-cikti{text-align:center;display:none;}
+.qr-cikti.on{display:block;}
+.qr-wrap{display:inline-block;padding:16px;background:white;border-radius:16px;margin-bottom:16px;}
+#qrKod{display:inline-block;}
+.indir-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.indir-btn{padding:10px 22px;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;}
+.indir-png{background:var(--yellow);color:#111;}
+.indir-png:hover{background:#f0d400;}
+.indir-svg{background:rgba(255,255,255,0.08);color:var(--text);border:1px solid var(--border);}
+.indir-svg:hover{background:rgba(255,255,255,0.14);}
+.qr-bilgi{font-size:0.78rem;color:var(--muted);margin-top:8px;}
+
+/* GEÇMİŞ */
+.gecmis-listesi{display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;}
+.gecmis-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.15s;}
+.gecmis-item:hover{background:rgba(255,255,255,0.07);}
+.gecmis-tip{font-size:1.2rem;flex-shrink:0;}
+.gecmis-metin{flex:1;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);}
+.gecmis-sil{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;padding:4px 8px;border-radius:6px;transition:all 0.15s;}
+.gecmis-sil:hover{color:var(--red);}
+.bos-gecmis{text-align:center;padding:24px;color:var(--muted);font-size:0.85rem;}
+</style>
+</head>
+<body>
+<header><h1>🔲 QR Kod Üretici</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<div class="wrap">
+
+  <div class="box">
+    <h2>QR Kod Oluştur</h2>
+    <div class="tip-grid" id="tipGrid">
+      <div class="tip-btn on" data-t="link"><em>🔗</em><span>Link</span></div>
+      <div class="tip-btn" data-t="metin"><em>📝</em><span>Metin</span></div>
+      <div class="tip-btn" data-t="tel"><em>📞</em><span>Telefon</span></div>
+      <div class="tip-btn" data-t="wifi"><em>📶</em><span>WiFi</span></div>
+    </div>
+
+    <!-- Link -->
+    <div id="f-link">
+      <span class="lbl">URL</span>
+      <input class="input" id="linkInput" placeholder="https://batutuncer.com" type="url"/>
+    </div>
+    <!-- Metin -->
+    <div id="f-metin" style="display:none;">
+      <span class="lbl">Metin</span>
+      <textarea class="input" id="metinInput" placeholder="Buraya istediğin metni yaz..." rows="3" style="resize:vertical;"></textarea>
+    </div>
+    <!-- Telefon -->
+    <div id="f-tel" style="display:none;">
+      <span class="lbl">Telefon Numarası</span>
+      <input class="input" id="telInput" placeholder="+90 555 000 00 00" type="tel"/>
+    </div>
+    <!-- WiFi -->
+    <div id="f-wifi" style="display:none;">
+      <span class="lbl">Ağ Adı (SSID)</span>
+      <input class="input" id="wifiAd" placeholder="WiFi adı"/>
+      <span class="lbl">Şifre</span>
+      <input class="input" id="wifiSifre" placeholder="WiFi şifresi" type="password"/>
+      <span class="lbl">Güvenlik</span>
+      <select class="input" id="wifiTip" style="margin-bottom:10px;">
+        <option value="WPA">WPA/WPA2</option>
+        <option value="WEP">WEP</option>
+        <option value="nopass">Şifresiz</option>
+      </select>
+    </div>
+
+    <div class="renk-row">
+      <div class="renk-grup">
+        <span class="lbl">QR Rengi</span>
+        <input type="color" class="renk-input" id="qrRenk" value="#000000"/>
+      </div>
+      <div class="renk-grup">
+        <span class="lbl">Arka Plan</span>
+        <input type="color" class="renk-input" id="bgRenk" value="#ffffff"/>
+      </div>
+      <div style="flex:1;">
+        <span class="lbl">Boyut</span>
+        <div class="boyut-row">
+          <button class="boyut-btn" data-b="128">Küçük</button>
+          <button class="boyut-btn on" data-b="200">Orta</button>
+          <button class="boyut-btn" data-b="300">Büyük</button>
+        </div>
+      </div>
+    </div>
+    <button class="uret-btn" onclick="uret()">🔲 QR Kod Oluştur</button>
+  </div>
+
+  <!-- ÇIKTI -->
+  <div class="box qr-cikti" id="qrCikti">
+    <h2>QR Kodun Hazır!</h2>
+    <div class="qr-wrap"><div id="qrKod"></div></div>
+    <div class="indir-row">
+      <button class="indir-btn indir-png" onclick="indir()">⬇️ PNG İndir</button>
+    </div>
+    <div class="qr-bilgi" id="qrBilgi"></div>
+  </div>
+
+  <!-- GEÇMİŞ -->
+  <div class="box">
+    <h2>Geçmiş</h2>
+    <div class="gecmis-listesi" id="gecmisListesi"></div>
+  </div>
+
+</div>
+<script>
+var aktifTip='link', aktifBoyut=200;
+var gecmis=JSON.parse(localStorage.getItem('qrGecmis')||'[]');
+
+// Tip seçici
+document.querySelectorAll('.tip-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tip-btn').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); aktifTip=b.dataset.t;
+    ['link','metin','tel','wifi'].forEach(function(t){
+      document.getElementById('f-'+t).style.display=t===aktifTip?'block':'none';
+    });
+  });
+});
+
+// Boyut seçici
+document.querySelectorAll('.boyut-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.boyut-btn').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); aktifBoyut=parseInt(b.dataset.b);
+  });
+});
+
+function veriAl(){
+  if(aktifTip==='link') return document.getElementById('linkInput').value.trim()||'https://batutuncer.com';
+  if(aktifTip==='metin') return document.getElementById('metinInput').value.trim()||'Merhaba!';
+  if(aktifTip==='tel') return 'tel:'+document.getElementById('telInput').value.trim();
+  if(aktifTip==='wifi'){
+    var ad=document.getElementById('wifiAd').value.trim();
+    var sifre=document.getElementById('wifiSifre').value.trim();
+    var tip=document.getElementById('wifiTip').value;
+    return 'WIFI:T:'+tip+';S:'+ad+';P:'+sifre+';;';
+  }
+  return '';
+}
+
+function uret(){
+  var veri=veriAl();
+  if(!veri){alert('Lütfen bir değer gir!');return;}
+  var qrRenk=document.getElementById('qrRenk').value;
+  var bgRenk=document.getElementById('bgRenk').value;
+
+  document.getElementById('qrKod').innerHTML='';
+  new QRCode(document.getElementById('qrKod'),{
+    text:veri, width:aktifBoyut, height:aktifBoyut,
+    colorDark:qrRenk, colorLight:bgRenk,
+    correctLevel:QRCode.CorrectLevel.H
+  });
+
+  document.getElementById('qrCikti').classList.add('on');
+  var tipEmoji={link:'🔗',metin:'📝',tel:'📞',wifi:'📶'}[aktifTip];
+  document.getElementById('qrBilgi').textContent=tipEmoji+' '+veri.slice(0,60)+(veri.length>60?'...':'');
+
+  // Geçmişe ekle
+  gecmis.unshift({tip:aktifTip,veri:veri,tarih:Date.now()});
+  if(gecmis.length>10) gecmis.pop();
+  localStorage.setItem('qrGecmis',JSON.stringify(gecmis));
+  gecmisCiz();
+
+  document.getElementById('qrCikti').scrollIntoView({behavior:'smooth'});
+}
+
+function indir(){
+  var canvas=document.querySelector('#qrKod canvas');
+  if(!canvas){alert('Önce QR kod oluştur!');return;}
+  var link=document.createElement('a');
+  link.download='qr-kod.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+}
+
+var TIPLER={link:'🔗',metin:'📝',tel:'📞',wifi:'📶'};
+function gecmisCiz(){
+  var el=document.getElementById('gecmisListesi');
+  if(!gecmis.length){el.innerHTML='<div class="bos-gecmis">Henüz QR kod oluşturmadın.</div>';return;}
+  el.innerHTML=gecmis.map(function(g,i){
+    return '<div class="gecmis-item" onclick="gecmisYukle('+i+')">'+
+      '<span class="gecmis-tip">'+(TIPLER[g.tip]||'🔲')+'</span>'+
+      '<span class="gecmis-metin">'+g.veri+'</span>'+
+      '<button class="gecmis-sil" onclick="gecmisSil(event,'+i+')">✕</button>'+
+    '</div>';
+  }).join('');
+}
+
+function gecmisYukle(i){
+  var g=gecmis[i];
+  aktifTip=g.tip;
+  document.querySelectorAll('.tip-btn').forEach(function(b){b.classList.toggle('on',b.dataset.t===g.tip);});
+  ['link','metin','tel','wifi'].forEach(function(t){document.getElementById('f-'+t).style.display=t===g.tip?'block':'none';});
+  if(g.tip==='link') document.getElementById('linkInput').value=g.veri;
+  else if(g.tip==='metin') document.getElementById('metinInput').value=g.veri;
+  else if(g.tip==='tel') document.getElementById('telInput').value=g.veri.replace('tel:','');
+  uret();
+}
+
+function gecmisSil(e,i){
+  e.stopPropagation();
+  gecmis.splice(i,1);
+  localStorage.setItem('qrGecmis',JSON.stringify(gecmis));
+  gecmisCiz();
+}
+
+gecmisCiz();
+</script>
+</body>
+</html>
