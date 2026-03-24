@@ -231,6 +231,16 @@
       .hero h1{letter-spacing:-2px;}
     }
   </style>
+<script>
+var dil = "tr";
+function dilDegistir(){
+  dil = dil==="tr" ? "en" : "tr";
+  document.getElementById("dilBtn").textContent = dil==="tr" ? "🇬🇧 EN" : "🇹🇷 TR";
+  document.querySelectorAll("[data-tr]").forEach(function(el){
+    el.textContent = el.getAttribute("data-"+dil);
+  });
+}
+</script>
 </head>
 <body>
 
@@ -239,9 +249,10 @@
 <nav>
   <div class="logo"><img src="logo.svg" style="width:36px;height:36px;vertical-align:middle;margin-right:8px;"/>BT</div>
   <div class="nav-links">
-    <a href="#hakkimda">Hakkımda</a>
-    <a href="#projeler">Projeler</a>
-    <a href="#iletisim">İletişim</a>
+    <a href="#hakkimda" data-tr="Hakkımda" data-en="About">Hakkımda</a>
+    <a href="#projeler" data-tr="Projeler" data-en="Projects">Projeler</a>
+    <a href="#iletisim" data-tr="İletişim" data-en="Contact">İletişim</a>
+    <button onclick="dilDegistir()" id="dilBtn" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 14px;border-radius:100px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">🇬🇧 EN</button>
   </div>
 </nav>
 
@@ -250,54 +261,54 @@
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
   <div class="hero-content">
-    <div class="hero-badge">👋 Merhaba, ben</div>
+    <div class="hero-badge" data-tr="👋 Merhaba, ben" data-en="👋 Hi, I'm">👋 Merhaba, ben</div>
     <h1>Batu<br><span class="accent">Tunçer</span></h1>
-    <p>Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!</p>
+    <p data-tr="Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!" data-en="I don't know what I'll do yet, but great things are coming. Stay tuned!">Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!</p>
   </div>
   <div class="scroll-hint">
-    Aşağı kaydır
+    <span data-tr="Aşağı kaydır" data-en="Scroll down">Aşağı kaydır</span>
     <div class="scroll-arrow"></div>
   </div>
 </section>
 
 <div class="section-wrap about-section" id="hakkimda">
-  <div class="section-tag">// Hakkımda</div>
-  <div class="section-title">Ben Kimim?</div>
+  <div class="section-tag" data-tr="// Hakkımda" data-en="// About">// Hakkımda</div>
+  <div class="section-title" data-tr="Ben Kimim?" data-en="Who Am I?">Ben Kimim?</div>
   <div class="about-grid">
     <div class="about-card tall">
       <div>
         <span class="card-icon">🙋</span>
         <h3>Batu Tunçer</h3>
-        <p>Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem.</p>
+        <p data-tr="Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem." data-en="Hi! I'm Batu. I'm currently improving myself, learning new things and preparing for great projects. This page is my little corner of the internet.">Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem.</p>
       </div>
       <div>
         <div class="big-number">10</div>
-        <div class="big-number-label">yaşında, İstanbul 🇹🇷</div>
+        <div class="big-number-label" data-tr="yaşında, İstanbul 🇹🇷" data-en="years old, Istanbul 🇹🇷">yaşında, İstanbul 🇹🇷</div>
       </div>
     </div>
     <div class="about-card">
       <span class="card-icon">🚀</span>
-      <h3>Hayaller</h3>
-      <p>Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!</p>
+      <h3 data-tr="Hayaller" data-en="Dreams">Hayaller</h3>
+      <p data-tr="Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!" data-en="I have big dreams. You'll see what I'll do soon!">Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!</p>
     </div>
     <div class="about-card">
       <span class="card-icon">💡</span>
-      <h3>Merak</h3>
-      <p>Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim.</p>
+      <h3 data-tr="Merak" data-en="Curiosity">Merak</h3>
+      <p data-tr="Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim." data-en="I'm curious about everything. Learning is my biggest hobby.">Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim.</p>
     </div>
   </div>
 </div>
 
 <div class="section-wrap projects-section" id="projeler">
-  <div class="section-tag">// Projeler</div>
-  <div class="section-title">Neler Geliyor?</div>
+  <div class="section-tag" data-tr="// Projeler" data-en="// Projects">// Projeler</div>
+  <div class="section-title" data-tr="Neler Geliyor?" data-en="What's Coming?">Neler Geliyor?</div>
   <div class="projects-grid">
     <a href="https://claude.ai/public/artifacts/284d3f2c-04ab-4a61-a2ff-1bb74a12e1dd" target="_blank" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">01</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎮 Oyun</span>
-      <h3>Bulmaca Oyunu</h3>
-      <p>Yapay zeka destekli trivia oyunu. Oynamak için tıkla!</p>
+      <h3 data-tr="Bulmaca Oyunu" data-en="Quiz Game">Bulmaca Oyunu</h3>
+      <p data-tr="Yapay zeka destekli trivia oyunu. Oynamak için tıkla!" data-en="AI-powered trivia game. Click to play!">Yapay zeka destekli trivia oyunu. Oynamak için tıkla!</p>
     </div>
     </a>
 
@@ -305,88 +316,88 @@
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">02</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📊 Araç</span>
-      <h3>Not Hesaplayıcı</h3>
-      <p>Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!</p>
+      <h3 data-tr="Not Hesaplayıcı" data-en="Grade Calculator">Not Hesaplayıcı</h3>
+      <p data-tr="Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!" data-en="Grade average calculator for Turkish curriculum. Click!">Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!</p>
     </div>
     </a>
     <a href="alisveris.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">03</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">🛒 Araç</span>
-      <h3>Alışveriş Listesi</h3>
-      <p>Aile için ortak alışveriş listesi. Kategorili, öncelikli!</p>
+      <h3 data-tr="Alışveriş Listesi" data-en="Shopping List">Alışveriş Listesi</h3>
+      <p data-tr="Aile için ortak alışveriş listesi. Kategorili, öncelikli!" data-en="Shared family shopping list. With categories and priorities!">Aile için ortak alışveriş listesi. Kategorili, öncelikli!</p>
     </div>
     </a>
     <a href="zar.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">04</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎲 Oyun</span>
-      <h3>Zar & Karar</h3>
-      <p>Zar at, para çevir, karar ver — 3'ü bir arada!</p>
+      <h3 data-tr="Zar & Karar" data-en="Dice & Decision">Zar & Karar</h3>
+      <p data-tr="Zar at, para çevir, karar ver — 3'ü bir arada!" data-en="Roll dice, flip coins, make decisions — all in one!">Zar at, para çevir, karar ver — 3'ü bir arada!</p>
     </div>
     </a>
     <a href="sifre.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">05</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">🔐 Araç</span>
-      <h3>Şifreli Mesaj</h3>
-      <p>Caesar, Karıştırma, Sayı ve Ters şifreleme!</p>
+      <h3 data-tr="Şifreli Mesaj" data-en="Secret Message">Şifreli Mesaj</h3>
+      <p data-tr="Caesar, Karıştırma, Sayı ve Ters şifreleme!" data-en="Caesar, Scramble, Number and Reverse encryption!">Caesar, Karıştırma, Sayı ve Ters şifreleme!</p>
     </div>
     </a>
     <a href="araclar.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">06</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">⏱️ Araç</span>
-      <h3>Zaman Araçları</h3>
-      <p>Kronometre, zamanlayıcı, takvim ve geri sayım!</p>
+      <h3 data-tr="Zaman Araçları" data-en="Time Tools">Zaman Araçları</h3>
+      <p data-tr="Kronometre, zamanlayıcı, takvim ve geri sayım!" data-en="Stopwatch, timer, calendar and countdown!">Kronometre, zamanlayıcı, takvim ve geri sayım!</p>
     </div>
     </a>
     <a href="notdefteri.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">07</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📝 Araç</span>
-      <h3>Not Defteri</h3>
-      <p>Renkli notlar, arama, otomatik kayıt!</p>
+      <h3 data-tr="Not Defteri" data-en="Notebook">Not Defteri</h3>
+      <p data-tr="Renkli notlar, arama, otomatik kayıt!" data-en="Colorful notes, search, auto-save!">Renkli notlar, arama, otomatik kayıt!</p>
     </div>
     </a>
     <a href="2048.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">08</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎮 Oyun</span>
-      <h3>2048</h3>
-      <p>Kaydır, birleştir, 2048'e ulaş!</p>
+      <h3 data-tr="2048" data-en="2048">2048</h3>
+      <p data-tr="Kaydır, birleştir, 2048'e ulaş!" data-en="Slide, merge, reach 2048!">Kaydır, birleştir, 2048'e ulaş!</p>
     </div>
     </a>
     <a href="runner.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">09</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">🏃 Oyun</span>
-      <h3>Koşucu</h3>
-      <p>Zıpla, engelleri aş, rekoru kır!</p>
+      <h3 data-tr="Koşucu" data-en="Runner">Koşucu</h3>
+      <p data-tr="Zıpla, engelleri aş, rekoru kır!" data-en="Jump, dodge obstacles, break records!">Zıpla, engelleri aş, rekoru kır!</p>
     </div>
     </a>
     <a href="carpim.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">10</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📚 Eğitim</span>
-      <h3>Çarpım Tablosu</h3>
-      <p>Seçenekli, yazılı ve süre moduyla pratik yap!</p>
+      <h3 data-tr="Çarpım Tablosu" data-en="Multiplication Table">Çarpım Tablosu</h3>
+      <p data-tr="Seçenekli, yazılı ve süre moduyla pratik yap!" data-en="Practice with multiple choice, written and time mode!">Seçenekli, yazılı ve süre moduyla pratik yap!</p>
     </div>
     </a>
     <a href="qr.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">11</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🔲 Araç</span>
-      <h3>QR Kod Üretici</h3>
-      <p>Link, metin, telefon veya WiFi için QR kod!</p>
+      <h3 data-tr="QR Kod Üretici" data-en="QR Code Generator">QR Kod Üretici</h3>
+      <p data-tr="Link, metin, telefon veya WiFi için QR kod!" data-en="QR code for link, text, phone or WiFi!">Link, metin, telefon veya WiFi için QR kod!</p>
     </div>
     </a>
     <a href="tkm.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">12</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">✊ Oyun</span>
-      <h3>Taş Kağıt Makas</h3>
-      <p>Klasik 3'lü veya Spock'lu 5'li mod!</p>
+      <h3 data-tr="Taş Kağıt Makas" data-en="Rock Paper Scissors">Taş Kağıt Makas</h3>
+      <p data-tr="Klasik 3'lü veya Spock'lu 5'li mod!" data-en="Classic 3-way or Spock 5-way mode!">Klasik 3'lü veya Spock'lu 5'li mod!</p>
     </div>
     </a>
   </div>
@@ -394,8 +405,8 @@
 
 <div class="section-wrap contact-section" id="iletisim">
   <div class="contact-box">
-    <h2>Selamlaşalım!</h2>
-    <p>Bir şey sormak mı istiyorsun? Yaz bana.</p>
+    <h2 data-tr="Selamlaşalım!" data-en="Let's Say Hi!">Selamlaşalım!</h2>
+    <p data-tr="Bir şey sormak mı istiyorsun? Yaz bana." data-en="Want to ask something? Write to me.">Bir şey sormak mı istiyorsun? Yaz bana.</p>
     <a class="contact-link" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#97;&#116;&#117;&#116;&#117;&#110;&#99;&#101;&#114;&#50;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#98;&#97;&#116;&#117;&#116;&#117;&#110;&#99;&#101;&#114;&#50;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
   </div>
 </div>
