@@ -231,16 +231,6 @@
       .hero h1{letter-spacing:-2px;}
     }
   </style>
-<script>
-var dil = "tr";
-function dilDegistir(){
-  dil = dil==="tr" ? "en" : "tr";
-  document.getElementById("dilBtn").textContent = dil==="tr" ? "🇬🇧 EN" : "🇹🇷 TR";
-  document.querySelectorAll("[data-tr]").forEach(function(el){
-    el.textContent = el.getAttribute("data-"+dil);
-  });
-}
-</script>
 </head>
 <body>
 
@@ -249,9 +239,9 @@ function dilDegistir(){
 <nav>
   <div class="logo"><img src="logo.svg" style="width:36px;height:36px;vertical-align:middle;margin-right:8px;"/>BT</div>
   <div class="nav-links">
-    <a href="#hakkimda" data-tr="Hakkımda" data-en="About">Hakkımda</a>
-    <a href="#projeler" data-tr="Projeler" data-en="Projects">Projeler</a>
-    <a href="#iletisim" data-tr="İletişim" data-en="Contact">İletişim</a>
+    <a href="#hakkimda"><span id="txt-navAbout">About</span></a>
+    <a href="#projeler"><span id="txt-navProj">Projects</span></a>
+    <a href="#iletisim"><span id="txt-navContact">Contact</span></a>
     <button onclick="dilDegistir()" id="dilBtn" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 14px;border-radius:100px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">🇬🇧 EN</button>
   </div>
 </nav>
@@ -261,54 +251,54 @@ function dilDegistir(){
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
   <div class="hero-content">
-    <div class="hero-badge" data-tr="👋 Merhaba, ben" data-en="👋 Hi, I'm">👋 Merhaba, ben</div>
+    <div class="hero-badge" id="txt-badge">Hi, I'm</div>
     <h1>Batu<br><span class="accent">Tunçer</span></h1>
-    <p data-tr="Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!" data-en="I don't know what I'll do yet, but great things are coming. Stay tuned!">Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!</p>
+    <p id="txt-heroP">I don't know what I'll do yet, but great things are coming. Stay tuned!</p>
   </div>
   <div class="scroll-hint">
-    <span data-tr="Aşağı kaydır" data-en="Scroll down">Aşağı kaydır</span>
+    <span id="txt-scroll">Scroll down</span>
     <div class="scroll-arrow"></div>
   </div>
 </section>
 
 <div class="section-wrap about-section" id="hakkimda">
-  <div class="section-tag" data-tr="// Hakkımda" data-en="// About">// Hakkımda</div>
-  <div class="section-title" data-tr="Ben Kimim?" data-en="Who Am I?">Ben Kimim?</div>
+  <div class="section-tag" id="txt-aboutTag">// About</div>
+  <div class="section-title" id="txt-aboutTitle">Who Am I?</div>
   <div class="about-grid">
     <div class="about-card tall">
       <div>
         <span class="card-icon">🙋</span>
         <h3>Batu Tunçer</h3>
-        <p data-tr="Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem." data-en="Hi! I'm Batu. I'm currently improving myself, learning new things and preparing for great projects. This page is my little corner of the internet.">Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem.</p>
+        <p id="txt-aboutP">Hi! I'm Batu. I'm improving myself, learning new things and preparing for great projects.</p>
       </div>
       <div>
         <div class="big-number">10</div>
-        <div class="big-number-label" data-tr="yaşında, İstanbul 🇹🇷" data-en="years old, Istanbul 🇹🇷">yaşında, İstanbul 🇹🇷</div>
+        <div class="big-number-label" id="txt-age">years old, Istanbul 🇹🇷</div>
       </div>
     </div>
     <div class="about-card">
       <span class="card-icon">🚀</span>
-      <h3 data-tr="Hayaller" data-en="Dreams">Hayaller</h3>
-      <p data-tr="Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!" data-en="I have big dreams. You'll see what I'll do soon!">Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!</p>
+      <h3 id="txt-dreams">Dreams</h3>
+      <p id="txt-dreamsP">I have big dreams. You'll see what I do soon!</p>
     </div>
     <div class="about-card">
       <span class="card-icon">💡</span>
-      <h3 data-tr="Merak" data-en="Curiosity">Merak</h3>
-      <p data-tr="Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim." data-en="I'm curious about everything. Learning is my biggest hobby.">Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim.</p>
+      <h3 id="txt-curiosity">Curiosity</h3>
+      <p id="txt-curiosityP">I'm curious about everything. Learning is my biggest hobby.</p>
     </div>
   </div>
 </div>
 
 <div class="section-wrap projects-section" id="projeler">
-  <div class="section-tag" data-tr="// Projeler" data-en="// Projects">// Projeler</div>
-  <div class="section-title" data-tr="Neler Geliyor?" data-en="What's Coming?">Neler Geliyor?</div>
+  <div class="section-tag" id="txt-projTag">// Projects</div>
+  <div class="section-title" id="txt-projTitle">What's Coming?</div>
   <div class="projects-grid">
     <a href="https://claude.ai/public/artifacts/284d3f2c-04ab-4a61-a2ff-1bb74a12e1dd" target="_blank" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">01</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎮 Oyun</span>
-      <h3 data-tr="Bulmaca Oyunu" data-en="Quiz Game">Bulmaca Oyunu</h3>
-      <p data-tr="Yapay zeka destekli trivia oyunu. Oynamak için tıkla!" data-en="AI-powered trivia game. Click to play!">Yapay zeka destekli trivia oyunu. Oynamak için tıkla!</p>
+      <h3 data-proje-idx="0" data-en="Quiz Game">Bulmaca Oyunu</h3>
+      <p data-proje-aciklama-idx="0" data-en="AI-powered trivia game. Click to play!">Yapay zeka destekli trivia oyunu. Oynamak için tıkla!</p>
     </div>
     </a>
 
@@ -316,88 +306,88 @@ function dilDegistir(){
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">02</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📊 Araç</span>
-      <h3 data-tr="Not Hesaplayıcı" data-en="Grade Calculator">Not Hesaplayıcı</h3>
-      <p data-tr="Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!" data-en="Grade average calculator for Turkish curriculum. Click!">Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!</p>
+      <h3 data-proje-idx="1" data-en="Grade Calculator">Not Hesaplayıcı</h3>
+      <p data-proje-aciklama-idx="1" data-en="Grade average calculator for Turkish curriculum. Click!">Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!</p>
     </div>
     </a>
     <a href="alisveris.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">03</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">🛒 Araç</span>
-      <h3 data-tr="Alışveriş Listesi" data-en="Shopping List">Alışveriş Listesi</h3>
-      <p data-tr="Aile için ortak alışveriş listesi. Kategorili, öncelikli!" data-en="Shared family shopping list. With categories and priorities!">Aile için ortak alışveriş listesi. Kategorili, öncelikli!</p>
+      <h3 data-proje-idx="2" data-en="Shopping List">Alışveriş Listesi</h3>
+      <p data-proje-aciklama-idx="2" data-en="Shared family shopping list. With categories and priorities!">Aile için ortak alışveriş listesi. Kategorili, öncelikli!</p>
     </div>
     </a>
     <a href="zar.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">04</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎲 Oyun</span>
-      <h3 data-tr="Zar & Karar" data-en="Dice & Decision">Zar & Karar</h3>
-      <p data-tr="Zar at, para çevir, karar ver — 3'ü bir arada!" data-en="Roll dice, flip coins, make decisions — all in one!">Zar at, para çevir, karar ver — 3'ü bir arada!</p>
+      <h3 data-proje-idx="3" data-en="Dice & Decision">Zar & Karar</h3>
+      <p data-proje-aciklama-idx="3" data-en="Roll dice, flip coins, make decisions — all in one!">Zar at, para çevir, karar ver — 3'ü bir arada!</p>
     </div>
     </a>
     <a href="sifre.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">05</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">🔐 Araç</span>
-      <h3 data-tr="Şifreli Mesaj" data-en="Secret Message">Şifreli Mesaj</h3>
-      <p data-tr="Caesar, Karıştırma, Sayı ve Ters şifreleme!" data-en="Caesar, Scramble, Number and Reverse encryption!">Caesar, Karıştırma, Sayı ve Ters şifreleme!</p>
+      <h3 data-proje-idx="4" data-en="Secret Message">Şifreli Mesaj</h3>
+      <p data-proje-aciklama-idx="4" data-en="Caesar, Scramble, Number and Reverse encryption!">Caesar, Karıştırma, Sayı ve Ters şifreleme!</p>
     </div>
     </a>
     <a href="araclar.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">06</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">⏱️ Araç</span>
-      <h3 data-tr="Zaman Araçları" data-en="Time Tools">Zaman Araçları</h3>
-      <p data-tr="Kronometre, zamanlayıcı, takvim ve geri sayım!" data-en="Stopwatch, timer, calendar and countdown!">Kronometre, zamanlayıcı, takvim ve geri sayım!</p>
+      <h3 data-proje-idx="5" data-en="Time Tools">Zaman Araçları</h3>
+      <p data-proje-aciklama-idx="5" data-en="Stopwatch, timer, calendar and countdown!">Kronometre, zamanlayıcı, takvim ve geri sayım!</p>
     </div>
     </a>
     <a href="notdefteri.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">07</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📝 Araç</span>
-      <h3 data-tr="Not Defteri" data-en="Notebook">Not Defteri</h3>
-      <p data-tr="Renkli notlar, arama, otomatik kayıt!" data-en="Colorful notes, search, auto-save!">Renkli notlar, arama, otomatik kayıt!</p>
+      <h3 data-proje-idx="6" data-en="Notebook">Not Defteri</h3>
+      <p data-proje-aciklama-idx="6" data-en="Colorful notes, search, auto-save!">Renkli notlar, arama, otomatik kayıt!</p>
     </div>
     </a>
     <a href="2048.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">08</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎮 Oyun</span>
-      <h3 data-tr="2048" data-en="2048">2048</h3>
-      <p data-tr="Kaydır, birleştir, 2048'e ulaş!" data-en="Slide, merge, reach 2048!">Kaydır, birleştir, 2048'e ulaş!</p>
+      <h3 data-proje-idx="7" data-en="2048">2048</h3>
+      <p data-proje-aciklama-idx="7" data-en="Slide, merge, reach 2048!">Kaydır, birleştir, 2048'e ulaş!</p>
     </div>
     </a>
     <a href="runner.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">09</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">🏃 Oyun</span>
-      <h3 data-tr="Koşucu" data-en="Runner">Koşucu</h3>
-      <p data-tr="Zıpla, engelleri aş, rekoru kır!" data-en="Jump, dodge obstacles, break records!">Zıpla, engelleri aş, rekoru kır!</p>
+      <h3 data-proje-idx="8" data-en="Runner">Koşucu</h3>
+      <p data-proje-aciklama-idx="8" data-en="Jump, dodge obstacles, break records!">Zıpla, engelleri aş, rekoru kır!</p>
     </div>
     </a>
     <a href="carpim.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c2" style="cursor:pointer;">
       <div class="project-num">10</div>
       <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📚 Eğitim</span>
-      <h3 data-tr="Çarpım Tablosu" data-en="Multiplication Table">Çarpım Tablosu</h3>
-      <p data-tr="Seçenekli, yazılı ve süre moduyla pratik yap!" data-en="Practice with multiple choice, written and time mode!">Seçenekli, yazılı ve süre moduyla pratik yap!</p>
+      <h3 data-proje-idx="9" data-en="Multiplication Table">Çarpım Tablosu</h3>
+      <p data-proje-aciklama-idx="9" data-en="Practice with multiple choice, written and time mode!">Seçenekli, yazılı ve süre moduyla pratik yap!</p>
     </div>
     </a>
     <a href="qr.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c1" style="cursor:pointer;">
       <div class="project-num">11</div>
       <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🔲 Araç</span>
-      <h3 data-tr="QR Kod Üretici" data-en="QR Code Generator">QR Kod Üretici</h3>
-      <p data-tr="Link, metin, telefon veya WiFi için QR kod!" data-en="QR code for link, text, phone or WiFi!">Link, metin, telefon veya WiFi için QR kod!</p>
+      <h3 data-proje-idx="10" data-en="QR Code Generator">QR Kod Üretici</h3>
+      <p data-proje-aciklama-idx="10" data-en="QR code for link, text, phone or WiFi!">Link, metin, telefon veya WiFi için QR kod!</p>
     </div>
     </a>
     <a href="tkm.html" style="text-decoration:none;color:inherit;">
     <div class="project-card c3" style="cursor:pointer;">
       <div class="project-num">12</div>
       <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">✊ Oyun</span>
-      <h3 data-tr="Taş Kağıt Makas" data-en="Rock Paper Scissors">Taş Kağıt Makas</h3>
-      <p data-tr="Klasik 3'lü veya Spock'lu 5'li mod!" data-en="Classic 3-way or Spock 5-way mode!">Klasik 3'lü veya Spock'lu 5'li mod!</p>
+      <h3 data-proje-idx="11" data-en="Rock Paper Scissors">Taş Kağıt Makas</h3>
+      <p data-proje-aciklama-idx="11" data-en="Classic 3-way or Spock 5-way mode!">Klasik 3'lü veya Spock'lu 5'li mod!</p>
     </div>
     </a>
   </div>
@@ -405,17 +395,82 @@ function dilDegistir(){
 
 <div class="section-wrap contact-section" id="iletisim">
   <div class="contact-box">
-    <h2 data-tr="Selamlaşalım!" data-en="Let's Say Hi!">Selamlaşalım!</h2>
-    <p data-tr="Bir şey sormak mı istiyorsun? Yaz bana." data-en="Want to ask something? Write to me.">Bir şey sormak mı istiyorsun? Yaz bana.</p>
+    <h2 id="txt-contactH">Let's Say Hi!</h2>
+    <p id="txt-contactP">Want to ask something? Write to me.</p>
     <a class="contact-link" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#97;&#116;&#117;&#116;&#117;&#110;&#99;&#101;&#114;&#50;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#98;&#97;&#116;&#117;&#116;&#117;&#110;&#99;&#101;&#114;&#50;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
   </div>
 </div>
 
 <footer>© 2026 Batu Tunçer — batutuncer.com</footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top + 'px';
-    cursor.style.top 
+
+<script>
+var DILLER=['en','tr','ja','de'];
+var FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var CODES={en:'EN',tr:'TR',ja:'JP',de:'DE'};
+var dil='en';
+
+var T={
+  en:{badge:"Hi, I'm",heroP:"I don't know what I'll do yet, but great things are coming. Stay tuned!",scroll:"Scroll down",aboutTag:"// About",aboutTitle:"Who Am I?",aboutP:"Hi! I'm Batu. I'm improving myself, learning new things and preparing for great projects. This is my little corner of the internet.",age:"years old, Istanbul 🇹🇷",dreams:"Dreams",dreamsP:"I have big dreams. You'll see what I do soon!",curiosity:"Curiosity",curiosityP:"I'm curious about everything. Learning is my biggest hobby.",projTag:"// Projects",projTitle:"What's Coming?",contactH:"Let's Say Hi!",contactP:"Want to ask something? Write to me.",navAbout:"About",navProj:"Projects",navContact:"Contact"},
+  tr:{badge:"Merhaba, ben",heroP:"Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!",scroll:"Aşağı kaydır",aboutTag:"// Hakkımda",aboutTitle:"Ben Kimim?",aboutP:"Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem.",age:"yaşında, İstanbul 🇹🇷",dreams:"Hayaller",dreamsP:"Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!",curiosity:"Merak",curiosityP:"Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim.",projTag:"// Projeler",projTitle:"Neler Geliyor?",contactH:"Selamlaşalım!",contactP:"Bir şey sormak mı istiyorsun? Yaz bana.",navAbout:"Hakkımda",navProj:"Projeler",navContact:"İletişim"},
+  ja:{badge:"こんにちは、",heroP:"まだ何をするか決まっていませんが、すごいことが来ます。お楽しみに！",scroll:"下へスクロール",aboutTag:"// について",aboutTitle:"私は誰？",aboutP:"こんにちは！バトゥです。自分を磨き、新しいことを学んでいます。",age:"歳、イスタンブール 🇹🇷",dreams:"夢",dreamsP:"大きな夢があります。もうすぐ何をするか見てください！",curiosity:"好奇心",curiosityP:"何でも興味があります。学ぶことが趣味です。",projTag:"// プロジェクト",projTitle:"何が来る？",contactH:"ご挨拶しましょう！",contactP:"メッセージを送ってください。",navAbout:"について",navProj:"プロジェクト",navContact:"連絡先"},
+  de:{badge:"Hallo, ich bin",heroP:"Ich weiß noch nicht was ich machen werde, aber tolle Dinge kommen. Bleib dran!",scroll:"Nach unten",aboutTag:"// Über mich",aboutTitle:"Wer bin ich?",aboutP:"Hallo! Ich bin Batu. Ich lerne neue Dinge und bereite mich auf tolle Projekte vor.",age:"Jahre, Istanbul 🇹🇷",dreams:"Träume",dreamsP:"Ich habe große Träume. Du wirst es bald sehen!",curiosity:"Neugier",curiosityP:"Ich bin neugierig auf alles. Lernen ist mein größtes Hobby.",projTag:"// Projekte",projTitle:"Was kommt?",contactH:"Lass uns hallo sagen!",contactP:"Willst du etwas fragen? Schreib mir.",navAbout:"Über mich",navProj:"Projekte",navContact:"Kontakt"}
+};
+
+var PROJELER={
+  en:['Quiz Game','Grade Calculator','Shopping List','Dice & Decision','Secret Message','Time Tools','Notebook','2048','Runner','Multiplication','QR Generator','Rock Paper Scissors'],
+  tr:['Bulmaca Oyunu','Not Hesaplayıcı','Alışveriş Listesi','Zar & Karar','Şifreli Mesaj','Zaman Araçları','Not Defteri','2048','Koşucu','Çarpım Tablosu','QR Kod Üretici','Taş Kağıt Makas'],
+  ja:['クイズゲーム','成績計算機','買い物リスト','サイコロ決断','暗号メッセージ','時間ツール','ノート','2048','ランナー','掛け算表','QRコード生成','じゃんけん'],
+  de:['Quizspiel','Notenrechner','Einkaufsliste','Würfel & Entscheidung','Geheime Nachricht','Zeitwerkzeuge','Notizbuch','2048','Läufer','Multiplikation','QR-Generator','Schere Stein Papier']
+};
+
+function s(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+
+var PROJE_ACIKLAMALARI={
+  tr:['Yapay zeka destekli trivia oyunu. Oynamak için tıkla!','Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!','Aile için ortak alışveriş listesi. Kategorili, öncelikli!','Zar at, para çevir, karar ver — 3ü bir arada!','Caesar, Karıştırma, Sayı ve Ters şifreleme!','Kronometre, zamanlayıcı, takvim ve geri sayım!','Renkli notlar, arama, otomatik kayıt!','Kaydır, birleştir, 2048e ulaş!','Zıpla, engelleri aş, rekoru kır!','Seçenekli, yazılı ve süre moduyla pratik yap!','Link, metin, telefon veya WiFi için QR kod!','Klasik 3lu veya Spocklu 5li mod!'],
+  en:['AI-powered trivia game. Click to play!','Grade calculator for Turkish curriculum. Click!','Shared family shopping list. With categories!','Roll dice, flip coins, decide — all in one!','Caesar, Scramble, Number and Reverse encryption!','Stopwatch, timer, calendar and countdown!','Colorful notes, search, auto-save!','Slide, merge, reach 2048!','Jump, dodge obstacles, break records!','Practice with multiple choice and time mode!','QR code for link, text, phone or WiFi!','Classic 3-way or Spock 5-way mode!'],
+  ja:['AIトリビアゲーム。クリックして遊ぼう！','成績平均計算機。クリック！','家族共有の買い物リスト！','サイコロ、コイン、決断 — 全部一緒！','シーザー、スクランブル、数字、逆暗号！','ストップウォッチ、タイマー、カレンダー！','カラフルなノート、検索、自動保存！','スライド、合体、2048を目指せ！','ジャンプ、障害物を避けて、記録を破れ！','選択肢、記述式、タイムモードで練習！','リンク、テキスト、WiFi用QRコード！','クラシック3択またはスポック5択！'],
+  de:['KI-Trivia-Spiel. Klicke zum Spielen!','Notendurchschnittsrechner. Klick!','Gemeinsame Einkaufsliste mit Kategorien!','Würfeln, Münze, Entscheiden — alles in einem!','Caesar, Scramble, Zahlen- und Umkehrverschlüsselung!','Stoppuhr, Timer, Kalender und Countdown!','Bunte Notizen, Suche, Auto-Speichern!','Schiebe, verbinde, erreiche 2048!','Springe, weiche aus, breche Rekorde!','Übe mit Multiple-Choice und Zeitmodus!','QR-Code für Link, Text oder WiFi!','Klassischer 3er- oder Spock-5er-Modus!']
+};
+function dilUygula(){
+  var t=T[dil];
+  document.getElementById('dilBtn').textContent=FLAGS[dil]+' '+CODES[dil];
+  s('txt-badge',t.badge);s('txt-heroP',t.heroP);s('txt-scroll',t.scroll);
+  s('txt-aboutTag',t.aboutTag);s('txt-aboutTitle',t.aboutTitle);s('txt-aboutP',t.aboutP);
+  s('txt-age',t.age);s('txt-dreams',t.dreams);s('txt-dreamsP',t.dreamsP);
+  s('txt-curiosity',t.curiosity);s('txt-curiosityP',t.curiosityP);
+  s('txt-projTag',t.projTag);s('txt-projTitle',t.projTitle);
+  s('txt-contactH',t.contactH);s('txt-contactP',t.contactP);
+  s('txt-navAbout',t.navAbout);s('txt-navProj',t.navProj);s('txt-navContact',t.navContact);
+  var els=document.querySelectorAll('[data-proje-idx]');
+  els.forEach(function(el){
+    var i=parseInt(el.getAttribute('data-proje-idx'));
+    if(PROJELER[dil]&&PROJELER[dil][i]) el.textContent=PROJELER[dil][i];
+  });
+  var els2=document.querySelectorAll('[data-proje-aciklama-idx]');
+  els2.forEach(function(el){
+    var i=parseInt(el.getAttribute('data-proje-aciklama-idx'));
+    if(PROJE_ACIKLAMALARI[dil]&&PROJE_ACIKLAMALARI[dil][i]) el.textContent=PROJE_ACIKLAMALARI[dil][i];
+  });
+}
+function dilDegistir(){
+  var idx=DILLER.indexOf(dil);
+  dil=DILLER[(idx+1)%DILLER.length];
+  dilUygula();
+}
+
+// Cursor
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursor.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cursor.classList.remove('big'));
+});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});
+});
+
+document.addEventListener('DOMContentLoaded',function(){dilUygula();});
+</script>
+</body>
+</html>
