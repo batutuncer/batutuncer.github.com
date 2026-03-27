@@ -194,12 +194,15 @@
       .istatistik-row { grid-template-columns: repeat(3,1fr); }
       .ozet-sayi { font-size:3rem; }
     }
-  </style>
+  
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>📊 Not Hesaplayıcı</h1>
+  <h1 id="_txt_baslik">📊 Not Hesaplayıcı</h1>
   <span id="sinifAdi">4. Sınıf</span>
 </header>
 
@@ -417,6 +420,42 @@ function render() {
 // INIT
 buildSinifBar();
 render();
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"📊 Grade Calculator",sinif:"Class",tablo:"Table",kaydet:"Save",temizle:"Clear",ortalama:"Average",genel:"General Average",ders:"Course",not:"Grade",iyi:"Good",orta:"Medium",kotu:"Poor"},
+  tr:{baslik:"📊 Not Hesaplayıcı",sinif:"Sınıf",tablo:"Tablo",kaydet:"Kaydet",temizle:"Temizle",ortalama:"Ortalama",genel:"Genel Ortalama",ders:"Ders",not:"Not",iyi:"İyi",orta:"Orta",kotu:"Kötü"},
+  ja:{baslik:"📊 成績計算機",sinif:"学年",tablo:"表",kaydet:"保存",temizle:"クリア",ortalama:"平均",genel:"総合平均",ders:"科目",not:"成績",iyi:"良い",orta:"普通",kotu:"悪い"},
+  de:{baslik:"📊 Notenrechner",sinif:"Klasse",tablo:"Tabelle",kaydet:"Speichern",temizle:"Löschen",ortalama:"Durchschnitt",genel:"Gesamtdurchschnitt",ders:"Fach",not:"Note",iyi:"Gut",orta:"Mittel",kotu:"Schlecht"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
