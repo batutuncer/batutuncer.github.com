@@ -83,10 +83,13 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
 .yanlis-item .d{color:var(--green);}
 .tekrar-btn{width:100%;padding:14px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:10px;}
 .menu-btn{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;}
+
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
-<header><h1>✖️ Çarpım Tablosu</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<header><h1 id="_txt_baslik">✖️ Çarpım Tablosu</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
 <div class="wrap">
 
 <!-- MENÜ -->
@@ -350,6 +353,42 @@ document.addEventListener('keydown',function(e){
     yaziliGonder();
   }
 });
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"✖️ Multiplication Table",secenekli:"Multiple Choice",yazili:"Written",sure:"Time Race",baslat:"🚀 Start",tekrar:"🔁 Retry",menu:"← Back",soru:"Question",dogru:"Correct",yanlis:"Wrong",seri:"Streak"},
+  tr:{baslik:"✖️ Çarpım Tablosu",secenekli:"Seçenekli",yazili:"Yazılı",sure:"Süre Yarışı",baslat:"🚀 Başlat",tekrar:"🔁 Tekrar",menu:"← Menüye Dön",soru:"Soru",dogru:"Doğru",yanlis:"Yanlış",seri:"Seri"},
+  ja:{baslik:"✖️ 掛け算表",secenekli:"選択肢",yazili:"記述式",sure:"タイムレース",baslat:"🚀 開始",tekrar:"🔁 再挑戦",menu:"← 戻る",soru:"問題",dogru:"正解",yanlis:"不正解",seri:"連続"},
+  de:{baslik:"✖️ Multiplikationstabelle",secenekli:"Multiple Choice",yazili:"Schriftlich",sure:"Zeitrennen",baslat:"🚀 Starten",tekrar:"🔁 Nochmal",menu:"← Zurück",soru:"Frage",dogru:"Richtig",yanlis:"Falsch",seri:"Serie"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
