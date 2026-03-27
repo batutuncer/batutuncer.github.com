@@ -80,10 +80,13 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
 .s-lbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:4px;}
 .tekrar-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;margin-bottom:10px;}
 .menu-btn{width:100%;padding:11px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;}
+
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
-<header><h1>🌍 Dil Flashcard</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<header><h1 id="_txt_baslik">🌍 Dil Flashcard</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
 <div class="wrap">
 
 <!-- SETUP -->
@@ -92,17 +95,17 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
   <p>İki dil seç ve kelime öğrenmeye başla!</p>
   <div class="dil-secici">
     <div class="dil-grup">
-      <label>Öğrendiğin dil</label>
+      <label id="_txt_hedef">Language to learn</label>
       <select class="dil-select" id="hedefDil"></select>
     </div>
     <div class="dil-grup">
-      <label>Ana dilin</label>
+      <label id="_txt_ana">Your native language</label>
       <select class="dil-select" id="anaDil"></select>
     </div>
   </div>
-  <div style="text-align:left;margin-bottom:12px;font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:2px;">Kategori:</div>
+  <div style="text-align:left;margin-bottom:12px;font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:2px;" id="_txt_kat">Category:</div>
   <div class="kategori-grid" id="kategoriGrid"></div>
-  <button class="basla-btn" onclick="oyunuBaslat()">🚀 Başla</button>
+  <button class="basla-btn" onclick="oyunuBaslat()" id="_txt_baslat_ignored">🚀 Start</button>
 </div>
 
 <!-- OYUN -->
@@ -115,7 +118,7 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
       <span class="istat y">✗ <span id="yanlisSay">0</span></span>
     </div>
   </div>
-  <div class="cevirme-hint">👆 Kartı tıkla veya çevir</div>
+  <div class="cevirme-hint" id="_txt_cevirme">👆 Click the card to flip</div>
   <div class="kart-alani" onclick="kartCevir()">
     <div class="kart-ic" id="kartIc">
       <div class="kart-on">
@@ -131,10 +134,10 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
     </div>
   </div>
   <div class="cevap-btns" id="cevapBtns" style="display:none;">
-    <button class="btn-bilmiyorum" onclick="cevapVer(false)">✗ Bilmiyorum</button>
-    <button class="btn-biliyorum" onclick="cevapVer(true)">✓ Biliyorum</button>
+    <button class="btn-bilmiyorum" onclick="cevapVer(false)" id="_txt_bilmiyorum_ignored">✗ I don't know</button>
+    <button class="btn-biliyorum" onclick="cevapVer(true)" id="_txt_biliyorum_ignored">✓ I know it</button>
   </div>
-  <button class="btn-sonraki" id="sonrakiBtn" onclick="sonraki()">Sonraki →</button>
+  <button class="btn-sonraki" id="sonrakiBtn" onclick="sonraki()" id="_txt_sonraki_ignored">Next →</button>
 </div>
 
 <!-- SONUÇ -->
@@ -411,6 +414,72 @@ document.addEventListener('keydown', function(e){
   if(e.key==='ArrowUp'&&cevrildi) cevapVer(true);
   if(e.key==='ArrowDown'&&cevrildi) cevapVer(false);
 });
+</script>
+
+<script>
+(function(){
+var _D=['en','tr','ja','de'];
+var _F={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _d=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"🌍 Language Flashcard",hedef:"Language to learn",ana:"Your language",kat:"Category",baslat:"🚀 Start",biliyorum:"✓ I know it",bilmiyorum:"✗ I don't know",sonraki:"Next →",tekrar:"🔁 Retry",menu:"← Back"},
+  tr:{baslik:"🌍 Dil Flashcard",hedef:"Öğrendiğin dil",ana:"Ana dilin",kat:"Kategori",baslat:"🚀 Başla",biliyorum:"✓ Biliyorum",bilmiyorum:"✗ Bilmiyorum",sonraki:"Sonraki →",tekrar:"🔁 Tekrar",menu:"← Menüye Dön"},
+  ja:{baslik:"🌍 言語フラッシュカード",hedef:"学習言語",ana:"母国語",kat:"カテゴリ",baslat:"🚀 開始",biliyorum:"✓ 知ってる",bilmiyorum:"✗ 知らない",sonraki:"次へ →",tekrar:"🔁 再挑戦",menu:"← 戻る"},
+  de:{baslik:"🌍 Sprach-Flashcard",hedef:"Lernsprache",ana:"Muttersprache",kat:"Kategorie",baslat:"🚀 Starten",biliyorum:"✓ Ich weiß es",bilmiyorum:"✗ Ich weiß es nicht",sonraki:"Weiter →",tekrar:"🔁 Nochmal",menu:"← Zurück"}
+};
+function _u(){
+  localStorage.setItem('siteDil',_d);
+  var b=document.getElementById('_dilBtn');
+  if(b)b.textContent=_F[_d]+' '+_d.toUpperCase();
+  var t=_T[_d]||_T['en'];
+  Object.keys(t).forEach(function(k){var e=document.getElementById('_txt_'+k);if(e)e.textContent=t[k];});
+}
+function _c(){var i=_D.indexOf(_d);_d=_D[(i+1)%_D.length];_u();}
+window.addEventListener('DOMContentLoaded',function(){
+  var b=document.createElement('button');
+  b.id='_dilBtn';b.className='dil-btn';b.onclick=_c;
+  document.body.appendChild(b);
+  _u();
+});
+})();
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"🌍 Language Flashcard",hedef:"Language to learn",ana:"Your native language",kat:"Category",baslat:"🚀 Start",biliyorum:"✓ I know it",bilmiyorum:"✗ I don't know",sonraki:"Next →",tekrar:"🔁 Retry",menuye:"← Back to Menu",cevirme:"👆 Click the card to flip"},
+  tr:{baslik:"🌍 Dil Flashcard",hedef:"Öğrendiğin dil",ana:"Ana dilin",kat:"Kategori",baslat:"🚀 Başla",biliyorum:"✓ Biliyorum",bilmiyorum:"✗ Bilmiyorum",sonraki:"Sonraki →",tekrar:"🔁 Tekrar",menuye:"← Menüye Dön",cevirme:"👆 Kartı tıkla veya çevir"},
+  ja:{baslik:"🌍 言語フラッシュカード",hedef:"学ぶ言語",ana:"母国語",kat:"カテゴリ",baslat:"🚀 開始",biliyorum:"✓ 知っている",bilmiyorum:"✗ 知らない",sonraki:"次へ →",tekrar:"🔁 もう一度",menuye:"← メニューへ戻る",cevirme:"👆 カードをクリックして裏返す"},
+  de:{baslik:"🌍 Sprach-Flashcard",hedef:"Zu lernende Sprache",ana:"Muttersprache",kat:"Kategorie",baslat:"🚀 Starten",biliyorum:"✓ Ich kenne es",bilmiyorum:"✗ Ich kenne es nicht",sonraki:"Weiter →",tekrar:"🔁 Nochmal",menuye:"← Zurück zum Menü",cevirme:"👆 Karte klicken zum Umdrehen"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  if(!document.getElementById('_dilBtn')){
+    var btn=document.createElement('button');
+    btn.id='_dilBtn';btn.className='dil-btn';
+    btn.onclick=_degistir;
+    document.body.appendChild(btn);
+  }
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
