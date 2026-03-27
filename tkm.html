@@ -65,11 +65,14 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
 .mod-row{display:flex;gap:8px;width:100%;}
 .mod-btn{flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .mod-btn.on{border-color:var(--yellow);color:var(--yellow);background:#1a1b10;}
+
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
 <header>
-<h1>✊ Taş Kağıt Makas</h1>
+<h1 id="_txt_baslik">✊ Taş Kağıt Makas</h1>
 <div style="display:flex;gap:8px;align-items:center;">
   <button id="yardimAcBtn" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);width:34px;height:34px;border-radius:50%;font-size:1rem;font-weight:800;cursor:pointer;">?</button>
   <a href="index.html" class="back">← Ana Sayfa</a>
@@ -299,6 +302,42 @@ function kurallarCiz(){
     '</div>';
   }).join('');
 }
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"✊ Rock Paper Scissors",klasik:"Classic 3-way",gelismis:"Advanced 5-way",sen:"You",bil:"Computer",bera:"Draw",sifirla:"Reset",ipucu:"Kim Kimi Yener?",bilmiyorum:"Who beats who?"},
+  tr:{baslik:"✊ Taş Kağıt Makas",klasik:"3'lü Klasik",gelismis:"5'li Gelişmiş",sen:"Sen",bil:"Bilgisayar",bera:"Berabere",sifirla:"Sıfırla",ipucu:"Kim Kimi Yener?",bilmiyorum:"Kim kimi yener?"},
+  ja:{baslik:"✊ じゃんけん",klasik:"クラシック3択",gelismis:"スポック5択",sen:"あなた",bil:"コンピュータ",bera:"引き分け",sifirla:"リセット",ipucu:"誰が誰を勝つ？",bilmiyorum:"誰が誰に勝つ？"},
+  de:{baslik:"✊ Schere Stein Papier",klasik:"Klassisch 3er",gelismis:"Erweitert 5er",sen:"Du",bil:"Computer",bera:"Unentschieden",sifirla:"Zurücksetzen",ipucu:"Wer schlägt wen?",bilmiyorum:"Wer schlägt wen?"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
