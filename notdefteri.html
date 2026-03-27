@@ -57,11 +57,14 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
 .sayac-bar{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);padding:0 4px;}
 
 @media(max-width:700px){.wrap{grid-template-columns:1fr;}.notlar-listesi{max-height:300px;}.icerik-input{min-height:300px;}}
+
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
 <header>
-<h1>📝 Not Defteri</h1>
+<h1 id="_txt_baslik">📝 Not Defteri</h1>
 <a href="index.html" class="back">← Ana Sayfa</a>
 </header>
 <div class="wrap">
@@ -204,6 +207,42 @@ function notSil(e,id){
 function aramaYap(){listeCiz(document.getElementById('aramaInput').value);}
 
 listeCiz();
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"📝 Notebook",yeni:"+ New Note",ara:"Search notes...",kaydet:"Save",sil:"Delete",bos:"Select a note or create new one"},
+  tr:{baslik:"📝 Not Defteri",yeni:"+ Yeni Not",ara:"Notlarda ara...",kaydet:"Kaydet",sil:"Sil",bos:"Sol taraftan not seç veya yeni not oluştur"},
+  ja:{baslik:"📝 ノート",yeni:"＋ 新しいノート",ara:"ノートを検索...",kaydet:"保存",sil:"削除",bos:"ノートを選択または新規作成"},
+  de:{baslik:"📝 Notizbuch",yeni:"+ Neue Notiz",ara:"Notizen suchen...",kaydet:"Speichern",sil:"Löschen",bos:"Notiz auswählen oder neue erstellen"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
