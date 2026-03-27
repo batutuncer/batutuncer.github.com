@@ -23,10 +23,13 @@ canvas{border-radius:16px;border:1.5px solid var(--border);display:block;width:1
 .tema-btn{padding:7px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .tema-btn.on{border-color:var(--yellow);color:var(--yellow);background:#1a1b10;}
 .ipucu{color:var(--muted);font-size:0.75rem;text-align:center;}
+
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
-<header><h1>🏃 Koşucu</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<header><h1 id="_txt_baslik">🏃 Koşucu</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
 <div class="wrap">
   <div class="ust">
     <div class="skorlar">
@@ -37,7 +40,7 @@ canvas{border-radius:16px;border:1.5px solid var(--border);display:block;width:1
   </div>
   <canvas id="c" height="300"></canvas>
   <div class="tema-bar" id="temaBar"></div>
-  <div class="ipucu">Boşluk / Tıkla / Dokun = Zıpla &nbsp;|&nbsp; Çift zıplama var!</div>
+  <div class="ipucu" id="_txt_ipucu">Boşluk / Tıkla / Dokun = Zıpla &nbsp;|&nbsp; Çift zıplama var!</div>
 </div>
 <script>
 var TEMALAR = [
@@ -563,6 +566,42 @@ function ciz(){
 
 function loop(){if(durum==='oynuyor')guncelle();ciz();requestAnimationFrame(loop);}
 loop();
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"🏃 Runner",ipucu:"Space / Click / Touch = Jump | Double jump!",tema:"Theme"},
+  tr:{baslik:"🏃 Koşucu",ipucu:"Boşluk / Tıkla / Dokun = Zıpla | Çift zıplama var!",tema:"Tema"},
+  ja:{baslik:"🏃 ランナー",ipucu:"スペース / クリック / タッチ = ジャンプ | 二段ジャンプあり！",tema:"テーマ"},
+  de:{baslik:"🏃 Läufer",ipucu:"Leertaste / Klicken / Tippen = Springen | Doppelsprung!",tema:"Thema"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
