@@ -85,11 +85,14 @@ a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border
 .sayac-input-row input[type=date]{width:170px;}
 
 @media(max-width:500px){.tabs{grid-template-columns:repeat(2,1fr);}.big-time{font-size:2.8rem;}.sayac-grid{grid-template-columns:repeat(2,1fr);}.saat-buyuk{font-size:2.5rem;}}
+
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
 <header>
-<h1>⏱️ Araçlar</h1>
+<h1 id="_txt_baslik">⏱️ Araçlar</h1>
 <a href="index.html" class="back">← Ana Sayfa</a>
 </header>
 <div class="wrap">
@@ -348,6 +351,42 @@ function sayacGuncelle(){
   document.getElementById('sDakika').textContent=dk;
   document.getElementById('sSaniye').textContent=sn;
 }
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"⏱️ Time Tools",krono:"Stopwatch",zamanlayici:"Timer",takvim:"Calendar",sayac:"Countdown",baslat:"Start",durdur:"Stop",sifirla:"Reset",tur:"Lap",kaydet:"Save"},
+  tr:{baslik:"⏱️ Zaman Araçları",krono:"Kronometre",zamanlayici:"Zamanlayıcı",takvim:"Takvim",sayac:"Geri Sayım",baslat:"Başlat",durdur:"Durdur",sifirla:"Sıfırla",tur:"Tur",kaydet:"Ayarla"},
+  ja:{baslik:"⏱️ 時間ツール",krono:"ストップウォッチ",zamanlayici:"タイマー",takvim:"カレンダー",sayac:"カウントダウン",baslat:"開始",durdur:"停止",sifirla:"リセット",tur:"ラップ",kaydet:"設定"},
+  de:{baslik:"⏱️ Zeitwerkzeuge",krono:"Stoppuhr",zamanlayici:"Timer",takvim:"Kalender",sayac:"Countdown",baslat:"Start",durdur:"Stopp",sifirla:"Zurücksetzen",tur:"Runde",kaydet:"Speichern"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
