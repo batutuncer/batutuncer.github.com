@@ -1,476 +1,416 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Batu Tunçer</title>
-  <meta name="description" content="Batu Tunçer'in kişisel sitesi. Projeler, araçlar ve daha fazlası."/>
-  <meta name="keywords" content="Batu Tunçer, batutuncer, kişisel site"/>
-  <meta name="author" content="Batu Tunçer"/>
-  <meta property="og:title" content="Batu Tunçer"/>
-  <meta property="og:description" content="Batu Tunçer'in kişisel sitesi."/>
-  <meta property="og:url" content="https://batutuncer.com"/>
-  <link rel="icon" href="logo.svg" type="image/svg+xml"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --yellow: #FFE135;
-      --pink: #FF6B9D;
-      --blue: #4ECDC4;
-      --purple: #A855F7;
-      --dark: #0D0D0D;
-      --light: #FAFAF7;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--dark);
-      color: var(--light);
-      overflow-x: hidden;
-      cursor: none;
-    }
-    .cursor {
-      width: 16px; height: 16px;
-      background: var(--yellow);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s;
-      mix-blend-mode: difference;
-    }
-    .cursor.big { width: 42px; height: 42px; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌍 Dil Flashcard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10;}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:600px;margin:0 auto;padding:24px;}
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; width: 100%;
-      padding: 20px 40px;
-      display: flex; justify-content: space-between; align-items: center;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: 1.4rem;
-      color: var(--yellow); letter-spacing: -1px;
-    }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a {
-      text-decoration: none;
-      color: rgba(255,255,255,0.45);
-      font-size: 0.88rem;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: white; }
+/* DIL SEÇİCİ */
+.setup{text-align:center;}
+.setup h2{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--yellow);margin-bottom:8px;}
+.setup p{color:var(--muted);font-size:0.88rem;margin-bottom:28px;}
+.dil-secici{display:flex;gap:20px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
+.dil-grup{flex:1;min-width:200px;}
+.dil-grup label{display:block;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;}
+.dil-select{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer;}
+.dil-select:focus{outline:none;border-color:var(--yellow);}
+.kategori-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}
+.kat-btn{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.kat-btn.on{border-color:var(--yellow);background:#1a1b10;}
+.kat-btn em{font-style:normal;font-size:1.4rem;display:block;margin-bottom:4px;}
+.kat-btn span{font-size:0.7rem;font-weight:700;color:var(--muted);}
+.kat-btn.on span{color:var(--yellow);}
+.basla-btn{width:100%;padding:15px;border-radius:14px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all 0.2s;}
+.basla-btn:hover{background:#f0d400;}
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center;
-      padding: 100px 40px 60px;
-      position: relative; overflow: hidden;
-    }
-    .blob {
-      position: absolute; border-radius: 50%;
-      filter: blur(80px); opacity: 0.22;
-      animation: float 7s ease-in-out infinite;
-    }
-    .blob1 { width: 450px; height: 450px; background: var(--pink); top: -120px; left: -120px; }
-    .blob2 { width: 380px; height: 380px; background: var(--blue); bottom: -80px; right: -80px; animation-delay: 2.5s; }
-    .blob3 { width: 320px; height: 320px; background: var(--purple); top: 50%; left: 50%; animation: float3 7s ease-in-out infinite; animation-delay: 5s; }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-28px)} }
-    @keyframes float3 { 0%,100%{transform:translate(-50%,-50%)} 50%{transform:translate(-50%,-62%)} }
+/* OYUN */
+.oyun{display:none;}
+.oyun.on{display:block;}
+.prog-bar{height:6px;background:rgba(255,255,255,0.06);border-radius:100px;margin-bottom:20px;overflow:hidden;}
+.prog-dolu{height:100%;background:var(--yellow);border-radius:100px;transition:width 0.4s ease;}
+.ust-bilgi{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:0.82rem;color:var(--muted);}
+.ust-bilgi span{font-weight:600;}
+.istatlar{display:flex;gap:12px;}
+.istat{font-weight:700;}
+.istat.d{color:var(--green);}
+.istat.y{color:var(--red);}
 
-    .hero-content { position: relative; z-index: 2; }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 6px 18px; border-radius: 100px;
-      font-size: 0.75rem; margin-bottom: 28px;
-      color: var(--blue); letter-spacing: 2px;
-      text-transform: uppercase; font-weight: 600;
-    }
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3.5rem, 9vw, 8rem);
-      font-weight: 800; line-height: 0.92;
-      letter-spacing: -4px; margin-bottom: 28px;
-    }
-    .hero h1 .accent { color: var(--yellow); }
-    .hero p {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.4);
-      max-width: 380px; margin: 0 auto;
-      line-height: 1.7;
-    }
-    .scroll-hint {
-      position: absolute; bottom: 40px; left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,0.18);
-      font-size: 0.7rem; letter-spacing: 2px;
-      text-transform: uppercase;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-    }
-    .scroll-arrow {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent);
-      animation: sa 2s ease-in-out infinite;
-    }
-    @keyframes sa { 0%,100%{opacity:0.3} 50%{opacity:1} }
+/* KART */
+.kart-alani{perspective:1000px;margin-bottom:20px;cursor:pointer;}
+.kart-ic{position:relative;transform-style:preserve-3d;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);border-radius:20px;}
+.kart-ic.cevrildi{transform:rotateY(180deg);}
+.kart-on,.kart-arka{backface-visibility:hidden;border-radius:20px;padding:40px 32px;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.kart-on{background:var(--card);border:1.5px solid var(--border);}
+.kart-arka{background:#1a1b10;border:1.5px solid rgba(255,225,53,0.3);position:absolute;top:0;left:0;right:0;transform:rotateY(180deg);}
+.kart-dil{font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:12px;}
+.kart-kelime{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.2;}
+.kart-on .kart-kelime{color:var(--text);}
+.kart-arka .kart-kelime{color:var(--yellow);}
+.kart-ipucu{font-size:0.82rem;color:var(--muted);margin-bottom:8px;}
+.kart-ornek{font-size:0.85rem;color:var(--muted);font-style:italic;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);}
+.cevirme-hint{font-size:0.72rem;color:var(--muted);text-align:center;margin-bottom:12px;}
 
-    /* SECTIONS */
-    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 100px 40px; }
-    .section-tag {
-      font-size: 0.7rem; text-transform: uppercase;
-      letter-spacing: 3px; color: var(--pink);
-      margin-bottom: 14px; font-weight: 700;
-    }
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 800; letter-spacing: -2px;
-      margin-bottom: 48px; line-height: 1;
-    }
+/* CEVAP BUTONLARI */
+.cevap-btns{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+.btn-biliyorum{flex:1;padding:14px;border-radius:12px;border:none;background:rgba(74,222,128,0.15);color:var(--green);border:1.5px solid rgba(74,222,128,0.3);font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.2s;}
+.btn-biliyorum:hover{background:rgba(74,222,128,0.25);}
+.btn-bilmiyorum{flex:1;padding:14px;border-radius:12px;border:none;background:rgba(248,113,113,0.15);color:var(--red);border:1.5px solid rgba(248,113,113,0.3);font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.2s;}
+.btn-bilmiyorum:hover{background:rgba(248,113,113,0.25);}
+.btn-sonraki{width:100%;padding:13px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;display:none;}
+.btn-sonraki:hover{background:#f0d400;}
 
-    /* ABOUT */
-    .about-section { border-top: 1px solid rgba(255,255,255,0.05); }
-    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
-    .about-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 20px; padding: 36px;
-      transition: all 0.3s;
-    }
-    .about-card:hover {
-      background: rgba(255,255,255,0.06);
-      transform: translateY(-4px);
-      border-color: rgba(255,255,255,0.12);
-    }
-    .about-card.tall { grid-row: span 2; display: flex; flex-direction: column; justify-content: space-between; }
-    .card-icon { font-size: 2.2rem; margin-bottom: 18px; display: block; }
-    .about-card h3 { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; margin-bottom:10px; }
-    .about-card p { color: rgba(255,255,255,0.38); line-height:1.65; font-size:0.88rem; }
-    .big-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 5rem; font-weight: 800;
-      color: var(--yellow); line-height: 1; margin-bottom: 4px;
-    }
-    .big-number-label { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
-
-    /* PROJECTS */
-    .projects-section { border-top: 1px solid rgba(255,255,255,0.05); }
-    .projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; grid-auto-rows: auto; }
-    .project-card {
-      border-radius: 20px; padding: 36px 28px;
-      position: relative; overflow: hidden;
-      min-height: 220px;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      transition: transform 0.3s;
-    }
-    .project-card:hover { transform: translateY(-6px); }
-    .project-card.c1 { background: linear-gradient(135deg,rgba(255,107,157,.1),rgba(255,107,157,.22)); border:1px solid rgba(255,107,157,.2); }
-    .project-card.c2 { background: linear-gradient(135deg,rgba(78,205,196,.1),rgba(78,205,196,.22)); border:1px solid rgba(78,205,196,.2); }
-    .project-card.c3 { background: linear-gradient(135deg,rgba(168,85,247,.1),rgba(168,85,247,.22)); border:1px solid rgba(168,85,247,.2); }
-    .coming-soon {
-      display: inline-block; padding: 4px 12px; border-radius: 100px;
-      font-size: 0.65rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1.5px;
-      margin-bottom: 14px; width: fit-content;
-    }
-    .c1 .coming-soon { background:rgba(255,107,157,.15); color:var(--pink); border:1px solid rgba(255,107,157,.3); }
-    .c2 .coming-soon { background:rgba(78,205,196,.15); color:var(--blue); border:1px solid rgba(78,205,196,.3); }
-    .c3 .coming-soon { background:rgba(168,85,247,.15); color:var(--purple); border:1px solid rgba(168,85,247,.3); }
-    .project-card h3 { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; margin-bottom:6px; }
-    .project-card p { color:rgba(255,255,255,.32); font-size:.82rem; line-height:1.5; }
-    .project-num {
-      position: absolute; top:22px; right:24px;
-      font-family:'Syne',sans-serif; font-size:4rem; font-weight:800; opacity:.06;
-    }
-
-    /* CONTACT */
-    .contact-section { border-top: 1px solid rgba(255,255,255,0.05); }
-    .contact-box {
-      background: var(--yellow); border-radius: 28px;
-      padding: 70px 60px; text-align: center; color: var(--dark);
-      position: relative; overflow: hidden;
-    }
-    .contact-box::before {
-      content: '✉'; position: absolute;
-      font-size: 16rem; opacity: 0.05;
-      top: -40px; right: -20px; line-height: 1;
-    }
-    .contact-box h2 {
-      font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3rem);
-      font-weight:800; letter-spacing:-2px; margin-bottom:10px;
-    }
-    .contact-box p { color:rgba(0,0,0,.42); margin-bottom:36px; font-size:1rem; }
-    .contact-link {
-      display: inline-block; padding: 15px 38px;
-      background: var(--dark); color: var(--yellow);
-      border-radius: 100px; text-decoration: none;
-      font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem;
-      transition: all 0.2s; position: relative; z-index: 1;
-    }
-    .contact-link:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(0,0,0,.25); }
-
-    footer {
-      border-top: 1px solid rgba(255,255,255,.05);
-      padding: 28px 40px; text-align: center;
-      color: rgba(255,255,255,.14); font-size: .78rem; letter-spacing: .5px;
-    }
-
-    @media(max-width:768px){
-      nav{padding:16px 20px;} .nav-links{gap:16px;}
-      .hero{padding:80px 20px 60px;} .section-wrap{padding:70px 20px;}
-      .about-grid{grid-template-columns:1fr;} .about-card.tall{grid-row:span 1;}
-      .projects-grid{grid-template-columns:1fr;} .contact-box{padding:44px 28px;}
-      .hero h1{letter-spacing:-2px;}
-    }
-  </style>
+/* SONUÇ */
+.sonuc{display:none;text-align:center;}
+.sonuc.on{display:block;}
+.sonuc-emoji{font-size:3.5rem;margin-bottom:12px;}
+.sonuc-puan{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--yellow);}
+.sonuc-alt{color:var(--muted);margin-bottom:24px;}
+.sonuc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+.s-kutu{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;}
+.s-sayi{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;}
+.s-lbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:4px;}
+.tekrar-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;margin-bottom:10px;}
+.menu-btn{width:100%;padding:11px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;}
+</style>
 </head>
 <body>
+<header><h1>🌍 Dil Flashcard</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<div class="wrap">
 
-<div class="cursor" id="cursor"></div>
-
-<nav>
-  <div class="logo"><img src="logo.svg" style="width:36px;height:36px;vertical-align:middle;margin-right:8px;"/>BT</div>
-  <div class="nav-links">
-    <a href="#hakkimda"><span id="txt-navAbout">About</span></a>
-    <a href="#projeler"><span id="txt-navProj">Projects</span></a>
-    <a href="#iletisim"><span id="txt-navContact">Contact</span></a>
-    <button onclick="dilDegistir()" id="dilBtn" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 14px;border-radius:100px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">🇬🇧 EN</button>
+<!-- SETUP -->
+<div class="setup" id="setupDiv">
+  <h2>Dil Seç</h2>
+  <p>İki dil seç ve kelime öğrenmeye başla!</p>
+  <div class="dil-secici">
+    <div class="dil-grup">
+      <label>Öğrendiğin dil</label>
+      <select class="dil-select" id="hedefDil"></select>
+    </div>
+    <div class="dil-grup">
+      <label>Ana dilin</label>
+      <select class="dil-select" id="anaDil"></select>
+    </div>
   </div>
-</nav>
+  <div style="text-align:left;margin-bottom:12px;font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:2px;">Kategori:</div>
+  <div class="kategori-grid" id="kategoriGrid"></div>
+  <button class="basla-btn" onclick="oyunuBaslat()">🚀 Başla</button>
+</div>
 
-<section class="hero">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
-  <div class="hero-content">
-    <div class="hero-badge" id="txt-badge">Hi, I'm</div>
-    <h1>Batu<br><span class="accent">Tunçer</span></h1>
-    <p id="txt-heroP">I don't know what I'll do yet, but great things are coming. Stay tuned!</p>
+<!-- OYUN -->
+<div class="oyun" id="oyunDiv">
+  <div class="prog-bar"><div class="prog-dolu" id="progDolu" style="width:0%"></div></div>
+  <div class="ust-bilgi">
+    <span id="kartSayac">1/20</span>
+    <div class="istatlar">
+      <span class="istat d">✓ <span id="dogruSay">0</span></span>
+      <span class="istat y">✗ <span id="yanlisSay">0</span></span>
+    </div>
   </div>
-  <div class="scroll-hint">
-    <span id="txt-scroll">Scroll down</span>
-    <div class="scroll-arrow"></div>
-  </div>
-</section>
-
-<div class="section-wrap about-section" id="hakkimda">
-  <div class="section-tag" id="txt-aboutTag">// About</div>
-  <div class="section-title" id="txt-aboutTitle">Who Am I?</div>
-  <div class="about-grid">
-    <div class="about-card tall">
-      <div>
-        <span class="card-icon">🙋</span>
-        <h3>Batu Tunçer</h3>
-        <p id="txt-aboutP">Hi! I'm Batu. I'm improving myself, learning new things and preparing for great projects.</p>
+  <div class="cevirme-hint">👆 Kartı tıkla veya çevir</div>
+  <div class="kart-alani" onclick="kartCevir()">
+    <div class="kart-ic" id="kartIc">
+      <div class="kart-on">
+        <div class="kart-dil" id="onDil"></div>
+        <div class="kart-kelime" id="onKelime"></div>
+        <div class="kart-ipucu" id="onIpucu"></div>
       </div>
-      <div>
-        <div class="big-number">10</div>
-        <div class="big-number-label" id="txt-age">years old, Istanbul 🇹🇷</div>
+      <div class="kart-arka">
+        <div class="kart-dil" id="arkaDil"></div>
+        <div class="kart-kelime" id="arkaKelime"></div>
+        <div class="kart-ornek" id="arkaOrnek"></div>
       </div>
     </div>
-    <div class="about-card">
-      <span class="card-icon">🚀</span>
-      <h3 id="txt-dreams">Dreams</h3>
-      <p id="txt-dreamsP">I have big dreams. You'll see what I do soon!</p>
-    </div>
-    <div class="about-card">
-      <span class="card-icon">💡</span>
-      <h3 id="txt-curiosity">Curiosity</h3>
-      <p id="txt-curiosityP">I'm curious about everything. Learning is my biggest hobby.</p>
-    </div>
   </div>
+  <div class="cevap-btns" id="cevapBtns" style="display:none;">
+    <button class="btn-bilmiyorum" onclick="cevapVer(false)">✗ Bilmiyorum</button>
+    <button class="btn-biliyorum" onclick="cevapVer(true)">✓ Biliyorum</button>
+  </div>
+  <button class="btn-sonraki" id="sonrakiBtn" onclick="sonraki()">Sonraki →</button>
 </div>
 
-<div class="section-wrap projects-section" id="projeler">
-  <div class="section-tag" id="txt-projTag">// Projects</div>
-  <div class="section-title" id="txt-projTitle">What's Coming?</div>
-  <div class="projects-grid">
-    <a href="https://claude.ai/public/artifacts/284d3f2c-04ab-4a61-a2ff-1bb74a12e1dd" target="_blank" style="text-decoration:none;color:inherit;">
-    <div class="project-card c1" style="cursor:pointer;">
-      <div class="project-num">01</div>
-      <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎮 Oyun</span>
-      <h3 data-proje-idx="0" data-en="Quiz Game">Bulmaca Oyunu</h3>
-      <p data-proje-aciklama-idx="0" data-en="AI-powered trivia game. Click to play!">Yapay zeka destekli trivia oyunu. Oynamak için tıkla!</p>
-    </div>
-    </a>
-
-    <a href="notlar.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c2" style="cursor:pointer;">
-      <div class="project-num">02</div>
-      <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📊 Araç</span>
-      <h3 data-proje-idx="1" data-en="Grade Calculator">Not Hesaplayıcı</h3>
-      <p data-proje-aciklama-idx="1" data-en="Grade average calculator for Turkish curriculum. Click!">Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!</p>
-    </div>
-    </a>
-    <a href="alisveris.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c3" style="cursor:pointer;">
-      <div class="project-num">03</div>
-      <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">🛒 Araç</span>
-      <h3 data-proje-idx="2" data-en="Shopping List">Alışveriş Listesi</h3>
-      <p data-proje-aciklama-idx="2" data-en="Shared family shopping list. With categories and priorities!">Aile için ortak alışveriş listesi. Kategorili, öncelikli!</p>
-    </div>
-    </a>
-    <a href="zar.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c1" style="cursor:pointer;">
-      <div class="project-num">04</div>
-      <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎲 Oyun</span>
-      <h3 data-proje-idx="3" data-en="Dice & Decision">Zar & Karar</h3>
-      <p data-proje-aciklama-idx="3" data-en="Roll dice, flip coins, make decisions — all in one!">Zar at, para çevir, karar ver — 3'ü bir arada!</p>
-    </div>
-    </a>
-    <a href="sifre.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c2" style="cursor:pointer;">
-      <div class="project-num">05</div>
-      <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">🔐 Araç</span>
-      <h3 data-proje-idx="4" data-en="Secret Message">Şifreli Mesaj</h3>
-      <p data-proje-aciklama-idx="4" data-en="Caesar, Scramble, Number and Reverse encryption!">Caesar, Karıştırma, Sayı ve Ters şifreleme!</p>
-    </div>
-    </a>
-    <a href="araclar.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c3" style="cursor:pointer;">
-      <div class="project-num">06</div>
-      <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">⏱️ Araç</span>
-      <h3 data-proje-idx="5" data-en="Time Tools">Zaman Araçları</h3>
-      <p data-proje-aciklama-idx="5" data-en="Stopwatch, timer, calendar and countdown!">Kronometre, zamanlayıcı, takvim ve geri sayım!</p>
-    </div>
-    </a>
-    <a href="notdefteri.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c2" style="cursor:pointer;">
-      <div class="project-num">07</div>
-      <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📝 Araç</span>
-      <h3 data-proje-idx="6" data-en="Notebook">Not Defteri</h3>
-      <p data-proje-aciklama-idx="6" data-en="Colorful notes, search, auto-save!">Renkli notlar, arama, otomatik kayıt!</p>
-    </div>
-    </a>
-    <a href="2048.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c1" style="cursor:pointer;">
-      <div class="project-num">08</div>
-      <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🎮 Oyun</span>
-      <h3 data-proje-idx="7" data-en="2048">2048</h3>
-      <p data-proje-aciklama-idx="7" data-en="Slide, merge, reach 2048!">Kaydır, birleştir, 2048'e ulaş!</p>
-    </div>
-    </a>
-    <a href="runner.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c3" style="cursor:pointer;">
-      <div class="project-num">09</div>
-      <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">🏃 Oyun</span>
-      <h3 data-proje-idx="8" data-en="Runner">Koşucu</h3>
-      <p data-proje-aciklama-idx="8" data-en="Jump, dodge obstacles, break records!">Zıpla, engelleri aş, rekoru kır!</p>
-    </div>
-    </a>
-    <a href="carpim.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c2" style="cursor:pointer;">
-      <div class="project-num">10</div>
-      <span class="coming-soon" style="background:rgba(78,205,196,.3);color:#4ECDC4;">📚 Eğitim</span>
-      <h3 data-proje-idx="9" data-en="Multiplication Table">Çarpım Tablosu</h3>
-      <p data-proje-aciklama-idx="9" data-en="Practice with multiple choice, written and time mode!">Seçenekli, yazılı ve süre moduyla pratik yap!</p>
-    </div>
-    </a>
-    <a href="qr.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c1" style="cursor:pointer;">
-      <div class="project-num">11</div>
-      <span class="coming-soon" style="background:rgba(255,107,157,.3);color:#FF6B9D;">🔲 Araç</span>
-      <h3 data-proje-idx="10" data-en="QR Code Generator">QR Kod Üretici</h3>
-      <p data-proje-aciklama-idx="10" data-en="QR code for link, text, phone or WiFi!">Link, metin, telefon veya WiFi için QR kod!</p>
-    </div>
-    </a>
-    <a href="tkm.html" style="text-decoration:none;color:inherit;">
-    <div class="project-card c3" style="cursor:pointer;">
-      <div class="project-num">12</div>
-      <span class="coming-soon" style="background:rgba(168,85,247,.3);color:#A855F7;">✊ Oyun</span>
-      <h3 data-proje-idx="11" data-en="Rock Paper Scissors">Taş Kağıt Makas</h3>
-      <p data-proje-aciklama-idx="11" data-en="Classic 3-way or Spock 5-way mode!">Klasik 3'lü veya Spock'lu 5'li mod!</p>
-    </div>
-    </a>
+<!-- SONUÇ -->
+<div class="sonuc" id="sonucDiv">
+  <div class="sonuc-emoji" id="sonucEmoji"></div>
+  <div class="sonuc-puan" id="sonucPuan"></div>
+  <div class="sonuc-alt" id="sonucAlt"></div>
+  <div class="sonuc-grid">
+    <div class="s-kutu"><div class="s-sayi" style="color:var(--green)" id="sDogru"></div><div class="s-lbl">Biliyor</div></div>
+    <div class="s-kutu"><div class="s-sayi" style="color:var(--red)" id="sYanlis"></div><div class="s-lbl">Bilmiyor</div></div>
+    <div class="s-kutu"><div class="s-sayi" style="color:var(--yellow)" id="sOran"></div><div class="s-lbl">Başarı</div></div>
   </div>
+  <button class="tekrar-btn" onclick="tekrar()">🔁 Tekrar</button>
+  <button class="menu-btn" onclick="menuye()">← Menüye Dön</button>
 </div>
 
-<div class="section-wrap contact-section" id="iletisim">
-  <div class="contact-box">
-    <h2 id="txt-contactH">Let's Say Hi!</h2>
-    <p id="txt-contactP">Want to ask something? Write to me.</p>
-    <a class="contact-link" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#97;&#116;&#117;&#116;&#117;&#110;&#99;&#101;&#114;&#50;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#98;&#97;&#116;&#117;&#116;&#117;&#110;&#99;&#101;&#114;&#50;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
-  </div>
 </div>
-
-<footer>© 2026 Batu Tunçer — batutuncer.com</footer>
-
-
 <script>
-var DILLER=['en','tr','ja','de'];
-var FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
-var CODES={en:'EN',tr:'TR',ja:'JP',de:'DE'};
-var dil='en';
+var DILLER = [
+  {kod:'tr', ad:'Türkçe', bayrak:'🇹🇷'},
+  {kod:'en', ad:'İngilizce', bayrak:'🇬🇧'},
+  {kod:'de', ad:'Almanca', bayrak:'🇩🇪'},
+  {kod:'fr', ad:'Fransızca', bayrak:'🇫🇷'},
+  {kod:'es', ad:'İspanyolca', bayrak:'🇪🇸'},
+  {kod:'ja', ad:'Japonca', bayrak:'🇯🇵'},
+  {kod:'it', ad:'İtalyanca', bayrak:'🇮🇹'},
+  {kod:'ru', ad:'Rusça', bayrak:'🇷🇺'},
+  {kod:'uk', ad:'Ukraynaca', bayrak:'🇺🇦'},
+  {kod:'ar', ad:'Arapça', bayrak:'🇸🇦'},
+];
 
-var T={
-  en:{badge:"Hi, I'm",heroP:"I don't know what I'll do yet, but great things are coming. Stay tuned!",scroll:"Scroll down",aboutTag:"// About",aboutTitle:"Who Am I?",aboutP:"Hi! I'm Batu. I'm improving myself, learning new things and preparing for great projects. This is my little corner of the internet.",age:"years old, Istanbul 🇹🇷",dreams:"Dreams",dreamsP:"I have big dreams. You'll see what I do soon!",curiosity:"Curiosity",curiosityP:"I'm curious about everything. Learning is my biggest hobby.",projTag:"// Projects",projTitle:"What's Coming?",contactH:"Let's Say Hi!",contactP:"Want to ask something? Write to me.",navAbout:"About",navProj:"Projects",navContact:"Contact"},
-  tr:{badge:"Merhaba, ben",heroP:"Henüz ne yapacağımı bilmiyorum ama harika şeyler geliyor. Takipte kal!",scroll:"Aşağı kaydır",aboutTag:"// Hakkımda",aboutTitle:"Ben Kimim?",aboutP:"Merhaba! Ben Batu. Şu an kendimi geliştiriyor, yeni şeyler öğreniyor ve harika projeler için hazırlanıyorum. Bu sayfa benim küçük internet köşem.",age:"yaşında, İstanbul 🇹🇷",dreams:"Hayaller",dreamsP:"Büyük hayaller kuruyorum. Yakında neler yapacağımı göreceksin!",curiosity:"Merak",curiosityP:"Her şeyi merak ediyorum. Öğrenmek benim en büyük hobim.",projTag:"// Projeler",projTitle:"Neler Geliyor?",contactH:"Selamlaşalım!",contactP:"Bir şey sormak mı istiyorsun? Yaz bana.",navAbout:"Hakkımda",navProj:"Projeler",navContact:"İletişim"},
-  ja:{badge:"こんにちは、",heroP:"まだ何をするか決まっていませんが、すごいことが来ます。お楽しみに！",scroll:"下へスクロール",aboutTag:"// について",aboutTitle:"私は誰？",aboutP:"こんにちは！バトゥです。自分を磨き、新しいことを学んでいます。",age:"歳、イスタンブール 🇹🇷",dreams:"夢",dreamsP:"大きな夢があります。もうすぐ何をするか見てください！",curiosity:"好奇心",curiosityP:"何でも興味があります。学ぶことが趣味です。",projTag:"// プロジェクト",projTitle:"何が来る？",contactH:"ご挨拶しましょう！",contactP:"メッセージを送ってください。",navAbout:"について",navProj:"プロジェクト",navContact:"連絡先"},
-  de:{badge:"Hallo, ich bin",heroP:"Ich weiß noch nicht was ich machen werde, aber tolle Dinge kommen. Bleib dran!",scroll:"Nach unten",aboutTag:"// Über mich",aboutTitle:"Wer bin ich?",aboutP:"Hallo! Ich bin Batu. Ich lerne neue Dinge und bereite mich auf tolle Projekte vor.",age:"Jahre, Istanbul 🇹🇷",dreams:"Träume",dreamsP:"Ich habe große Träume. Du wirst es bald sehen!",curiosity:"Neugier",curiosityP:"Ich bin neugierig auf alles. Lernen ist mein größtes Hobby.",projTag:"// Projekte",projTitle:"Was kommt?",contactH:"Lass uns hallo sagen!",contactP:"Willst du etwas fragen? Schreib mir.",navAbout:"Über mich",navProj:"Projekte",navContact:"Kontakt"}
+var KATEGORILER = [
+  {id:'temel', em:'👋', ad:'Temel'},
+  {id:'sayilar', em:'🔢', ad:'Sayılar'},
+  {id:'renkler', em:'🎨', ad:'Renkler'},
+  {id:'yiyecek', em:'🍎', ad:'Yiyecek'},
+  {id:'hayvanlar', em:'🐶', ad:'Hayvanlar'},
+  {id:'gunluk', em:'📅', ad:'Günlük'},
+  {id:'seyahat', em:'✈️', ad:'Seyahat'},
+  {id:'vucud', em:'💪', ad:'Vücut'},
+  {id:'doga', em:'🌿', ad:'Doğa'},
+];
+
+// Kelime veritabanı: her kategori için Türkçe + diğer diller
+var KELIMELER = {
+  temel: [
+    {tr:'Merhaba',en:'Hello',de:'Hallo',fr:'Bonjour',es:'Hola',ja:'こんにちは',it:'Ciao',ru:'Привет',uk:'Привіт',ar:'مرحبا'},
+    {tr:'Güle güle',en:'Goodbye',de:'Auf Wiedersehen',fr:'Au revoir',es:'Adiós',ja:'さようなら',it:'Arrivederci',ru:'До свидания',uk:'До побачення',ar:'وداعاً'},
+    {tr:'Teşekkürler',en:'Thank you',de:'Danke',fr:'Merci',es:'Gracias',ja:'ありがとう',it:'Grazie',ru:'Спасибо',uk:'Дякую',ar:'شكراً'},
+    {tr:'Evet',en:'Yes',de:'Ja',fr:'Oui',es:'Sí',ja:'はい',it:'Sì',ru:'Да',uk:'Так',ar:'نعم'},
+    {tr:'Hayır',en:'No',de:'Nein',fr:'Non',es:'No',ja:'いいえ',it:'No',ru:'Нет',uk:'Ні',ar:'لا'},
+    {tr:'Lütfen',en:'Please',de:'Bitte',fr:'S\'il vous plaît',es:'Por favor',ja:'お願いします',it:'Per favore',ru:'Пожалуйста',uk:'Будь ласка',ar:'من فضلك'},
+    {tr:'Özür dilerim',en:'Sorry',de:'Entschuldigung',fr:'Désolé',es:'Lo siento',ja:'すみません',it:'Scusa',ru:'Извините',uk:'Вибачте',ar:'آسف'},
+    {tr:'Su',en:'Water',de:'Wasser',fr:'Eau',es:'Agua',ja:'水',it:'Acqua',ru:'Вода',uk:'Вода',ar:'ماء'},
+    {tr:'Ekmek',en:'Bread',de:'Brot',fr:'Pain',es:'Pan',ja:'パン',it:'Pane',ru:'Хлеб',uk:'Хліб',ar:'خبز'},
+    {tr:'İyi',en:'Good',de:'Gut',fr:'Bien',es:'Bien',ja:'良い',it:'Bene',ru:'Хорошо',uk:'Добре',ar:'جيد'},
+    {tr:'Kötü',en:'Bad',de:'Schlecht',fr:'Mauvais',es:'Malo',ja:'悪い',it:'Cattivo',ru:'Плохой',uk:'Поганий',ar:'سيء'},
+    {tr:'Büyük',en:'Big',de:'Groß',fr:'Grand',es:'Grande',ja:'大きい',it:'Grande',ru:'Большой',uk:'Великий',ar:'كبير'},
+    {tr:'Küçük',en:'Small',de:'Klein',fr:'Petit',es:'Pequeño',ja:'小さい',it:'Piccolo',ru:'Маленький',uk:'Маленький',ar:'صغير'},
+    {tr:'Ev',en:'House',de:'Haus',fr:'Maison',es:'Casa',ja:'家',it:'Casa',ru:'Дом',uk:'Будинок',ar:'بيت'},
+    {tr:'Araba',en:'Car',de:'Auto',fr:'Voiture',es:'Coche',ja:'車',it:'Auto',ru:'Машина',uk:'Автомобіль',ar:'سيارة'},
+  ],
+  sayilar: [
+    {tr:'Bir',en:'One',de:'Eins',fr:'Un',es:'Uno',ja:'一',it:'Uno',ru:'Один',uk:'Один',ar:'واحد'},
+    {tr:'İki',en:'Two',de:'Zwei',fr:'Deux',es:'Dos',ja:'二',it:'Due',ru:'Два',uk:'Два',ar:'اثنان'},
+    {tr:'Üç',en:'Three',de:'Drei',fr:'Trois',es:'Tres',ja:'三',it:'Tre',ru:'Три',uk:'Три',ar:'ثلاثة'},
+    {tr:'Dört',en:'Four',de:'Vier',fr:'Quatre',es:'Cuatro',ja:'四',it:'Quattro',ru:'Четыре',uk:'Чотири',ar:'أربعة'},
+    {tr:'Beş',en:'Five',de:'Fünf',fr:'Cinq',es:'Cinco',ja:'五',it:'Cinque',ru:'Пять',uk:'П\'ять',ar:'خمسة'},
+    {tr:'Altı',en:'Six',de:'Sechs',fr:'Six',es:'Seis',ja:'六',it:'Sei',ru:'Шесть',uk:'Шість',ar:'ستة'},
+    {tr:'Yedi',en:'Seven',de:'Sieben',fr:'Sept',es:'Siete',ja:'七',it:'Sette',ru:'Семь',uk:'Сім',ar:'سبعة'},
+    {tr:'Sekiz',en:'Eight',de:'Acht',fr:'Huit',es:'Ocho',ja:'八',it:'Otto',ru:'Восемь',uk:'Вісім',ar:'ثمانية'},
+    {tr:'Dokuz',en:'Nine',de:'Neun',fr:'Neuf',es:'Nueve',ja:'九',it:'Nove',ru:'Девять',uk:'Дев\'ять',ar:'تسعة'},
+    {tr:'On',en:'Ten',de:'Zehn',fr:'Dix',es:'Diez',ja:'十',it:'Dieci',ru:'Десять',uk:'Десять',ar:'عشرة'},
+    {tr:'Yirmi',en:'Twenty',de:'Zwanzig',fr:'Vingt',es:'Veinte',ja:'二十',it:'Venti',ru:'Двадцать',uk:'Двадцять',ar:'عشرون'},
+    {tr:'Yüz',en:'Hundred',de:'Hundert',fr:'Cent',es:'Cien',ja:'百',it:'Cento',ru:'Сто',uk:'Сто',ar:'مئة'},
+  ],
+  renkler: [
+    {tr:'Kırmızı',en:'Red',de:'Rot',fr:'Rouge',es:'Rojo',ja:'赤',it:'Rosso',ru:'Красный',uk:'Червоний',ar:'أحمر'},
+    {tr:'Mavi',en:'Blue',de:'Blau',fr:'Bleu',es:'Azul',ja:'青',it:'Blu',ru:'Синий',uk:'Синій',ar:'أزرق'},
+    {tr:'Yeşil',en:'Green',de:'Grün',fr:'Vert',es:'Verde',ja:'緑',it:'Verde',ru:'Зелёный',uk:'Зелений',ar:'أخضر'},
+    {tr:'Sarı',en:'Yellow',de:'Gelb',fr:'Jaune',es:'Amarillo',ja:'黄色',it:'Giallo',ru:'Жёлтый',uk:'Жовтий',ar:'أصفر'},
+    {tr:'Beyaz',en:'White',de:'Weiß',fr:'Blanc',es:'Blanco',ja:'白',it:'Bianco',ru:'Белый',uk:'Білий',ar:'أبيض'},
+    {tr:'Siyah',en:'Black',de:'Schwarz',fr:'Noir',es:'Negro',ja:'黒',it:'Nero',ru:'Чёрный',uk:'Чорний',ar:'أسود'},
+    {tr:'Turuncu',en:'Orange',de:'Orange',fr:'Orange',es:'Naranja',ja:'オレンジ',it:'Arancione',ru:'Оранжевый',uk:'Оранжевий',ar:'برتقالي'},
+    {tr:'Mor',en:'Purple',de:'Lila',fr:'Violet',es:'Morado',ja:'紫',it:'Viola',ru:'Фиолетовый',uk:'Фіолетовий',ar:'بنفسجي'},
+    {tr:'Pembe',en:'Pink',de:'Rosa',fr:'Rose',es:'Rosa',ja:'ピンク',it:'Rosa',ru:'Розовый',uk:'Рожевий',ar:'وردي'},
+    {tr:'Kahverengi',en:'Brown',de:'Braun',fr:'Marron',es:'Marrón',ja:'茶色',it:'Marrone',ru:'Коричневый',uk:'Коричневий',ar:'بني'},
+  ],
+  yiyecek: [
+    {tr:'Elma',en:'Apple',de:'Apfel',fr:'Pomme',es:'Manzana',ja:'りんご',it:'Mela',ru:'Яблоко',uk:'Яблуко',ar:'تفاحة'},
+    {tr:'Muz',en:'Banana',de:'Banane',fr:'Banane',es:'Plátano',ja:'バナナ',it:'Banana',ru:'Банан',uk:'Банан',ar:'موزة'},
+    {tr:'Et',en:'Meat',de:'Fleisch',fr:'Viande',es:'Carne',ja:'肉',it:'Carne',ru:'Мясо',uk:'М\'ясо',ar:'لحم'},
+    {tr:'Süt',en:'Milk',de:'Milch',fr:'Lait',es:'Leche',ja:'牛乳',it:'Latte',ru:'Молоко',uk:'Молоко',ar:'حليب'},
+    {tr:'Yumurta',en:'Egg',de:'Ei',fr:'Oeuf',es:'Huevo',ja:'卵',it:'Uovo',ru:'Яйцо',uk:'Яйце',ar:'بيضة'},
+    {tr:'Balık',en:'Fish',de:'Fisch',fr:'Poisson',es:'Pescado',ja:'魚',it:'Pesce',ru:'Рыба',uk:'Риба',ar:'سمكة'},
+    {tr:'Tavuk',en:'Chicken',de:'Hühnchen',fr:'Poulet',es:'Pollo',ja:'鶏肉',it:'Pollo',ru:'Курица',uk:'Курка',ar:'دجاج'},
+    {tr:'Çorba',en:'Soup',de:'Suppe',fr:'Soupe',es:'Sopa',ja:'スープ',it:'Zuppa',ru:'Суп',uk:'Суп',ar:'حساء'},
+    {tr:'Salata',en:'Salad',de:'Salat',fr:'Salade',es:'Ensalada',ja:'サラダ',it:'Insalata',ru:'Салат',uk:'Салат',ar:'سلطة'},
+    {tr:'Çikolata',en:'Chocolate',de:'Schokolade',fr:'Chocolat',es:'Chocolate',ja:'チョコレート',it:'Cioccolato',ru:'Шоколад',uk:'Шоколад',ar:'شوكولاتة'},
+    {tr:'Kahve',en:'Coffee',de:'Kaffee',fr:'Café',es:'Café',ja:'コーヒー',it:'Caffè',ru:'Кофе',uk:'Кава',ar:'قهوة'},
+    {tr:'Çay',en:'Tea',de:'Tee',fr:'Thé',es:'Té',ja:'お茶',it:'Tè',ru:'Чай',uk:'Чай',ar:'شاي'},
+  ],
+  hayvanlar: [
+    {tr:'Köpek',en:'Dog',de:'Hund',fr:'Chien',es:'Perro',ja:'犬',it:'Cane',ru:'Собака',uk:'Собака',ar:'كلب'},
+    {tr:'Kedi',en:'Cat',de:'Katze',fr:'Chat',es:'Gato',ja:'猫',it:'Gatto',ru:'Кошка',uk:'Кіт',ar:'قطة'},
+    {tr:'Kuş',en:'Bird',de:'Vogel',fr:'Oiseau',es:'Pájaro',ja:'鳥',it:'Uccello',ru:'Птица',uk:'Птах',ar:'طائر'},
+    {tr:'Balık',en:'Fish',de:'Fisch',fr:'Poisson',es:'Pez',ja:'魚',it:'Pesce',ru:'Рыба',uk:'Риба',ar:'سمكة'},
+    {tr:'At',en:'Horse',de:'Pferd',fr:'Cheval',es:'Caballo',ja:'馬',it:'Cavallo',ru:'Лошадь',uk:'Кінь',ar:'حصان'},
+    {tr:'İnek',en:'Cow',de:'Kuh',fr:'Vache',es:'Vaca',ja:'牛',it:'Mucca',ru:'Корова',uk:'Корова',ar:'بقرة'},
+    {tr:'Aslan',en:'Lion',de:'Löwe',fr:'Lion',es:'León',ja:'ライオン',it:'Leone',ru:'Лев',uk:'Лев',ar:'أسد'},
+    {tr:'Fil',en:'Elephant',de:'Elefant',fr:'Éléphant',es:'Elefante',ja:'ゾウ',it:'Elefante',ru:'Слон',uk:'Слон',ar:'فيل'},
+    {tr:'Tavşan',en:'Rabbit',de:'Hase',fr:'Lapin',es:'Conejo',ja:'ウサギ',it:'Coniglio',ru:'Кролик',uk:'Кролик',ar:'أرنب'},
+    {tr:'Fare',en:'Mouse',de:'Maus',fr:'Souris',es:'Ratón',ja:'ネズミ',it:'Topo',ru:'Мышь',uk:'Миша',ar:'فأر'},
+  ],
+  gunluk: [
+    {tr:'Bugün',en:'Today',de:'Heute',fr:'Aujourd\'hui',es:'Hoy',ja:'今日',it:'Oggi',ru:'Сегодня',uk:'Сьогодні',ar:'اليوم'},
+    {tr:'Yarın',en:'Tomorrow',de:'Morgen',fr:'Demain',es:'Mañana',ja:'明日',it:'Domani',ru:'Завтра',uk:'Завтра',ar:'غداً'},
+    {tr:'Dün',en:'Yesterday',de:'Gestern',fr:'Hier',es:'Ayer',ja:'昨日',it:'Ieri',ru:'Вчера',uk:'Вчора',ar:'أمس'},
+    {tr:'Sabah',en:'Morning',de:'Morgen',fr:'Matin',es:'Mañana',ja:'朝',it:'Mattina',ru:'Утро',uk:'Ранок',ar:'صباح'},
+    {tr:'Öğle',en:'Noon',de:'Mittag',fr:'Midi',es:'Mediodía',ja:'昼',it:'Mezzogiorno',ru:'Полдень',uk:'Полудень',ar:'ظهر'},
+    {tr:'Akşam',en:'Evening',de:'Abend',fr:'Soir',es:'Tarde',ja:'夕方',it:'Sera',ru:'Вечер',uk:'Вечір',ar:'مساء'},
+    {tr:'Gece',en:'Night',de:'Nacht',fr:'Nuit',es:'Noche',ja:'夜',it:'Notte',ru:'Ночь',uk:'Ніч',ar:'ليل'},
+    {tr:'Hafta',en:'Week',de:'Woche',fr:'Semaine',es:'Semana',ja:'週',it:'Settimana',ru:'Неделя',uk:'Тиждень',ar:'أسبوع'},
+    {tr:'Ay',en:'Month',de:'Monat',fr:'Mois',es:'Mes',ja:'月',it:'Mese',ru:'Месяц',uk:'Місяць',ar:'شهر'},
+    {tr:'Yıl',en:'Year',de:'Jahr',fr:'An',es:'Año',ja:'年',it:'Anno',ru:'Год',uk:'Рік',ar:'سنة'},
+  ],
+  seyahat: [
+    {tr:'Uçak',en:'Airplane',de:'Flugzeug',fr:'Avion',es:'Avión',ja:'飛行機',it:'Aereo',ru:'Самолёт',uk:'Літак',ar:'طائرة'},
+    {tr:'Tren',en:'Train',de:'Zug',fr:'Train',es:'Tren',ja:'電車',it:'Treno',ru:'Поезд',uk:'Поїзд',ar:'قطار'},
+    {tr:'Otel',en:'Hotel',de:'Hotel',fr:'Hôtel',es:'Hotel',ja:'ホテル',it:'Hotel',ru:'Отель',uk:'Готель',ar:'فندق'},
+    {tr:'Pasaport',en:'Passport',de:'Reisepass',fr:'Passeport',es:'Pasaporte',ja:'パスポート',it:'Passaporto',ru:'Паспорт',uk:'Паспорт',ar:'جواز سفر'},
+    {tr:'Harita',en:'Map',de:'Karte',fr:'Carte',es:'Mapa',ja:'地図',it:'Mappa',ru:'Карта',uk:'Карта',ar:'خريطة'},
+    {tr:'Bilet',en:'Ticket',de:'Ticket',fr:'Billet',es:'Billete',ja:'チケット',it:'Biglietto',ru:'Билет',uk:'Квиток',ar:'تذكرة'},
+    {tr:'İstasyon',en:'Station',de:'Bahnhof',fr:'Gare',es:'Estación',ja:'駅',it:'Stazione',ru:'Станция',uk:'Станція',ar:'محطة'},
+    {tr:'Havalimanı',en:'Airport',de:'Flughafen',fr:'Aéroport',es:'Aeropuerto',ja:'空港',it:'Aeroporto',ru:'Аэропорт',uk:'Аеропорт',ar:'مطار'},
+  ],
+  vucud: [
+    {tr:'Baş',en:'Head',de:'Kopf',fr:'Tête',es:'Cabeza',ja:'頭',it:'Testa',ru:'Голова',uk:'Голова',ar:'رأس'},
+    {tr:'El',en:'Hand',de:'Hand',fr:'Main',es:'Mano',ja:'手',it:'Mano',ru:'Рука',uk:'Рука',ar:'يد'},
+    {tr:'Ayak',en:'Foot',de:'Fuß',fr:'Pied',es:'Pie',ja:'足',it:'Piede',ru:'Нога',uk:'Нога',ar:'قدم'},
+    {tr:'Göz',en:'Eye',de:'Auge',fr:'Oeil',es:'Ojo',ja:'目',it:'Occhio',ru:'Глаз',uk:'Око',ar:'عين'},
+    {tr:'Kulak',en:'Ear',de:'Ohr',fr:'Oreille',es:'Oreja',ja:'耳',it:'Orecchio',ru:'Ухо',uk:'Вухо',ar:'أذن'},
+    {tr:'Burun',en:'Nose',de:'Nase',fr:'Nez',es:'Nariz',ja:'鼻',it:'Naso',ru:'Нос',uk:'Ніс',ar:'أنف'},
+    {tr:'Ağız',en:'Mouth',de:'Mund',fr:'Bouche',es:'Boca',ja:'口',it:'Bocca',ru:'Рот',uk:'Рот',ar:'فم'},
+    {tr:'Kalp',en:'Heart',de:'Herz',fr:'Coeur',es:'Corazón',ja:'心臓',it:'Cuore',ru:'Сердце',uk:'Серце',ar:'قلب'},
+  ],
+  doga: [
+    {tr:'Güneş',en:'Sun',de:'Sonne',fr:'Soleil',es:'Sol',ja:'太陽',it:'Sole',ru:'Солнце',uk:'Сонце',ar:'شمس'},
+    {tr:'Ay',en:'Moon',de:'Mond',fr:'Lune',es:'Luna',ja:'月',it:'Luna',ru:'Луна',uk:'Місяць',ar:'قمر'},
+    {tr:'Yıldız',en:'Star',de:'Stern',fr:'Étoile',es:'Estrella',ja:'星',it:'Stella',ru:'Звезда',uk:'Зірка',ar:'نجمة'},
+    {tr:'Deniz',en:'Sea',de:'Meer',fr:'Mer',es:'Mar',ja:'海',it:'Mare',ru:'Море',uk:'Море',ar:'بحر'},
+    {tr:'Dağ',en:'Mountain',de:'Berg',fr:'Montagne',es:'Montaña',ja:'山',it:'Montagna',ru:'Гора',uk:'Гора',ar:'جبل'},
+    {tr:'Orman',en:'Forest',de:'Wald',fr:'Forêt',es:'Bosque',ja:'森',it:'Foresta',ru:'Лес',uk:'Ліс',ar:'غابة'},
+    {tr:'Nehir',en:'River',de:'Fluss',fr:'Rivière',es:'Río',ja:'川',it:'Fiume',ru:'Река',uk:'Річка',ar:'نهر'},
+    {tr:'Çiçek',en:'Flower',de:'Blume',fr:'Fleur',es:'Flor',ja:'花',it:'Fiore',ru:'Цветок',uk:'Квітка',ar:'زهرة'},
+    {tr:'Ağaç',en:'Tree',de:'Baum',fr:'Arbre',es:'Árbol',ja:'木',it:'Albero',ru:'Дерево',uk:'Дерево',ar:'شجرة'},
+    {tr:'Yağmur',en:'Rain',de:'Regen',fr:'Pluie',es:'Lluvia',ja:'雨',it:'Pioggia',ru:'Дождь',uk:'Дощ',ar:'مطر'},
+    {tr:'Kar',en:'Snow',de:'Schnee',fr:'Neige',es:'Nieve',ja:'雪',it:'Neve',ru:'Снег',uk:'Сніг',ar:'ثلج'},
+  ],
 };
 
-var PROJELER={
-  en:['Quiz Game','Grade Calculator','Shopping List','Dice & Decision','Secret Message','Time Tools','Notebook','2048','Runner','Multiplication','QR Generator','Rock Paper Scissors'],
-  tr:['Bulmaca Oyunu','Not Hesaplayıcı','Alışveriş Listesi','Zar & Karar','Şifreli Mesaj','Zaman Araçları','Not Defteri','2048','Koşucu','Çarpım Tablosu','QR Kod Üretici','Taş Kağıt Makas'],
-  ja:['クイズゲーム','成績計算機','買い物リスト','サイコロ決断','暗号メッセージ','時間ツール','ノート','2048','ランナー','掛け算表','QRコード生成','じゃんけん'],
-  de:['Quizspiel','Notenrechner','Einkaufsliste','Würfel & Entscheidung','Geheime Nachricht','Zeitwerkzeuge','Notizbuch','2048','Läufer','Multiplikation','QR-Generator','Schere Stein Papier']
-};
+var seciliKategori = 'temel';
+var hedefKod, anaKod;
+var kartlar, kartIdx, dogru, yanlis, cevrildi;
 
-function s(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
-
-var PROJE_ACIKLAMALARI={
-  tr:['Yapay zeka destekli trivia oyunu. Oynamak için tıkla!','Türkiye müfredatı için not ortalama hesaplayıcı. Tıkla!','Aile için ortak alışveriş listesi. Kategorili, öncelikli!','Zar at, para çevir, karar ver — 3ü bir arada!','Caesar, Karıştırma, Sayı ve Ters şifreleme!','Kronometre, zamanlayıcı, takvim ve geri sayım!','Renkli notlar, arama, otomatik kayıt!','Kaydır, birleştir, 2048e ulaş!','Zıpla, engelleri aş, rekoru kır!','Seçenekli, yazılı ve süre moduyla pratik yap!','Link, metin, telefon veya WiFi için QR kod!','Klasik 3lu veya Spocklu 5li mod!'],
-  en:['AI-powered trivia game. Click to play!','Grade calculator for Turkish curriculum. Click!','Shared family shopping list. With categories!','Roll dice, flip coins, decide — all in one!','Caesar, Scramble, Number and Reverse encryption!','Stopwatch, timer, calendar and countdown!','Colorful notes, search, auto-save!','Slide, merge, reach 2048!','Jump, dodge obstacles, break records!','Practice with multiple choice and time mode!','QR code for link, text, phone or WiFi!','Classic 3-way or Spock 5-way mode!'],
-  ja:['AIトリビアゲーム。クリックして遊ぼう！','成績平均計算機。クリック！','家族共有の買い物リスト！','サイコロ、コイン、決断 — 全部一緒！','シーザー、スクランブル、数字、逆暗号！','ストップウォッチ、タイマー、カレンダー！','カラフルなノート、検索、自動保存！','スライド、合体、2048を目指せ！','ジャンプ、障害物を避けて、記録を破れ！','選択肢、記述式、タイムモードで練習！','リンク、テキスト、WiFi用QRコード！','クラシック3択またはスポック5択！'],
-  de:['KI-Trivia-Spiel. Klicke zum Spielen!','Notendurchschnittsrechner. Klick!','Gemeinsame Einkaufsliste mit Kategorien!','Würfeln, Münze, Entscheiden — alles in einem!','Caesar, Scramble, Zahlen- und Umkehrverschlüsselung!','Stoppuhr, Timer, Kalender und Countdown!','Bunte Notizen, Suche, Auto-Speichern!','Schiebe, verbinde, erreiche 2048!','Springe, weiche aus, breche Rekorde!','Übe mit Multiple-Choice und Zeitmodus!','QR-Code für Link, Text oder WiFi!','Klassischer 3er- oder Spock-5er-Modus!']
-};
-function dilUygula(){
-  var t=T[dil];
-  document.getElementById('dilBtn').textContent=FLAGS[dil]+' '+CODES[dil];
-  s('txt-badge',t.badge);s('txt-heroP',t.heroP);s('txt-scroll',t.scroll);
-  s('txt-aboutTag',t.aboutTag);s('txt-aboutTitle',t.aboutTitle);s('txt-aboutP',t.aboutP);
-  s('txt-age',t.age);s('txt-dreams',t.dreams);s('txt-dreamsP',t.dreamsP);
-  s('txt-curiosity',t.curiosity);s('txt-curiosityP',t.curiosityP);
-  s('txt-projTag',t.projTag);s('txt-projTitle',t.projTitle);
-  s('txt-contactH',t.contactH);s('txt-contactP',t.contactP);
-  s('txt-navAbout',t.navAbout);s('txt-navProj',t.navProj);s('txt-navContact',t.navContact);
-  var els=document.querySelectorAll('[data-proje-idx]');
-  els.forEach(function(el){
-    var i=parseInt(el.getAttribute('data-proje-idx'));
-    if(PROJELER[dil]&&PROJELER[dil][i]) el.textContent=PROJELER[dil][i];
-  });
-  var els2=document.querySelectorAll('[data-proje-aciklama-idx]');
-  els2.forEach(function(el){
-    var i=parseInt(el.getAttribute('data-proje-aciklama-idx'));
-    if(PROJE_ACIKLAMALARI[dil]&&PROJE_ACIKLAMALARI[dil][i]) el.textContent=PROJE_ACIKLAMALARI[dil][i];
-  });
-}
-function dilDegistir(){
-  var idx=DILLER.indexOf(dil);
-  dil=DILLER[(idx+1)%DILLER.length];
-  dilUygula();
-}
-
-// Cursor
-const cursor=document.getElementById('cursor');
-document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cursor.classList.add('big'));
-  el.addEventListener('mouseleave',()=>cursor.classList.remove('big'));
+// Dil seçicileri doldur
+var hedefEl = document.getElementById('hedefDil');
+var anaEl = document.getElementById('anaDil');
+DILLER.forEach(function(d){
+  hedefEl.innerHTML += '<option value="'+d.kod+'">'+d.bayrak+' '+d.ad+'</option>';
+  anaEl.innerHTML += '<option value="'+d.kod+'">'+d.bayrak+' '+d.ad+'</option>';
 });
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});
+hedefEl.value = 'en';
+anaEl.value = 'tr';
+
+// Kategori butonları
+var katGrid = document.getElementById('kategoriGrid');
+KATEGORILER.forEach(function(k){
+  var btn = document.createElement('div');
+  btn.className = 'kat-btn' + (k.id===seciliKategori?' on':'');
+  btn.innerHTML = '<em>'+k.em+'</em><span>'+k.ad+'</span>';
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.kat-btn').forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    seciliKategori = k.id;
+  });
+  katGrid.appendChild(btn);
 });
 
-document.addEventListener('DOMContentLoaded',function(){dilUygula();});
+function oyunuBaslat(){
+  hedefKod = hedefEl.value;
+  anaKod = anaEl.value;
+  if(hedefKod === anaKod){ alert('İki farklı dil seç!'); return; }
+  var pool = KELIMELER[seciliKategori] || KELIMELER.temel;
+  kartlar = pool.slice().sort(function(){return Math.random()-0.5;});
+  kartIdx=0; dogru=0; yanlis=0; cevrildi=false;
+  document.getElementById('setupDiv').style.display='none';
+  document.getElementById('sonucDiv').classList.remove('on');
+  document.getElementById('oyunDiv').classList.add('on');
+  document.getElementById('dogruSay').textContent=0;
+  document.getElementById('yanlisSay').textContent=0;
+  kartGoster();
+}
+
+function dilAdi(kod){
+  var d = DILLER.find(function(x){return x.kod===kod;});
+  return d ? d.bayrak+' '+d.ad : kod;
+}
+
+function kartGoster(){
+  if(kartIdx >= kartlar.length){ oyunBitti(); return; }
+  var k = kartlar[kartIdx];
+  document.getElementById('progDolu').style.width = (kartIdx/kartlar.length*100)+'%';
+  document.getElementById('kartSayac').textContent = (kartIdx+1)+'/'+kartlar.length;
+  document.getElementById('onDil').textContent = dilAdi(hedefKod);
+  document.getElementById('onKelime').textContent = k[hedefKod] || k['en'] || '—';
+  document.getElementById('arkaDil').textContent = dilAdi(anaKod);
+  document.getElementById('arkaKelime').textContent = k[anaKod] || k['tr'] || '—';
+  document.getElementById('arkaOrnek').textContent = '';
+  // Reset kart
+  var ic = document.getElementById('kartIc');
+  ic.classList.remove('cevrildi');
+  cevrildi = false;
+  document.getElementById('cevapBtns').style.display='none';
+  document.getElementById('sonrakiBtn').style.display='none';
+}
+
+function kartCevir(){
+  var ic = document.getElementById('kartIc');
+  ic.classList.toggle('cevrildi');
+  cevrildi = !cevrildi;
+  if(cevrildi){
+    document.getElementById('cevapBtns').style.display='flex';
+  } else {
+    document.getElementById('cevapBtns').style.display='none';
+  }
+}
+
+function cevapVer(bildi){
+  if(bildi){ dogru++; document.getElementById('dogruSay').textContent=dogru; }
+  else{ yanlis++; document.getElementById('yanlisSay').textContent=yanlis; }
+  document.getElementById('cevapBtns').style.display='none';
+  document.getElementById('sonrakiBtn').style.display='block';
+}
+
+function sonraki(){
+  kartIdx++;
+  kartGoster();
+}
+
+function oyunBitti(){
+  var oran = Math.round(dogru/(kartlar.length)*100);
+  document.getElementById('oyunDiv').classList.remove('on');
+  document.getElementById('sonucDiv').classList.add('on');
+  document.getElementById('sonucEmoji').textContent = oran>=80?'🏆':oran>=60?'🎉':'📚';
+  document.getElementById('sonucPuan').textContent = oran+'%';
+  document.getElementById('sonucAlt').textContent = dogru+'/'+kartlar.length+' kelimeyi bildin!';
+  document.getElementById('sDogru').textContent = dogru;
+  document.getElementById('sYanlis').textContent = yanlis;
+  document.getElementById('sOran').textContent = oran+'%';
+}
+
+function tekrar(){ oyunuBaslat(); }
+function menuye(){
+  document.getElementById('sonucDiv').classList.remove('on');
+  document.getElementById('oyunDiv').classList.remove('on');
+  document.getElementById('setupDiv').style.display='block';
+}
+
+// Klavye
+document.addEventListener('keydown', function(e){
+  if(e.code==='Space'){ e.preventDefault(); kartCevir(); }
+  if(e.key==='ArrowRight'&&document.getElementById('sonrakiBtn').style.display!=='none') sonraki();
+  if(e.key==='ArrowUp'&&cevrildi) cevapVer(true);
+  if(e.key==='ArrowDown'&&cevrildi) cevapVer(false);
+});
 </script>
 </body>
 </html>
