@@ -169,12 +169,15 @@
       .form-row { flex-direction:column; }
       .ozet-bar { gap:12px; }
     }
-  </style>
+  
+.dil-btn{position:fixed;top:16px;right:80px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 12px;border-radius:100px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:1000;transition:all 0.2s;}
+.dil-btn:hover{background:rgba(255,255,255,0.14);}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>🛒 Alışveriş Listesi</h1>
+  <h1 id="_txt_baslik">🛒 Alışveriş Listesi</h1>
   <div class="header-sag">
     <button class="temizle-btn" onclick="tamamlananlarisil()">✓ Tamamlananları Sil</button>
   </div>
@@ -382,6 +385,42 @@ function urunHTML(u) {
 }
 
 render();
+</script>
+
+<script>
+(function(){
+var _DILLER=['en','tr','ja','de'];
+var _FLAGS={en:'🇬🇧',tr:'🇹🇷',ja:'🇯🇵',de:'🇩🇪'};
+var _dil=localStorage.getItem('siteDil')||'en';
+var _T={
+  en:{baslik:"🛒 Shopping List",yeni:"+ Add Item",kat:"Category",oncelik:"Priority",acil:"Urgent",normal:"Normal",tamamla:"Done",sil:"Delete",ara:"Search...",bos:"List is empty"},
+  tr:{baslik:"🛒 Alışveriş Listesi",yeni:"+ Ürün Ekle",kat:"Kategori",oncelik:"Öncelik",acil:"Acil",normal:"Normal",tamamla:"Tamamla",sil:"Sil",ara:"Ara...",bos:"Liste boş"},
+  ja:{baslik:"🛒 買い物リスト",yeni:"+ 追加",kat:"カテゴリ",oncelik:"優先度",acil:"緊急",normal:"普通",tamamla:"完了",sil:"削除",ara:"検索...",bos:"リストは空です"},
+  de:{baslik:"🛒 Einkaufsliste",yeni:"+ Hinzufügen",kat:"Kategorie",oncelik:"Priorität",acil:"Dringend",normal:"Normal",tamamla:"Fertig",sil:"Löschen",ara:"Suchen...",bos:"Liste ist leer"}
+};
+function _uygula(){
+  localStorage.setItem('siteDil',_dil);
+  var btn=document.getElementById('_dilBtn');
+  if(btn)btn.textContent=_FLAGS[_dil]+' '+_dil.toUpperCase();
+  var t=_T[_dil]||_T['en'];
+  Object.keys(t).forEach(function(k){
+    var el=document.getElementById('_txt_'+k);
+    if(el)el.textContent=t[k];
+  });
+}
+function _degistir(){
+  var idx=_DILLER.indexOf(_dil);
+  _dil=_DILLER[(idx+1)%_DILLER.length];
+  _uygula();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var btn=document.createElement('button');
+  btn.id='_dilBtn';btn.className='dil-btn';
+  btn.onclick=_degistir;
+  document.body.appendChild(btn);
+  _uygula();
+});
+})();
 </script>
 </body>
 </html>
