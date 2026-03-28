@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎵 Online Müzik Aletleri</title>
+<style>
+body{font-family:sans-serif;background:#0a0c10;color:#fff;margin:0}
+.alet-tabs{display:flex;flex-wrap:wrap;gap:10px;padding:20px}
+.alet-tab{padding:10px;border:1px solid #333;cursor:pointer;border-radius:8px}
+.alet-tab.on{background:#FFE135;color:#000}
+.panel{display:none;padding:20px}
+.panel.on{display:block}
+</style>
+</head>
+<body>
+
+<div class="alet-tabs">
+  <div class="alet-tab on" data-id="piyano">🎹 Piyano</div>
+  <div class="alet-tab" data-id="davul">🥁 Davul</div>
+</div>
+
+<div id="p-piyano" class="panel on">Piyano paneli</div>
+<div id="p-davul" class="panel">Davul paneli</div>
+
+<script>
+// GLOBAL garanti
+window.aletSec = function(id, btn){
+  document.querySelectorAll('.alet-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+
+  if(btn) btn.classList.add('on');
+  const panel = document.getElementById('p-'+id);
+  if(panel) panel.classList.add('on');
+}
+
+// onclick yerine modern kullanım
+document.querySelectorAll('.alet-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    const id = tab.dataset.id;
+    window.aletSec(id, tab);
+  });
+});
+</script>
+
+</body>
+</html>
