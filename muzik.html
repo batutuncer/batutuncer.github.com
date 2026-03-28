@@ -4,44 +4,1845 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🎵 Online Müzik Aletleri</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-body{font-family:sans-serif;background:#0a0c10;color:#fff;margin:0}
-.alet-tabs{display:flex;flex-wrap:wrap;gap:10px;padding:20px}
-.alet-tab{padding:10px;border:1px solid #333;cursor:pointer;border-radius:8px}
-.alet-tab.on{background:#FFE135;color:#000}
-.panel{display:none;padding:20px}
-.panel.on{display:block}
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--purple:#c084fc;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10;}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:900px;margin:0 auto;padding:24px;}
+.alet-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;}
+.alet-tab{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.alet-tab:hover{border-color:rgba(255,255,255,0.2);}
+.alet-tab.on{border-color:var(--yellow);background:#1a1b10;}
+.alet-tab em{font-style:normal;font-size:1.4rem;display:block;margin-bottom:3px;}
+.alet-tab span{font-size:0.68rem;font-weight:700;color:var(--muted);}
+.alet-tab.on span{color:var(--yellow);}
+.panel{display:none;}
+.panel.on{display:block;}
+
+/* PİYANO */
+.piyano-wrap{overflow-x:auto;padding:20px 0;text-align:center;}
+.piyano{display:inline-flex;position:relative;height:180px;}
+.beyaz-tus{width:44px;height:180px;background:linear-gradient(to bottom,#f5f5f5,#fff);border:1px solid #ccc;border-radius:0 0 8px 8px;cursor:pointer;position:relative;flex-shrink:0;transition:background 0.08s;z-index:1;margin:0 1px;}
+.beyaz-tus:hover,.beyaz-tus.aktif{background:linear-gradient(to bottom,#FFE135,#ffd000);}
+.siyah-tus{width:28px;height:110px;background:linear-gradient(to bottom,#1a1a2e,#111);border-radius:0 0 6px 6px;cursor:pointer;position:absolute;top:0;z-index:2;margin-left:-14px;transition:background 0.08s;}
+.siyah-tus:hover,.siyah-tus.aktif{background:linear-gradient(to bottom,#333,#444);}
+.tus-nota{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:0.6rem;color:rgba(0,0,0,0.4);font-weight:700;pointer-events:none;}
+.piyano-info{text-align:center;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+
+/* DAVUL */
+.davul-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:600px;margin:0 auto;}
+.davul-pad{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all 0.1s;user-select:none;}
+.davul-pad:hover{border-color:rgba(255,255,255,0.2);}
+.davul-pad:active,.davul-pad.vurus{transform:scale(0.94);background:#1a1b10;}
+.davul-pad em{font-style:normal;font-size:2rem;display:block;margin-bottom:6px;}
+.davul-pad .d-ad{font-size:0.72rem;font-weight:700;color:var(--muted);}
+.davul-pad .d-tus{font-size:0.65rem;color:rgba(255,255,255,0.2);margin-top:4px;}
+
+/* GİTAR */
+.gitar-wrap{max-width:600px;margin:0 auto;}
+.akor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+.akor-btn{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;transition:all 0.15s;}
+.akor-btn:hover{border-color:var(--yellow);transform:translateY(-2px);}
+.akor-btn:active{transform:scale(0.96);}
+.akor-btn.aktif{border-color:var(--yellow);background:#1a1b10;}
+.akor-ad{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;}
+.akor-tur{font-size:0.68rem;color:var(--muted);margin-top:2px;}
+.gitar-teller{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:20px;margin-top:12px;}
+.tel-satir{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.tel-satir:last-child{margin-bottom:0;}
+.tel-no-lbl{font-size:0.72rem;color:var(--muted);width:40px;text-align:right;font-family:'JetBrains Mono',sans-serif;}
+.tel-cubuk{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.1);position:relative;cursor:pointer;}
+.tel-cubuk::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:100%;border-radius:2px;background:var(--yellow);transition:width 0.3s ease;}
+.tel-nota-lbl{font-size:0.72rem;color:var(--yellow);width:30px;font-weight:700;}
+
+/* XYLOPHONE */
+.xylo-wrap{overflow-x:auto;padding:10px 0;text-align:center;}
+.xylo{display:inline-flex;gap:6px;align-items:flex-end;padding:20px;}
+.xylo-cubuk{border-radius:8px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;transition:all 0.1s;min-width:50px;}
+.xylo-cubuk:hover{filter:brightness(1.2);}
+.xylo-cubuk:active,.xylo-cubuk.aktif{transform:scaleY(0.95);filter:brightness(1.4);}
+.xylo-cubuk span{font-size:0.7rem;font-weight:800;color:rgba(0,0,0,0.6);}
+
+/* TROMPET */
+.trompet-wrap{max-width:500px;margin:0 auto;text-align:center;}
+.trompet-img{font-size:6rem;margin:20px 0;}
+.ventil-row{display:flex;gap:16px;justify-content:center;margin-bottom:24px;}
+.ventil{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.08);border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;transition:all 0.1s;user-select:none;}
+.ventil:hover{border-color:var(--yellow);}
+.ventil.aktif{background:var(--yellow);color:#111;border-color:var(--yellow);}
+.trompet-nota{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--yellow);min-height:44px;margin-bottom:8px;}
+.trompet-tablo{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;margin-top:16px;text-align:left;}
+.trompet-tablo h3{font-size:0.78rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:10px;}
+.ventil-satir{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem;}
+.ventil-satir:last-child{border-bottom:none;}
+.ventil-goster{display:flex;gap:4px;}
+.v-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--border);}
+.v-dot.dolu{background:var(--yellow);border-color:var(--yellow);}
+.v-nota{color:var(--yellow);font-weight:700;min-width:40px;}
+
+/* FLÜT */
+.flut-wrap{max-width:600px;margin:0 auto;text-align:center;}
+.flut-delikler{display:flex;gap:12px;justify-content:center;margin:24px 0;flex-wrap:wrap;}
+.delik{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.04);border:2px solid var(--border);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:var(--muted);}
+.delik.kapali{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);}
+.delik:hover{border-color:var(--yellow);}
+.flut-nota-gos{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:var(--yellow);margin-bottom:8px;}
+.flut-cal-btn{padding:12px 28px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;font-size:0.95rem;}
+
+/* KEMAN */
+.keman-wrap{max-width:500px;margin:0 auto;text-align:center;}
+.yay-slider{width:100%;margin:20px 0;}
+.keman-teller{display:flex;gap:16px;justify-content:center;margin-bottom:20px;}
+.keman-tel{flex:1;max-width:80px;}
+.keman-tel-cubuk{height:200px;background:rgba(255,255,255,0.06);border-radius:4px;cursor:pointer;position:relative;transition:all 0.1s;border:1px solid var(--border);}
+.keman-tel-cubuk:hover{background:rgba(255,225,53,0.1);border-color:var(--yellow);}
+.keman-tel-cubuk.caliniyor{background:rgba(255,225,53,0.2);border-color:var(--yellow);}
+.keman-tel-lbl{font-size:0.8rem;font-weight:700;color:var(--yellow);margin-top:6px;}
+.keman-tel-frek{font-size:0.65rem;color:var(--muted);}
+
+
+/* PERDE DİYAGRAMI */
+.perde-diyagram{margin:16px auto;max-width:200px;text-align:center;}
+.perde-svg{display:block;margin:0 auto;}
+.perde-baslik{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--yellow);margin-bottom:8px;}
+.perde-aciklama{font-size:0.75rem;color:var(--muted);margin-top:6px;}
+
+/* BOYNUZ ANİMASYONU */
+.boynuz-wrap{text-align:center;margin:16px 0;}
+.boynuz-emoji{font-size:5rem;display:inline-block;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.boynuz-emoji.kaldir{transform:rotate(-40deg) scale(1.2);}
+
+/* DAVUL VURUŞ DİYAGRAMI */
+.davul-diyagram{margin:16px auto;max-width:220px;}
+
+/* ORTAK */
+.ses-gos{text-align:center;font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--muted);min-height:32px;margin:10px 0;}
+.hacim-row{display:flex;gap:10px;align-items:center;max-width:300px;margin:16px auto 0;}
+.hacim-lbl{font-size:0.75rem;color:var(--muted);font-weight:600;white-space:nowrap;}
+input.hacim{flex:1;-webkit-appearance:none;height:4px;border-radius:100px;background:rgba(255,255,255,0.1);cursor:pointer;}
+input.hacim::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--yellow);cursor:pointer;}
+
+@media(max-width:600px){.alet-tabs{grid-template-columns:repeat(4,1fr);}.davul-grid{grid-template-columns:repeat(3,1fr);}.akor-grid{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
+<header><h1>🎵 Online Müzik Aletleri</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<div class="wrap">
 
+<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;">Dünya Müziği</div>
+<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;">🌍 Dünya Müziği</div>
 <div class="alet-tabs">
-  <div class="alet-tab on" data-id="piyano">🎹 Piyano</div>
-  <div class="alet-tab" data-id="davul">🥁 Davul</div>
+  <div class="alet-tab on" onclick="aletSec('piyano',this)"><em>🎹</em><span>Piyano</span></div>
+  <div class="alet-tab" onclick="aletSec('davul',this)"><em>🥁</em><span>Davul</span></div>
+  <div class="alet-tab" onclick="aletSec('gitar',this)"><em>🎸</em><span>Gitar</span></div>
+  <div class="alet-tab" onclick="aletSec('xylo',this)"><em>🎶</em><span>Xylophone</span></div>
+  <div class="alet-tab" onclick="aletSec('trompet',this)"><em>🎺</em><span>Trompet</span></div>
+  <div class="alet-tab" onclick="aletSec('flut',this)"><em>🎵</em><span>Flüt</span></div>
+  <div class="alet-tab" onclick="aletSec('keman',this)"><em>🎻</em><span>Keman</span></div>
+  <div class="alet-tab" onclick="aletSec('org',this)"><em>🎹</em><span>Org</span></div>
+</div>
+<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-top:12px;margin-bottom:8px;">🇹🇷 Türk Müziği</div>
+<div class="alet-tabs">
+  <div class="alet-tab" onclick="aletSec('baglama',this)"><em>🪕</em><span>Bağlama</span></div>
+  <div class="alet-tab" onclick="aletSec('ud',this)"><em>🪕</em><span>Ud</span></div>
+  <div class="alet-tab" onclick="aletSec('darbuka',this)"><em>🥁</em><span>Darbuka</span></div>
+  <div class="alet-tab" onclick="aletSec('def',this)"><em>🥁</em><span>Def</span></div>
+  <div class="alet-tab" onclick="aletSec('ney',this)"><em>🎵</em><span>Ney</span></div>
+  <div class="alet-tab" onclick="aletSec('kemane',this)"><em>🎻</em><span>Kemane</span></div>
+  <div class="alet-tab" onclick="aletSec('zurna',this)"><em>🎵</em><span>Zurna</span></div>
+  <div class="alet-tab" onclick="aletSec('kaval',this)"><em>🎵</em><span>Kaval</span></div>
+</div>
+<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-top:12px;margin-bottom:8px;">⚔️ Viking & Orta Dünya</div>
+<div class="alet-tabs">
+  <div class="alet-tab" onclick="aletSec('lute',this)"><em>🎸</em><span>Lute</span></div>
+  <div class="alet-tab" onclick="aletSec('lyre',this)"><em>🎵</em><span>Lir</span></div>
+  <div class="alet-tab" onclick="aletSec('hurdygurdy',this)"><em>🎻</em><span>Hurdy-Gurdy</span></div>
+  <div class="alet-tab" onclick="aletSec('vikinghorn',this)"><em>🎺</em><span>Viking Horn</span></div>
+  <div class="alet-tab" onclick="aletSec('vikingdavul',this)"><em>🥁</em><span>Viking Davul</span></div>
+  <div class="alet-tab" onclick="aletSec('bodhran',this)"><em>🥁</em><span>Bodhrán</span></div>
+  <div class="alet-tab" onclick="aletSec('duduk',this)"><em>🎵</em><span>Duduk</span></div>
+  <div class="alet-tab" onclick="aletSec('lotrhorn',this)"><em>🎺</em><span>LotR Hornlar</span></div>
+  <div class="alet-tab" onclick="aletSec('goblin',this)"><em>🥁</em><span>Goblin Davul</span></div>
+</div>
+</div>
+<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;margin-top:8px;">🇹🇷 Türk Müziği</div>
+<div class="alet-tabs">
+  <div class="alet-tab" onclick="aletSec('baglama',this)"><em>🪕</em><span>Bağlama</span></div>
+  <div class="alet-tab" onclick="aletSec('ud',this)"><em>🪕</em><span>Ud</span></div>
+  <div class="alet-tab" onclick="aletSec('darbuka',this)"><em>🥁</em><span>Darbuka</span></div>
+  <div class="alet-tab" onclick="aletSec('def',this)"><em>🥁</em><span>Def</span></div>
+  <div class="alet-tab" onclick="aletSec('ney',this)"><em>🎵</em><span>Ney</span></div>
+  <div class="alet-tab" onclick="aletSec('kemane',this)"><em>🎻</em><span>Kemane</span></div>
+  <div class="alet-tab" onclick="aletSec('zurna',this)"><em>🎵</em><span>Zurna</span></div>
+  <div class="alet-tab" onclick="aletSec('kaval',this)"><em>🎵</em><span>Kaval</span></div>
 </div>
 
-<div id="p-piyano" class="panel on">Piyano paneli</div>
-<div id="p-davul" class="panel">Davul paneli</div>
+<!-- PİYANO -->
+<div class="panel on" id="p-piyano">
+  <div class="piyano-wrap" id="piyanoWrap"></div>
+  <div class="ses-gos" id="piyanoSes"></div>
+  <div class="piyano-info">Tıkla veya klavyeni kullan (A-Ş arası tuşlar)</div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="piyanoHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+</div>
+
+<!-- DAVUL -->
+<div class="panel" id="p-davul">
+  <div class="davul-grid" id="davulGrid"></div>
+  <div class="ses-gos" id="davulSes"></div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="davulHacim" min="0" max="1" step="0.05" value="0.6"/></div>
+</div>
+
+<!-- GİTAR -->
+<div class="panel" id="p-gitar">
+  <div class="gitar-wrap">
+    <div class="akor-grid" id="akorGrid"></div>
+    <div class="ses-gos" id="gitarSes">Bir akor seç</div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="gitarHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+
+<!-- XYLOPHONE -->
+<div class="panel" id="p-xylo">
+  <div class="xylo-wrap"><div class="xylo" id="xyloWrap"></div></div>
+  <div class="ses-gos" id="xyloSes"></div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="xyloHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+</div>
+
+<!-- TROMPET -->
+<div class="panel" id="p-trompet">
+  <div class="trompet-wrap">
+    <div class="trompet-img">🎺</div>
+    <div class="ventil-row">
+      <div class="ventil" id="v1" onclick="ventilToggle(1)">1</div>
+      <div class="ventil" id="v2" onclick="ventilToggle(2)">2</div>
+      <div class="ventil" id="v3" onclick="ventilToggle(3)">3</div>
+    </div>
+    <div class="trompet-nota" id="trompetNota">—</div>
+    <button onclick="trompetCal()" style="padding:12px 28px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;font-size:0.95rem;">▶ Çal</button>
+    <div class="trompet-tablo">
+      <h3>Ventil Kombinasyonları</h3>
+      <div id="trompetTablo"></div>
+    </div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="trompetHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+<!-- FLÜT -->
+<div class="panel" id="p-flut">
+  <div class="flut-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Delikleri aç/kapat ve çal!</p>
+    <div class="flut-delikler" id="flutDelikler"></div>
+    <div class="flut-nota-gos" id="flutNota">—</div>
+    <button class="flut-cal-btn" onclick="flutCal()">▶ Çal</button>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="flutHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+<!-- KEMAN -->
+<div class="panel" id="p-keman">
+  <div class="keman-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Tele tıkla ve çal!</p>
+    <div class="keman-teller">
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('G3',196)"></div><div class="keman-tel-lbl">G</div><div class="keman-tel-frek">196 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('D4',293.66)"></div><div class="keman-tel-lbl">D</div><div class="keman-tel-frek">294 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('A4',440)"></div><div class="keman-tel-lbl">A</div><div class="keman-tel-frek">440 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('E5',659.25)"></div><div class="keman-tel-lbl">E</div><div class="keman-tel-frek">659 Hz</div></div>
+    </div>
+    <div class="ses-gos" id="kemanSes"></div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="kemanHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+<!-- ORG -->
+<div class="panel" id="p-org">
+  <div id="orgWrap" class="piyano-wrap"></div>
+  <div class="ses-gos" id="orgSes"></div>
+  <div class="piyano-info">Org sesi — basılı tut için tıkla</div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="orgHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+</div>
+
+<!-- BAĞLAMA -->
+<div class="panel" id="p-baglama">
+  <div class="gitar-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Bağlama perdeleri — tıklayarak çal</p>
+    <div class="akor-grid" id="baglamaGrid"></div>
+    <div class="ses-gos" id="baglamaSes">Bir perde seç</div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="baglamaHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+
+<!-- UD -->
+<div class="panel" id="p-ud">
+  <div class="gitar-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Ud telleri ve makamlar</p>
+    <div class="akor-grid" id="udGrid"></div>
+    <div class="ses-gos" id="udSes">Bir tel seç</div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="udHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+
+<!-- DARBUKA -->
+<div class="panel" id="p-darbuka">
+  <div class="davul-grid" id="darbukaGrid"></div>
+  <div class="ses-gos" id="darbukaSes"></div>
+  <div style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto;">
+    <div style="font-size:0.75rem;color:var(--muted);font-weight:600;margin-bottom:8px;">Düm-Tek Ritim Rehberi</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.82rem;">
+      <div style="padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;"><span style="color:var(--yellow);font-weight:700;">Düm</span> — Ana vuruş</div>
+      <div style="padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;"><span style="color:var(--green);font-weight:700;">Tek</span> — Yan vuruş</div>
+      <div style="padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;"><span style="color:var(--blue);font-weight:700;">Ka</span> — Sol el</div>
+      <div style="padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;"><span style="color:var(--red);font-weight:700;">Teke</span> — Çift vuruş</div>
+    </div>
+  </div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="darbukaHacim" min="0" max="1" step="0.05" value="0.6"/></div>
+</div>
+
+<!-- DEF -->
+<div class="panel" id="p-def">
+  <div class="davul-grid" id="defGrid"></div>
+  <div class="ses-gos" id="defSes"></div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="defHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+</div>
+
+<!-- NEY -->
+<div class="panel" id="p-ney">
+  <div class="flut-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Ney delikleri — Türk makam sistemi</p>
+    <div class="flut-delikler" id="neyDelikler"></div>
+    <div class="flut-nota-gos" id="neyNota">—</div>
+    <button class="flut-cal-btn" onclick="neyCal()">▶ Çal</button>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="neyHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+<!-- KEMANE -->
+<div class="panel" id="p-kemane">
+  <div class="keman-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Kemane teline tıkla ve çal!</p>
+    <div class="keman-teller">
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('G3',196)"></div><div class="keman-tel-lbl">G</div><div class="keman-tel-frek">196 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('D4',293.66)"></div><div class="keman-tel-lbl">D</div><div class="keman-tel-frek">294 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('A4',440)"></div><div class="keman-tel-lbl">A</div><div class="keman-tel-frek">440 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('E5',659.25)"></div><div class="keman-tel-lbl">E</div><div class="keman-tel-frek">659 Hz</div></div>
+    </div>
+    <div class="ses-gos" id="kemaneSes"></div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="kemaneHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+<!-- ZURNA -->
+<div class="panel" id="p-zurna">
+  <div class="flut-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Zurna — güçlü nefes çalgısı</p>
+    <div class="flut-delikler" id="zurnaDelikler"></div>
+    <div class="flut-nota-gos" id="zurnaNota">—</div>
+    <button class="flut-cal-btn" onclick="zurnaCal()">▶ Çal</button>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="zurnaHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+<!-- KAVAL -->
+<div class="panel" id="p-kaval">
+  <div class="flut-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Kaval — Anadolu nefes çalgısı</p>
+    <div class="flut-delikler" id="kavalDelikler"></div>
+    <div class="flut-nota-gos" id="kavalNota">—</div>
+    <button class="flut-cal-btn" onclick="kavalCal()">▶ Çal</button>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="kavalHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+
+</div>
+
+<!-- LUTE -->
+<div class="panel" id="p-lute">
+  <div class="gitar-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Orta Dünya lute — tıkla ve çal!</p>
+    <div class="akor-grid" id="luteGrid"></div>
+    <div class="ses-gos" id="luteSes">Bir nota seç</div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="luteHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+<!-- LİR -->
+<div class="panel" id="p-lyre">
+  <div class="keman-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Antik lir — 7 tel</p>
+    <div class="keman-teller" id="lyreStrings"></div>
+    <div class="ses-gos" id="lyreSes"></div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="lyreHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+<!-- HURDY-GURDY -->
+<div class="panel" id="p-hurdygurdy">
+  <div class="gitar-wrap" style="text-align:center;">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Hurdy-Gurdy — drone + melodi</p>
+    <div id="hgDroneStatus" style="font-family:Syne,sans-serif;font-size:1rem;color:var(--muted);margin-bottom:12px;">Drone: Kapalı</div>
+    <button onclick="hgDroneToggle()" style="padding:12px 28px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--yellow);font-family:Syne,sans-serif;font-weight:700;cursor:pointer;margin-bottom:20px;">⚙️ Drone Aç/Kapat</button>
+    <div class="akor-grid" id="hgGrid"></div>
+    <div class="ses-gos" id="hgSes"></div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="hgHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+<!-- VİKİNG HORN -->
+<div class="panel" id="p-vikinghorn">
+  <div class="trompet-wrap">
+    <div class="trompet-img">📯</div>
+    <div class="akor-grid" id="vikingHornGrid"></div>
+    <div class="ses-gos" id="vikingHornSes"></div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="vikingHornHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+<!-- VİKİNG DAVUL -->
+<div class="panel" id="p-vikingdavul">
+  <div class="davul-grid" id="vikingDavulGrid"></div>
+  <div class="ses-gos" id="vikingDavulSes"></div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="vikingDavulHacim" min="0" max="1" step="0.05" value="0.6"/></div>
+</div>
+<!-- BODHRAN -->
+<div class="panel" id="p-bodhran">
+  <div class="davul-grid" id="bodhranGrid"></div>
+  <div class="ses-gos" id="bodhranSes"></div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="bodhranHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+</div>
+<!-- DUDUK -->
+<div class="panel" id="p-duduk">
+  <div class="flut-wrap">
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Duduk — kamış çalgısı, hüzünlü ses</p>
+    <div class="flut-delikler" id="dudukDelikler"></div>
+    <div class="flut-nota-gos" id="dudukNota">—</div>
+    <button class="flut-cal-btn" onclick="dudukCal()">▶ Çal</button>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="dudukHacim" min="0" max="1" step="0.05" value="0.4"/></div>
+  </div>
+</div>
+<!-- LotR HORNLAR -->
+<div class="panel" id="p-lotrhorn">
+  <div class="trompet-wrap">
+    <div class="trompet-img">🎺</div>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Orta Dünya hornları — epik sesler!</p>
+    <div class="akor-grid" id="lotrHornGrid"></div>
+    <div class="ses-gos" id="lotrHornSes"></div>
+    <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="lotrHornHacim" min="0" max="1" step="0.05" value="0.5"/></div>
+  </div>
+</div>
+<!-- GOBLIN DAVUL -->
+<div class="panel" id="p-goblin">
+  <div class="davul-grid" id="goblinGrid"></div>
+  <div class="ses-gos" id="goblinSes"></div>
+  <div style="background:var(--card);border:1.5px solid rgba(248,113,113,0.3);border-radius:14px;padding:14px;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto;">
+    <div style="font-size:0.78rem;color:var(--red);font-weight:700;margin-bottom:4px;">⚠️ Goblin Ritmi</div>
+    <div style="font-size:0.8rem;color:var(--muted);">BANG-crash-BANG-BANG · Kaotik ve vahşi!</div>
+  </div>
+  <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="goblinHacim" min="0" max="1" step="0.05" value="0.6"/></div>
+</div>
 
 <script>
-// GLOBAL garanti
-window.aletSec = function(id, btn){
-  document.querySelectorAll('.alet-tab').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var ac = null;
+function getAc(){ if(!ac) ac=new AudioContext(); return ac; }
 
+function aletSec(id, btn){
+  document.querySelectorAll('.alet-tab').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
   if(btn) btn.classList.add('on');
-  const panel = document.getElementById('p-'+id);
-  if(panel) panel.classList.add('on');
+  document.getElementById('p-'+id).classList.add('on');
 }
 
-// onclick yerine modern kullanım
-document.querySelectorAll('.alet-tab').forEach(tab=>{
-  tab.addEventListener('click', ()=>{
-    const id = tab.dataset.id;
-    window.aletSec(id, tab);
+// Ses çalma yardımcıları
+function sineSes(frek, sure, tip, hacim){
+  var a=getAc();
+  var osc=a.createOscillator();
+  var gain=a.createGain();
+  osc.connect(gain); gain.connect(a.destination);
+  osc.type=tip||'sine';
+  osc.frequency.value=frek;
+  gain.gain.setValueAtTime(hacim||0.5, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime+sure);
+  osc.start(); osc.stop(a.currentTime+sure);
+}
+
+function davulSes(tip, hacim){
+  var a=getAc();
+  var buf=a.createBuffer(1, a.sampleRate*0.5, a.sampleRate);
+  var data=buf.getChannelData(0);
+  for(var i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,tip==='davul'?3:tip==='darbuka'?4:2);
+  var src=a.createBufferSource();
+  src.buffer=buf;
+  var gain=a.createGain();
+  src.connect(gain); gain.connect(a.destination);
+  gain.gain.value=hacim||0.5;
+  if(tip==='davul'||tip==='darbuka'){
+    var osc=a.createOscillator();
+    osc.connect(gain);
+    osc.frequency.setValueAtTime(tip==='davul'?120:200, a.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(30, a.currentTime+0.3);
+    osc.start(); osc.stop(a.currentTime+0.3);
+  }
+  src.start(); src.stop(a.currentTime+0.5);
+}
+
+// ═══════════════ PİYANO ═══════════════
+var PIYANO_NOTALAR = [
+  {nota:'C4',frek:261.63,siyah:false,tus:'a'},
+  {nota:'C#4',frek:277.18,siyah:true,tus:'w'},
+  {nota:'D4',frek:293.66,siyah:false,tus:'s'},
+  {nota:'D#4',frek:311.13,siyah:true,tus:'e'},
+  {nota:'E4',frek:329.63,siyah:false,tus:'d'},
+  {nota:'F4',frek:349.23,siyah:false,tus:'f'},
+  {nota:'F#4',frek:369.99,siyah:true,tus:'t'},
+  {nota:'G4',frek:392.00,siyah:false,tus:'g'},
+  {nota:'G#4',frek:415.30,siyah:true,tus:'y'},
+  {nota:'A4',frek:440.00,siyah:false,tus:'h'},
+  {nota:'A#4',frek:466.16,siyah:true,tus:'u'},
+  {nota:'B4',frek:493.88,siyah:false,tus:'j'},
+  {nota:'C5',frek:523.25,siyah:false,tus:'k'},
+  {nota:'C#5',frek:554.37,siyah:true,tus:'o'},
+  {nota:'D5',frek:587.33,siyah:false,tus:'l'},
+  {nota:'D#5',frek:622.25,siyah:true,tus:'p'},
+  {nota:'E5',frek:659.25,siyah:false,tus:'ş'},
+];
+
+function piyanoOlustur(wraId, tip){
+  var wrap = document.getElementById(wraId);
+  wrap.innerHTML = '';
+  var piyano = document.createElement('div');
+  piyano.className = 'piyano';
+  var beyazlar = PIYANO_NOTALAR.filter(function(n){return !n.siyah;});
+  var beyazIdx = 0;
+  beyazlar.forEach(function(n, bi){
+    var div = document.createElement('div');
+    div.className = 'beyaz-tus';
+    div.id = (tip||'p')+'-'+n.nota.replace('#','s');
+    div.innerHTML = '<div class="tus-nota">'+n.nota+'</div>';
+    div.addEventListener('mousedown', function(){ calTus(n, tip); });
+    piyano.appendChild(div);
+    // Siyah tuş var mı?
+    var siradaki = PIYANO_NOTALAR[PIYANO_NOTALAR.indexOf(n)+1];
+    if(siradaki && siradaki.siyah){
+      var sb = document.createElement('div');
+      sb.className = 'siyah-tus';
+      sb.id = (tip||'p')+'-'+siradaki.nota.replace('#','s');
+      sb.style.left = (bi*46 + 46 - 14 + bi*2) + 'px';
+      sb.addEventListener('mousedown', function(){ calTus(siradaki, tip); });
+      piyano.appendChild(sb);
+    }
+  });
+  wrap.appendChild(piyano);
+}
+
+function calTus(n, tip){
+  var hacimEl = document.getElementById((tip==='org'?'org':'piyano')+'Hacim');
+  var hacim = hacimEl ? parseFloat(hacimEl.value) : 0.5;
+  var sesEl = document.getElementById((tip==='org'?'org':'piyano')+'Ses');
+  if(sesEl) sesEl.textContent = n.nota + ' — ' + n.frek.toFixed(2) + ' Hz';
+  sineSes(n.frek, tip==='org'?0.8:0.6, tip==='org'?'sawtooth':'triangle', hacim);
+  var el = document.getElementById((tip||'p')+'-'+n.nota.replace('#','s'));
+  if(el){ el.classList.add('aktif'); setTimeout(function(){el.classList.remove('aktif');}, 200); }
+}
+
+piyanoOlustur('piyanoWrap', 'p');
+piyanoOlustur('orgWrap', 'org');
+
+// Klavye desteği
+var tusMap = {};
+PIYANO_NOTALAR.forEach(function(n){ if(n.tus) tusMap[n.tus]=n; });
+document.addEventListener('keydown', function(e){
+  if(document.getElementById('p-piyano').classList.contains('on')){
+    var n=tusMap[e.key.toLowerCase()];
+    if(n) calTus(n, 'p');
+  }
+});
+
+// ═══════════════ DAVUL ═══════════════
+var DAVULLAR = [
+  {em:'🥁',ad:'Bas Davul',tus:'q',tip:'davul',renk:'#f87171'},
+  {em:'💥',ad:'Snare',tus:'w',tip:'snare',renk:'#fb923c'},
+  {em:'🔔',ad:'Hi-Hat',tus:'e',tip:'hihat',renk:'#FFE135'},
+  {em:'🪘',ad:'Darbuka',tus:'r',tip:'darbuka',renk:'#4ade80'},
+  {em:'🔊',ad:'Tom 1',tus:'a',tip:'tom1',renk:'#60a5fa'},
+  {em:'🔉',ad:'Tom 2',tus:'s',tip:'tom2',renk:'#a78bfa'},
+  {em:'🎵',ad:'Crash',tus:'d',tip:'crash',renk:'#f0abfc'},
+  {em:'⚡',ad:'Ride',tus:'f',tip:'ride',renk:'#34d399'},
+];
+
+var davulGrid = document.getElementById('davulGrid');
+DAVULLAR.forEach(function(d){
+  var div = document.createElement('div');
+  div.className = 'davul-pad';
+  div.style.borderColor = d.renk+'44';
+  div.innerHTML = '<em>'+d.em+'</em><div class="d-ad">'+d.ad+'</div><div class="d-tus">['+d.tus.toUpperCase()+']</div>';
+  div.addEventListener('click', function(){
+    var h = parseFloat(document.getElementById('davulHacim').value);
+    davulSes(d.tip, h);
+    document.getElementById('davulSes').textContent = d.ad;
+    div.classList.add('vurus');
+    div.style.borderColor = d.renk;
+    setTimeout(function(){div.classList.remove('vurus');div.style.borderColor=d.renk+'44';}, 150);
+  });
+  davulGrid.appendChild(div);
+});
+
+var davulTusMap = {};
+DAVULLAR.forEach(function(d){ davulTusMap[d.tus]=d; });
+document.addEventListener('keydown', function(e){
+  if(document.getElementById('p-davul').classList.contains('on')){
+    var d=davulTusMap[e.key.toLowerCase()];
+    if(d){ var h=parseFloat(document.getElementById('davulHacim').value); davulSes(d.tip,h); document.getElementById('davulSes').textContent=d.ad; }
+  }
+});
+
+// ═══════════════ GİTAR AKORLAR ═══════════════
+var AKORLAR = [
+  {ad:'C',tur:'Majör',frekler:[261.63,329.63,392.00,523.25]},
+  {ad:'D',tur:'Majör',frekler:[293.66,369.99,440.00,587.33]},
+  {ad:'E',tur:'Majör',frekler:[329.63,415.30,493.88,659.25]},
+  {ad:'F',tur:'Majör',frekler:[349.23,440.00,523.25,698.46]},
+  {ad:'G',tur:'Majör',frekler:[392.00,493.88,587.33,783.99]},
+  {ad:'A',tur:'Majör',frekler:[440.00,554.37,659.25,880.00]},
+  {ad:'B',tur:'Majör',frekler:[493.88,622.25,739.99,987.77]},
+  {ad:'Am',tur:'Minör',frekler:[440.00,523.25,659.25,880.00]},
+  {ad:'Em',tur:'Minör',frekler:[329.63,392.00,493.88,659.25]},
+  {ad:'Dm',tur:'Minör',frekler:[293.66,349.23,440.00,587.33]},
+  {ad:'C7',tur:'Dominant',frekler:[261.63,329.63,392.00,466.16]},
+  {ad:'G7',tur:'Dominant',frekler:[392.00,493.88,587.33,740.00]},
+];
+
+var renkler={Majör:'var(--yellow)',Minör:'var(--blue)',Dominant:'var(--purple)'};
+var akorGrid = document.getElementById('akorGrid');
+AKORLAR.forEach(function(a){
+  var div=document.createElement('div');
+  div.className='akor-btn';
+  div.style.borderColor=renkler[a.tur]+'44';
+  div.innerHTML='<div class="akor-ad" style="color:'+renkler[a.tur]+'">'+a.ad+'</div><div class="akor-tur">'+a.tur+'</div>';
+  div.addEventListener('click', function(){
+    document.querySelectorAll('.akor-btn').forEach(function(b){b.classList.remove('aktif');});
+    div.classList.add('aktif');
+    var h=parseFloat(document.getElementById('gitarHacim').value);
+    document.getElementById('gitarSes').textContent=a.ad+' '+a.tur;
+    a.frekler.forEach(function(f,i){
+      setTimeout(function(){ sineSes(f, 1.2, 'sawtooth', h*0.4); }, i*60);
+    });
+  });
+  akorGrid.appendChild(div);
+});
+
+// ═══════════════ XYLOPHONE ═══════════════
+var XYLO_NOTALAR = [
+  {nota:'C5',frek:523.25,renk:'#f87171',boy:200},
+  {nota:'D5',frek:587.33,renk:'#fb923c',boy:185},
+  {nota:'E5',frek:659.25,renk:'#FFE135',boy:170},
+  {nota:'F5',frek:698.46,renk:'#4ade80',boy:158},
+  {nota:'G5',frek:783.99,renk:'#60a5fa',boy:145},
+  {nota:'A5',frek:880.00,renk:'#a78bfa',boy:132},
+  {nota:'B5',frek:987.77,renk:'#f0abfc',boy:120},
+  {nota:'C6',frek:1046.50,renk:'#f87171',boy:110},
+];
+var xyloWrap=document.getElementById('xyloWrap');
+XYLO_NOTALAR.forEach(function(n){
+  var div=document.createElement('div');
+  div.className='xylo-cubuk';
+  div.style.background=n.renk;
+  div.style.height=n.boy+'px';
+  div.innerHTML='<span>'+n.nota+'</span>';
+  div.addEventListener('click', function(){
+    var h=parseFloat(document.getElementById('xyloHacim').value);
+    sineSes(n.frek, 0.8, 'sine', h);
+    document.getElementById('xyloSes').textContent=n.nota+' — '+n.frek+' Hz';
+    div.classList.add('aktif');
+    setTimeout(function(){div.classList.remove('aktif');},150);
+  });
+  xyloWrap.appendChild(div);
+});
+
+// ═══════════════ TROMPET ═══════════════
+var ventilDurum={1:false,2:false,3:false};
+var TROMPET_NOTALAR=[
+  {ventil:[],nota:'C5',frek:523.25},
+  {ventil:[2],nota:'B4',frek:493.88},
+  {ventil:[1],nota:'A#4',frek:466.16},
+  {ventil:[1,2],nota:'A4',frek:440.00},
+  {ventil:[2,3],nota:'G#4',frek:415.30},
+  {ventil:[1,3],nota:'G4',frek:392.00},
+  {ventil:[1,2,3],nota:'F#4',frek:369.99},
+  {ventil:[3],nota:'F4',frek:349.23},
+  {ventil:[1,3],nota:'E4',frek:329.63},
+  {ventil:[2,3],nota:'D#4',frek:311.13},
+  {ventil:[1,2],nota:'D4',frek:293.66},
+  {ventil:[1],nota:'C#4',frek:277.18},
+];
+
+var tablo=document.getElementById('trompetTablo');
+TROMPET_NOTALAR.slice(0,8).forEach(function(n){
+  var div=document.createElement('div');
+  div.className='ventil-satir';
+  var dots='<div class="ventil-goster">';
+  [1,2,3].forEach(function(v){dots+='<div class="v-dot'+(n.ventil.indexOf(v)!==-1?' dolu':'')+'"></div>';});
+  dots+='</div>';
+  div.innerHTML=dots+'<span class="v-nota">'+n.nota+'</span><span style="color:var(--muted);font-size:0.75rem;">'+n.frek+' Hz</span>';
+  div.addEventListener('click', function(){
+    n.ventil.forEach(function(v){
+      ventilDurum[v]=!ventilDurum[v];
+      document.getElementById('v'+v).classList.toggle('aktif',ventilDurum[v]);
+    });
+    trompetNota();
+    trompetCal();
+  });
+  tablo.appendChild(div);
+});
+
+function ventilToggle(v){
+  ventilDurum[v]=!ventilDurum[v];
+  document.getElementById('v'+v).classList.toggle('aktif',ventilDurum[v]);
+  trompetNota();
+}
+
+function trompetNota(){
+  var aktifler=Object.keys(ventilDurum).filter(function(k){return ventilDurum[k];}).map(Number);
+  aktifler.sort();
+  var bulundu=TROMPET_NOTALAR.find(function(n){
+    var ns=[...n.ventil].sort();
+    return JSON.stringify(ns)===JSON.stringify(aktifler);
+  });
+  document.getElementById('trompetNota').textContent=bulundu?bulundu.nota:'—';
+}
+
+function trompetCal(){
+  var aktifler=Object.keys(ventilDurum).filter(function(k){return ventilDurum[k];}).map(Number);
+  aktifler.sort();
+  var bulundu=TROMPET_NOTALAR.find(function(n){
+    return JSON.stringify([...n.ventil].sort())===JSON.stringify(aktifler);
+  });
+  if(bulundu){
+    var h=parseFloat(document.getElementById('trompetHacim').value);
+    sineSes(bulundu.frek, 0.8, 'sawtooth', h);
+  }
+}
+
+// ═══════════════ FLÜT ═══════════════
+var FLUT_NOTALAR=[
+  {delikler:[1,1,1,1,1,1],nota:'D4',frek:293.66},
+  {delikler:[1,1,1,1,1,0],nota:'E4',frek:329.63},
+  {delikler:[1,1,1,1,0,0],nota:'F4',frek:349.23},
+  {delikler:[1,1,1,0,0,0],nota:'G4',frek:392.00},
+  {delikler:[1,1,0,0,0,0],nota:'A4',frek:440.00},
+  {delikler:[1,0,0,0,0,0],nota:'B4',frek:493.88},
+  {delikler:[0,0,0,0,0,0],nota:'C5',frek:523.25},
+];
+var flutDelikler=document.getElementById('flutDelikler');
+var flutDurum=[1,1,1,1,1,1];
+for(var i=0;i<6;i++){
+  (function(idx){
+    var div=document.createElement('div');
+    div.className='delik kapali';
+    div.textContent=(idx+1);
+    div.addEventListener('click', function(){
+      flutDurum[idx]=flutDurum[idx]?0:1;
+      div.classList.toggle('kapali',flutDurum[idx]===1);
+      flutNota();
+    });
+    flutDelikler.appendChild(div);
+  })(i);
+}
+
+function flutNota(){
+  var n=FLUT_NOTALAR.find(function(n){return JSON.stringify(n.delikler)===JSON.stringify(flutDurum);});
+  document.getElementById('flutNota').textContent=n?n.nota:'?';
+}
+
+function flutCal(){
+  var n=FLUT_NOTALAR.find(function(n){return JSON.stringify(n.delikler)===JSON.stringify(flutDurum);});
+  if(n){var h=parseFloat(document.getElementById('flutHacim').value);sineSes(n.frek,1,'sine',h);}
+}
+flutNota();
+
+// ═══════════════ KEMAN ═══════════════
+function kemanCal(nota, frek){
+  var h=parseFloat(document.getElementById('kemanHacim').value);
+  document.getElementById('kemanSes').textContent=nota+' — '+frek.toFixed(2)+' Hz';
+  sineSes(frek, 1.5, 'sawtooth', h*0.6);
+  document.querySelectorAll('.keman-tel-cubuk').forEach(function(c){c.classList.remove('caliniyor');});
+  event.currentTarget.classList.add('caliniyor');
+  setTimeout(function(){event.currentTarget.classList.remove('caliniyor');},1500);
+}
+
+// ═══════════════ TÜRK MÜZİK ALETLERİ ═══════════════
+
+// Gerçekçi ses üretici - FM sentez
+function fmSes(frekans, sure, harmonik, hacim, vibrato) {
+  var a = getAc();
+  var carrier = a.createOscillator();
+  var modulator = a.createOscillator();
+  var modGain = a.createGain();
+  var gain = a.createGain();
+  var filter = a.createBiquadFilter();
+
+  modulator.connect(modGain);
+  modGain.connect(carrier.frequency);
+  carrier.connect(filter);
+  filter.connect(gain);
+  gain.connect(a.destination);
+
+  carrier.type = 'sine';
+  carrier.frequency.value = frekans;
+  modulator.type = 'sine';
+  modulator.frequency.value = frekans * (harmonik || 1);
+  modGain.gain.value = vibrato ? frekans * 0.3 : frekans * (harmonik || 0.5);
+
+  filter.type = 'lowpass';
+  filter.frequency.value = frekans * 4;
+  filter.Q.value = 1;
+
+  var vol = hacim || 0.4;
+  gain.gain.setValueAtTime(vol, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(vol * 0.6, a.currentTime + 0.1);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+
+  modulator.start(a.currentTime);
+  carrier.start(a.currentTime);
+  modulator.stop(a.currentTime + sure);
+  carrier.stop(a.currentTime + sure);
+}
+
+// Bağlama sesi - telli çalgı benzeri
+function baglamaSes(frek, hacim) {
+  var a = getAc();
+  // Telli çalgı: birden fazla harmonik
+  [1, 2, 3, 4].forEach(function(h, i) {
+    var osc = a.createOscillator();
+    var gain = a.createGain();
+    osc.connect(gain); gain.connect(a.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.value = frek * h;
+    var v = (hacim || 0.4) * (1 / (i + 1)) * 0.5;
+    gain.gain.setValueAtTime(v, a.currentTime);
+    gain.gain.setValueAtTime(v * 0.8, a.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.5);
+    osc.start(); osc.stop(a.currentTime + 1.5);
+  });
+}
+
+// Ud sesi
+function udSes(frek, hacim) {
+  var a = getAc();
+  [1, 1.5, 2, 3].forEach(function(h, i) {
+    var osc = a.createOscillator();
+    var gain = a.createGain();
+    var filter = a.createBiquadFilter();
+    osc.connect(filter); filter.connect(gain); gain.connect(a.destination);
+    osc.type = i === 0 ? 'sine' : 'triangle';
+    osc.frequency.value = frek * h;
+    filter.type = 'lowpass';
+    filter.frequency.value = frek * 3;
+    var v = (hacim || 0.4) * (0.6 / (i + 1));
+    gain.gain.setValueAtTime(v, a.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.8);
+    osc.start(); osc.stop(a.currentTime + 1.8);
+  });
+}
+
+// Darbuka sesi - gerçekçi davul
+function darbukaSesi(tip, hacim) {
+  var a = getAc();
+  var sure = tip === 'dum' ? 0.4 : tip === 'tek' ? 0.15 : 0.1;
+  var baseFreq = tip === 'dum' ? 80 : tip === 'tek' ? 300 : 500;
+
+  // Ton kısmı
+  var osc = a.createOscillator();
+  var oscGain = a.createGain();
+  osc.connect(oscGain); oscGain.connect(a.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(baseFreq, a.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.3, a.currentTime + sure);
+  oscGain.gain.setValueAtTime(hacim || 0.6, a.currentTime);
+  oscGain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+  osc.start(); osc.stop(a.currentTime + sure);
+
+  // Gürültü kısmı
+  var buf = a.createBuffer(1, a.sampleRate * sure, a.sampleRate);
+  var data = buf.getChannelData(0);
+  for (var i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i/data.length, 4);
+  var src = a.createBufferSource();
+  var noiseGain = a.createGain();
+  src.buffer = buf;
+  src.connect(noiseGain); noiseGain.connect(a.destination);
+  noiseGain.gain.value = (hacim || 0.5) * 0.3;
+  src.start(); src.stop(a.currentTime + sure);
+}
+
+// Def sesi
+function defSesi(tip, hacim) {
+  var a = getAc();
+  var sure = 0.5;
+  var osc = a.createOscillator();
+  var gain = a.createGain();
+  osc.connect(gain); gain.connect(a.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(tip === 'ana' ? 120 : 200, a.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(40, a.currentTime + sure);
+  gain.gain.setValueAtTime(hacim || 0.5, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+  osc.start(); osc.stop(a.currentTime + sure);
+  // Ziller
+  if (tip === 'zil') {
+    [1000, 1500, 2000].forEach(function(f) {
+      var o2 = a.createOscillator();
+      var g2 = a.createGain();
+      o2.connect(g2); g2.connect(a.destination);
+      o2.type = 'sine'; o2.frequency.value = f;
+      g2.gain.setValueAtTime(0.15, a.currentTime);
+      g2.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.3);
+      o2.start(); o2.stop(a.currentTime + 0.3);
+    });
+  }
+}
+
+// Ney sesi - nefes + ton
+function neySesi(frek, hacim) {
+  var a = getAc();
+  // Nefes gürültüsü
+  var buf = a.createBuffer(1, a.sampleRate * 1.2, a.sampleRate);
+  var data = buf.getChannelData(0);
+  for (var i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.3;
+  var src = a.createBufferSource();
+  src.buffer = buf;
+  var bpf = a.createBiquadFilter();
+  bpf.type = 'bandpass';
+  bpf.frequency.value = frek;
+  bpf.Q.value = 8;
+  var noiseGain = a.createGain();
+  src.connect(bpf); bpf.connect(noiseGain); noiseGain.connect(a.destination);
+  noiseGain.gain.setValueAtTime(0.2, a.currentTime);
+  noiseGain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.2);
+  src.start(); src.stop(a.currentTime + 1.2);
+
+  // Ana ton
+  fmSes(frek, 1.2, 0.5, (hacim || 0.4) * 0.6, true);
+}
+
+// Kemane sesi - yay çalgısı
+function kemaneSesi(frek, hacim) {
+  var a = getAc();
+  var osc = a.createOscillator();
+  var gain = a.createGain();
+  var filter = a.createBiquadFilter();
+  var vibOsc = a.createOscillator();
+  var vibGain = a.createGain();
+
+  vibOsc.connect(vibGain);
+  vibGain.connect(osc.frequency);
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(a.destination);
+
+  osc.type = 'sawtooth';
+  osc.frequency.value = frek;
+  vibOsc.type = 'sine';
+  vibOsc.frequency.value = 5.5;
+  vibGain.gain.value = frek * 0.02;
+
+  filter.type = 'lowpass';
+  filter.frequency.value = frek * 5;
+
+  var vol = hacim || 0.4;
+  gain.gain.setValueAtTime(0, a.currentTime);
+  gain.gain.linearRampToValueAtTime(vol, a.currentTime + 0.1);
+  gain.gain.setValueAtTime(vol, a.currentTime + 1.0);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.5);
+
+  vibOsc.start(); osc.start();
+  vibOsc.stop(a.currentTime + 1.5);
+  osc.stop(a.currentTime + 1.5);
+}
+
+// Zurna sesi - keskin nefes
+function zurnaSesi(frek, hacim) {
+  var a = getAc();
+  [1, 2, 3, 4, 5].forEach(function(h, i) {
+    var osc = a.createOscillator();
+    var gain = a.createGain();
+    osc.connect(gain); gain.connect(a.destination);
+    osc.type = 'square';
+    osc.frequency.value = frek * h;
+    var v = (hacim || 0.3) * (0.5 / (i + 1));
+    gain.gain.setValueAtTime(v, a.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.8);
+    osc.start(); osc.stop(a.currentTime + 0.8);
+  });
+}
+
+// Kaval sesi - yumuşak nefes
+function kavalSesi(frek, hacim) {
+  var a = getAc();
+  var buf = a.createBuffer(1, a.sampleRate, a.sampleRate);
+  var data = buf.getChannelData(0);
+  for (var i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.15;
+  var src = a.createBufferSource();
+  src.buffer = buf;
+  var bpf = a.createBiquadFilter();
+  bpf.type = 'bandpass';
+  bpf.frequency.value = frek;
+  bpf.Q.value = 12;
+  var ng = a.createGain();
+  src.connect(bpf); bpf.connect(ng); ng.connect(a.destination);
+  ng.gain.value = 0.15;
+  src.start(); src.stop(a.currentTime + 1);
+  fmSes(frek, 1.0, 0.25, (hacim || 0.4) * 0.7, true);
+}
+
+// ═══ BAĞLAMA notaları ═══
+var BAGLAMA_NOTALAR = [
+  {ad:'D3',frek:146.83,renk:'var(--yellow)'},{ad:'E3',frek:164.81,renk:'var(--green)'},
+  {ad:'F3',frek:174.61,renk:'var(--blue)'},{ad:'G3',frek:196.00,renk:'var(--purple)'},
+  {ad:'A3',frek:220.00,renk:'var(--yellow)'},{ad:'B3',frek:246.94,renk:'var(--green)'},
+  {ad:'C4',frek:261.63,renk:'var(--blue)'},{ad:'D4',frek:293.66,renk:'var(--purple)'},
+  {ad:'E4',frek:329.63,renk:'var(--yellow)'},{ad:'F4',frek:349.23,renk:'var(--green)'},
+  {ad:'G4',frek:392.00,renk:'var(--blue)'},{ad:'A4',frek:440.00,renk:'var(--purple)'},
+];
+var baglamaGrid = document.getElementById('baglamaGrid');
+if (baglamaGrid) {
+  BAGLAMA_NOTALAR.forEach(function(n) {
+    var div = document.createElement('div');
+    div.className = 'akor-btn';
+    div.style.borderColor = n.renk + '66';
+    div.innerHTML = '<div class="akor-ad" style="color:'+n.renk+'">'+n.ad+'</div><div class="akor-tur">'+n.frek.toFixed(1)+' Hz</div>';
+    div.addEventListener('click', function() {
+      var h = parseFloat(document.getElementById('baglamaHacim').value);
+      document.getElementById('baglamaSes').textContent = n.ad + ' — ' + n.frek.toFixed(2) + ' Hz';
+      baglamaSes(n.frek, h);
+    });
+    baglamaGrid.appendChild(div);
+  });
+}
+
+// ═══ UD notaları ═══
+var UD_NOTALAR = [
+  {ad:'C2',frek:65.41,renk:'var(--red)'},{ad:'F2',frek:87.31,renk:'var(--yellow)'},
+  {ad:'A2',frek:110.00,renk:'var(--green)'},{ad:'D3',frek:146.83,renk:'var(--blue)'},
+  {ad:'G3',frek:196.00,renk:'var(--purple)'},{ad:'C4',frek:261.63,renk:'var(--yellow)'},
+  {ad:'D3',frek:146.83,renk:'var(--green)'},{ad:'A3',frek:220.00,renk:'var(--blue)'},
+];
+var udGrid = document.getElementById('udGrid');
+if (udGrid) {
+  UD_NOTALAR.forEach(function(n) {
+    var div = document.createElement('div');
+    div.className = 'akor-btn';
+    div.style.borderColor = n.renk + '66';
+    div.innerHTML = '<div class="akor-ad" style="color:'+n.renk+'">'+n.ad+'</div><div class="akor-tur">'+n.frek.toFixed(1)+' Hz</div>';
+    div.addEventListener('click', function() {
+      var h = parseFloat(document.getElementById('udHacim').value);
+      document.getElementById('udSes').textContent = n.ad + ' — ' + n.frek.toFixed(2) + ' Hz';
+      udSes(n.frek, h);
+    });
+    udGrid.appendChild(div);
+  });
+}
+
+// ═══ DARBUKA padleri ═══
+var DARBUKA_PADLER = [
+  {em:'🥁',ad:'Düm',tus:'q',tip:'dum',renk:'#FFE135'},
+  {em:'👆',ad:'Tek',tus:'w',tip:'tek',renk:'#4ade80'},
+  {em:'🤚',ad:'Ka',tus:'e',tip:'ka',renk:'#60a5fa'},
+  {em:'💥',ad:'Teke',tus:'r',tip:'teke',renk:'#f87171'},
+  {em:'🥁',ad:'Düm Güçlü',tus:'a',tip:'dum',renk:'#FFE135'},
+  {em:'✋',ad:'Tek-Ka',tus:'s',tip:'tek',renk:'#4ade80'},
+];
+var darbukaGrid = document.getElementById('darbukaGrid');
+if (darbukaGrid) {
+  DARBUKA_PADLER.forEach(function(d) {
+    var div = document.createElement('div');
+    div.className = 'davul-pad';
+    div.style.borderColor = d.renk + '44';
+    div.innerHTML = '<em>'+d.em+'</em><div class="d-ad">'+d.ad+'</div><div class="d-tus">['+d.tus.toUpperCase()+']</div>';
+    div.addEventListener('click', function() {
+      var h = parseFloat(document.getElementById('darbukaHacim').value);
+      darbukaSesi(d.tip, h);
+      document.getElementById('darbukaSes').textContent = d.ad;
+      div.classList.add('vurus');
+      div.style.borderColor = d.renk;
+      setTimeout(function(){div.classList.remove('vurus');div.style.borderColor=d.renk+'44';}, 150);
+    });
+    darbukaGrid.appendChild(div);
+  });
+}
+
+// ═══ DEF padleri ═══
+var DEF_PADLER = [
+  {em:'🥁',ad:'Ana Vuruş',tip:'ana',renk:'#FFE135'},
+  {em:'🔔',ad:'Zil',tip:'zil',renk:'#60a5fa'},
+  {em:'👋',ad:'Kenar',tip:'kenar',renk:'#4ade80'},
+  {em:'💫',ad:'Rulo',tip:'rulo',renk:'#f87171'},
+];
+var defGrid = document.getElementById('defGrid');
+if (defGrid) {
+  DEF_PADLER.forEach(function(d) {
+    var div = document.createElement('div');
+    div.className = 'davul-pad';
+    div.style.borderColor = d.renk + '44';
+    div.innerHTML = '<em>'+d.em+'</em><div class="d-ad">'+d.ad+'</div>';
+    div.addEventListener('click', function() {
+      var h = parseFloat(document.getElementById('defHacim').value);
+      defSesi(d.tip, h);
+      document.getElementById('defSes').textContent = d.ad;
+      defDiyagramCiz(d.tip, 'defDiyagram');
+      div.classList.add('vurus');
+      div.style.borderColor = d.renk;
+      setTimeout(function(){div.classList.remove('vurus');div.style.borderColor=d.renk+'44';}, 150);
+    });
+    defGrid.appendChild(div);
+  });
+}
+
+// ═══ NEY delikleri ═══
+var NEY_NOTALAR = [
+  {delikler:[1,1,1,1,1,1],nota:'D4',frek:293.66},
+  {delikler:[1,1,1,1,1,0],nota:'E4',frek:329.63},
+  {delikler:[1,1,1,1,0,0],nota:'F4',frek:349.23},
+  {delikler:[1,1,1,0,0,0],nota:'G4',frek:392.00},
+  {delikler:[1,1,0,0,0,0],nota:'A4',frek:440.00},
+  {delikler:[1,0,0,0,0,0],nota:'B4',frek:493.88},
+  {delikler:[0,0,0,0,0,0],nota:'C5',frek:523.25},
+];
+var neyDelikler = document.getElementById('neyDelikler');
+var neyDurum = [1,1,1,1,1,1];
+if (neyDelikler) {
+  for (var ni = 0; ni < 6; ni++) {
+    (function(idx){
+      var div = document.createElement('div');
+      div.className = 'delik kapali';
+      div.textContent = idx + 1;
+      div.addEventListener('click', function(){
+        neyDurum[idx] = neyDurum[idx] ? 0 : 1;
+        div.classList.toggle('kapali', neyDurum[idx] === 1);
+        var n = NEY_NOTALAR.find(function(n){ return JSON.stringify(n.delikler) === JSON.stringify(neyDurum); });
+        document.getElementById('neyNota').textContent = n ? n.nota : '?';
+      });
+      neyDelikler.appendChild(div);
+    })(ni);
+  }
+}
+function neyCal() {
+  var n = NEY_NOTALAR.find(function(n){ return JSON.stringify(n.delikler) === JSON.stringify(neyDurum); });
+  if (n) { var h = parseFloat(document.getElementById('neyHacim').value); neySesi(n.frek, h); }
+}
+
+// ═══ KEMANE ═══
+function kemaneCal(nota, frek) {
+  var h = parseFloat(document.getElementById('kemaneHacim').value);
+  document.getElementById('kemaneSes').textContent = nota + ' — ' + frek.toFixed(2) + ' Hz';
+  kemaneSesi(frek, h);
+  document.querySelectorAll('#p-kemane .keman-tel-cubuk').forEach(function(c){c.classList.remove('caliniyor');});
+  event.currentTarget.classList.add('caliniyor');
+  setTimeout(function(){try{event.currentTarget.classList.remove('caliniyor');}catch(e){}}, 1500);
+}
+
+// ═══ ZURNA delikleri ═══
+var ZURNA_NOTALAR = [
+  {delikler:[1,1,1,1,1,1],nota:'G4',frek:392.00},
+  {delikler:[1,1,1,1,1,0],nota:'A4',frek:440.00},
+  {delikler:[1,1,1,1,0,0],nota:'B4',frek:493.88},
+  {delikler:[1,1,1,0,0,0],nota:'C5',frek:523.25},
+  {delikler:[1,1,0,0,0,0],nota:'D5',frek:587.33},
+  {delikler:[1,0,0,0,0,0],nota:'E5',frek:659.25},
+  {delikler:[0,0,0,0,0,0],nota:'F5',frek:698.46},
+];
+var zurnaDelikler = document.getElementById('zurnaDelikler');
+var zurnaDurum = [1,1,1,1,1,1];
+if (zurnaDelikler) {
+  for (var zi = 0; zi < 6; zi++) {
+    (function(idx){
+      var div = document.createElement('div');
+      div.className = 'delik kapali';
+      div.textContent = idx + 1;
+      div.addEventListener('click', function(){
+        zurnaDurum[idx] = zurnaDurum[idx] ? 0 : 1;
+        div.classList.toggle('kapali', zurnaDurum[idx] === 1);
+        var n = ZURNA_NOTALAR.find(function(n){ return JSON.stringify(n.delikler) === JSON.stringify(zurnaDurum); });
+        document.getElementById('zurnaNota').textContent = n ? n.nota : '?';
+      });
+      zurnaDelikler.appendChild(div);
+    })(zi);
+  }
+}
+function zurnaCal() {
+  var n = ZURNA_NOTALAR.find(function(n){ return JSON.stringify(n.delikler) === JSON.stringify(zurnaDurum); });
+  if (n) { var h = parseFloat(document.getElementById('zurnaHacim').value); zurnaSesi(n.frek, h); }
+}
+
+// ═══ KAVAL delikleri ═══
+var KAVAL_NOTALAR = [
+  {delikler:[1,1,1,1,1,1],nota:'D4',frek:293.66},
+  {delikler:[1,1,1,1,1,0],nota:'E4',frek:329.63},
+  {delikler:[1,1,1,1,0,0],nota:'F4',frek:349.23},
+  {delikler:[1,1,1,0,0,0],nota:'G4',frek:392.00},
+  {delikler:[1,1,0,0,0,0],nota:'A4',frek:440.00},
+  {delikler:[1,0,0,0,0,0],nota:'B4',frek:493.88},
+  {delikler:[0,0,0,0,0,0],nota:'C5',frek:523.25},
+];
+var kavalDelikler = document.getElementById('kavalDelikler');
+var kavalDurum = [1,1,1,1,1,1];
+if (kavalDelikler) {
+  for (var ki = 0; ki < 6; ki++) {
+    (function(idx){
+      var div = document.createElement('div');
+      div.className = 'delik kapali';
+      div.textContent = idx + 1;
+      div.addEventListener('click', function(){
+        kavalDurum[idx] = kavalDurum[idx] ? 0 : 1;
+        div.classList.toggle('kapali', kavalDurum[idx] === 1);
+        var n = KAVAL_NOTALAR.find(function(n){ return JSON.stringify(n.delikler) === JSON.stringify(kavalDurum); });
+        document.getElementById('kavalNota').textContent = n ? n.nota : '?';
+      });
+      kavalDelikler.appendChild(div);
+    })(ki);
+  }
+}
+function kavalCal() {
+  var n = KAVAL_NOTALAR.find(function(n){ return JSON.stringify(n.delikler) === JSON.stringify(kavalDurum); });
+  if (n) { var h = parseFloat(document.getElementById('kavalHacim').value); kavalSesi(n.frek, h); }
+}
+
+
+// ═══════════════ VİKİNG & ORTA DÜNYA ALETLERİ ═══════════════
+
+// LUTE sesi - orta çağ telli
+function luteSes(frek, hacim) {
+  var a = getAc();
+  [1, 2, 3, 4, 5].forEach(function(h, i) {
+    var osc = a.createOscillator();
+    var gain = a.createGain();
+    var filter = a.createBiquadFilter();
+    osc.connect(filter); filter.connect(gain); gain.connect(a.destination);
+    osc.type = i === 0 ? 'sawtooth' : 'triangle';
+    osc.frequency.value = frek * h;
+    filter.type = 'lowpass';
+    filter.frequency.value = frek * 4;
+    var v = (hacim || 0.4) * (0.6 / (i + 1));
+    gain.gain.setValueAtTime(0, a.currentTime);
+    gain.gain.linearRampToValueAtTime(v, a.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.8);
+    osc.start(); osc.stop(a.currentTime + 1.8);
+  });
+}
+
+// LİR sesi - yumuşak, antik
+function lyreSes(frek, hacim) {
+  var a = getAc();
+  [1, 2, 3].forEach(function(h, i) {
+    var osc = a.createOscillator();
+    var gain = a.createGain();
+    osc.connect(gain); gain.connect(a.destination);
+    osc.type = 'sine';
+    osc.frequency.value = frek * h;
+    var v = (hacim || 0.4) * (0.5 / (i + 1));
+    gain.gain.setValueAtTime(v, a.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 2.0);
+    osc.start(); osc.stop(a.currentTime + 2.0);
+  });
+}
+
+// HURDY-GURDY
+var hgDroneOsc = null, hgDroneGain = null, hgDroneOn = false;
+function hgDroneToggle() {
+  var a = getAc();
+  if (hgDroneOn) {
+    if (hgDroneGain) hgDroneGain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.3);
+    hgDroneOn = false;
+    document.getElementById('hgDroneStatus').textContent = 'Drone: Kapalı';
+    document.getElementById('hgDroneStatus').style.color = 'var(--muted)';
+  } else {
+    hgDroneOsc = a.createOscillator();
+    hgDroneGain = a.createGain();
+    var hgOsc2 = a.createOscillator();
+    hgDroneOsc.connect(hgDroneGain); hgOsc2.connect(hgDroneGain);
+    hgDroneGain.connect(a.destination);
+    hgDroneOsc.type = 'sawtooth'; hgDroneOsc.frequency.value = 146.83; // D3
+    hgOsc2.type = 'sawtooth'; hgOsc2.frequency.value = 220; // A3
+    hgDroneGain.gain.setValueAtTime(0, a.currentTime);
+    hgDroneGain.gain.linearRampToValueAtTime(0.15, a.currentTime + 0.3);
+    hgDroneOsc.start(); hgOsc2.start();
+    hgDroneOn = true;
+    document.getElementById('hgDroneStatus').textContent = 'Drone: Açık 🎵';
+    document.getElementById('hgDroneStatus').style.color = 'var(--yellow)';
+  }
+}
+
+function hgSes(frek, hacim) {
+  var a = getAc();
+  var osc = a.createOscillator();
+  var gain = a.createGain();
+  var filter = a.createBiquadFilter();
+  osc.connect(filter); filter.connect(gain); gain.connect(a.destination);
+  osc.type = 'sawtooth'; osc.frequency.value = frek;
+  filter.type = 'bandpass'; filter.frequency.value = frek * 2; filter.Q.value = 3;
+  gain.gain.setValueAtTime(hacim || 0.4, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.6);
+  osc.start(); osc.stop(a.currentTime + 0.6);
+}
+
+// VİKİNG HORN - güçlü, rezonans
+function vikingHornSes(frek, sure, hacim) {
+  var a = getAc();
+  var osc = a.createOscillator();
+  var osc2 = a.createOscillator();
+  var gain = a.createGain();
+  var filter = a.createBiquadFilter();
+  osc.connect(filter); osc2.connect(filter);
+  filter.connect(gain); gain.connect(a.destination);
+  osc.type = 'sawtooth'; osc.frequency.value = frek;
+  osc2.type = 'sine'; osc2.frequency.value = frek * 1.5;
+  filter.type = 'lowpass'; filter.frequency.value = frek * 6;
+  var vol = hacim || 0.5;
+  gain.gain.setValueAtTime(0, a.currentTime);
+  gain.gain.linearRampToValueAtTime(vol, a.currentTime + 0.15);
+  gain.gain.setValueAtTime(vol, a.currentTime + (sure - 0.3));
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+  osc.start(); osc2.start();
+  osc.stop(a.currentTime + sure); osc2.stop(a.currentTime + sure);
+}
+
+// VİKİNG DAVUL - derin, güçlü
+function vikingDavulSes(tip, hacim) {
+  var a = getAc();
+  var sure = tip === 'ana' ? 0.8 : tip === 'vuruş' ? 0.4 : 0.2;
+  var baseFreq = tip === 'ana' ? 60 : tip === 'vuruş' ? 100 : 300;
+  var osc = a.createOscillator();
+  var gain = a.createGain();
+  osc.connect(gain); gain.connect(a.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(baseFreq, a.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.2, a.currentTime + sure);
+  gain.gain.setValueAtTime(hacim || 0.7, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+  osc.start(); osc.stop(a.currentTime + sure);
+  // Gürültü katmanı
+  var buf = a.createBuffer(1, a.sampleRate * sure, a.sampleRate);
+  var data = buf.getChannelData(0);
+  for (var i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i/data.length, 3) * 0.4;
+  var src = a.createBufferSource();
+  var ng = a.createGain();
+  src.buffer = buf; src.connect(ng); ng.connect(a.destination);
+  ng.gain.value = (hacim || 0.5) * 0.5;
+  src.start(); src.stop(a.currentTime + sure);
+}
+
+// BODHRÁN - kelt davulu
+function bodhranSes(tip, hacim) {
+  var a = getAc();
+  var sure = 0.3;
+  var freq = tip === 'ana' ? 100 : tip === 'rim' ? 250 : 180;
+  var osc = a.createOscillator();
+  var gain = a.createGain();
+  osc.connect(gain); gain.connect(a.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, a.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(freq * 0.4, a.currentTime + sure);
+  gain.gain.setValueAtTime(hacim || 0.5, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+  osc.start(); osc.stop(a.currentTime + sure);
+}
+
+// DUDUK - kamış, hüzünlü
+function dudukSesi(frek, hacim) {
+  var a = getAc();
+  // Nefes + ton
+  var buf = a.createBuffer(1, a.sampleRate * 1.5, a.sampleRate);
+  var data = buf.getChannelData(0);
+  for (var i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.2;
+  var src = a.createBufferSource(); src.buffer = buf;
+  var bpf = a.createBiquadFilter();
+  bpf.type = 'bandpass'; bpf.frequency.value = frek; bpf.Q.value = 15;
+  var ng = a.createGain();
+  src.connect(bpf); bpf.connect(ng); ng.connect(a.destination);
+  ng.gain.setValueAtTime(0.1, a.currentTime);
+  ng.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.5);
+  src.start(); src.stop(a.currentTime + 1.5);
+  // Ton - hafif titreşimli
+  var osc = a.createOscillator();
+  var vibOsc = a.createOscillator();
+  var vibGain = a.createGain();
+  var gain = a.createGain();
+  vibOsc.connect(vibGain); vibGain.connect(osc.frequency);
+  osc.connect(gain); gain.connect(a.destination);
+  osc.type = 'triangle'; osc.frequency.value = frek;
+  vibOsc.type = 'sine'; vibOsc.frequency.value = 4;
+  vibGain.gain.value = frek * 0.03;
+  var vol = hacim || 0.4;
+  gain.gain.setValueAtTime(vol * 0.8, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 1.5);
+  vibOsc.start(); osc.start();
+  vibOsc.stop(a.currentTime + 1.5); osc.stop(a.currentTime + 1.5);
+}
+
+// LotR / EPIK HORN
+function lotrHornSes(frek, sure, tip, hacim) {
+  var a = getAc();
+  var harmonics = tip === 'boromir' ? [1, 1.5, 2, 3] : tip === 'rohirrim' ? [1, 2, 3, 4] : [1, 1.5, 2];
+  harmonics.forEach(function(h, i) {
+    var osc = a.createOscillator();
+    var gain = a.createGain();
+    var filter = a.createBiquadFilter();
+    osc.connect(filter); filter.connect(gain); gain.connect(a.destination);
+    osc.type = i === 0 ? 'sawtooth' : 'sine';
+    osc.frequency.value = frek * h;
+    filter.type = 'lowpass'; filter.frequency.value = frek * 8;
+    var v = (hacim || 0.5) * (0.6 / (i + 1));
+    gain.gain.setValueAtTime(0, a.currentTime);
+    gain.gain.linearRampToValueAtTime(v, a.currentTime + 0.2);
+    gain.gain.setValueAtTime(v, a.currentTime + sure - 0.3);
+    gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+    osc.start(); osc.stop(a.currentTime + sure);
+  });
+}
+
+// GOBLIN DAVUL - kaotik, vahşi
+function goblinSes(tip, hacim) {
+  var a = getAc();
+  var freq = tip === 'bang' ? 50 + Math.random()*30 : tip === 'crash' ? 200 + Math.random()*100 : 400;
+  var sure = tip === 'bang' ? 0.5 : 0.2;
+  var osc = a.createOscillator();
+  var gain = a.createGain();
+  osc.connect(gain); gain.connect(a.destination);
+  osc.type = tip === 'crash' ? 'square' : 'sine';
+  osc.frequency.setValueAtTime(freq, a.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(freq * 0.1, a.currentTime + sure);
+  gain.gain.setValueAtTime(hacim || 0.6, a.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, a.currentTime + sure);
+  osc.start(); osc.stop(a.currentTime + sure);
+  // Gürültü
+  var buf = a.createBuffer(1, a.sampleRate * sure, a.sampleRate);
+  var d = buf.getChannelData(0);
+  for (var i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i/d.length, 2) * 0.6;
+  var src = a.createBufferSource();
+  var ng = a.createGain();
+  src.buffer = buf; src.connect(ng); ng.connect(a.destination);
+  ng.gain.value = (hacim || 0.5) * 0.4;
+  src.start(); src.stop(a.currentTime + sure);
+}
+
+// ═══ LUTE notaları ═══
+var LUTE_NOTALAR = [
+  {ad:'D3',frek:146.83,renk:'var(--yellow)'},{ad:'E3',frek:164.81,renk:'var(--green)'},
+  {ad:'G3',frek:196.00,renk:'var(--blue)'},{ad:'A3',frek:220.00,renk:'var(--purple)'},
+  {ad:'B3',frek:246.94,renk:'var(--yellow)'},{ad:'D4',frek:293.66,renk:'var(--green)'},
+  {ad:'E4',frek:329.63,renk:'var(--blue)'},{ad:'G4',frek:392.00,renk:'var(--purple)'},
+  {ad:'A4',frek:440.00,renk:'var(--yellow)'},{ad:'B4',frek:493.88,renk:'var(--green)'},
+  {ad:'D5',frek:587.33,renk:'var(--blue)'},{ad:'E5',frek:659.25,renk:'var(--purple)'},
+];
+var luteGrid = document.getElementById('luteGrid');
+if(luteGrid) LUTE_NOTALAR.forEach(function(n){
+  var div=document.createElement('div'); div.className='akor-btn';
+  div.style.borderColor=n.renk+'66';
+  div.innerHTML='<div class="akor-ad" style="color:'+n.renk+'">'+n.ad+'</div><div class="akor-tur">'+n.frek.toFixed(1)+' Hz</div>';
+  div.addEventListener('click',function(){var h=parseFloat(document.getElementById('luteHacim').value);document.getElementById('luteSes').textContent=n.ad;luteSes(n.frek,h);});
+  luteGrid.appendChild(div);
+});
+
+// ═══ LİR telleri ═══
+var LYRE_NOTALAR=[
+  {nota:'C4',frek:261.63},{nota:'D4',frek:293.66},{nota:'E4',frek:329.63},
+  {nota:'F4',frek:349.23},{nota:'G4',frek:392.00},{nota:'A4',frek:440.00},{nota:'B4',frek:493.88}
+];
+var lyreStrings=document.getElementById('lyreStrings');
+if(lyreStrings) LYRE_NOTALAR.forEach(function(n){
+  var div=document.createElement('div'); div.className='keman-tel';
+  var cubuk=document.createElement('div'); cubuk.className='keman-tel-cubuk';
+  (function(nota,frek,el){
+    el.addEventListener('click',function(){lyreCal(nota,frek,el);});
+  })(n.nota,n.frek,cubuk);
+  var lbl=document.createElement('div'); lbl.className='keman-tel-lbl'; lbl.textContent=n.nota;
+  var frekDiv=document.createElement('div'); frekDiv.className='keman-tel-frek'; frekDiv.textContent=n.frek.toFixed(0)+' Hz';
+  div.appendChild(cubuk); div.appendChild(lbl); div.appendChild(frekDiv);
+  lyreStrings.appendChild(div);
+});
+function lyreCal(nota,frek,el){
+  var h=parseFloat(document.getElementById('lyreHacim').value);
+  document.getElementById('lyreSes').textContent=nota+' — '+frek.toFixed(2)+' Hz';
+  lyreSes(frek,h);
+  document.querySelectorAll('#p-lyre .keman-tel-cubuk').forEach(function(c){c.classList.remove('caliniyor');});
+  if(el) el.classList.add('caliniyor');
+  setTimeout(function(){if(el)el.classList.remove('caliniyor');},2000);
+}
+
+// ═══ HURDY-GURDY notaları ═══
+var HG_NOTALAR=[
+  {ad:'D3',frek:146.83,renk:'var(--yellow)'},{ad:'E3',frek:164.81,renk:'var(--green)'},
+  {ad:'F3',frek:174.61,renk:'var(--blue)'},{ad:'G3',frek:196.00,renk:'var(--purple)'},
+  {ad:'A3',frek:220.00,renk:'var(--yellow)'},{ad:'B3',frek:246.94,renk:'var(--green)'},
+  {ad:'C4',frek:261.63,renk:'var(--blue)'},{ad:'D4',frek:293.66,renk:'var(--purple)'},
+];
+var hgGrid=document.getElementById('hgGrid');
+if(hgGrid) HG_NOTALAR.forEach(function(n){
+  var div=document.createElement('div'); div.className='akor-btn';
+  div.style.borderColor=n.renk+'66';
+  div.innerHTML='<div class="akor-ad" style="color:'+n.renk+'">'+n.ad+'</div><div class="akor-tur">'+n.frek.toFixed(1)+' Hz</div>';
+  div.addEventListener('click',function(){var h=parseFloat(document.getElementById('hgHacim').value);document.getElementById('hgSes').textContent=n.ad;hgSes(n.frek,h);});
+  hgGrid.appendChild(div);
+});
+
+// ═══ VİKİNG HORN sesleri ═══
+var VH_SESLER=[
+  {ad:'Savaş Çağrısı',frek:110,sure:2.0,renk:'var(--red)'},
+  {ad:'Zafer',frek:146.83,sure:1.5,renk:'var(--yellow)'},
+  {ad:'Uyarı',frek:87.31,sure:2.5,renk:'var(--blue)'},
+  {ad:'Selamlama',frek:196.00,sure:1.2,renk:'var(--green)'},
+];
+var vhGrid=document.getElementById('vikingHornGrid');
+if(vhGrid) VH_SESLER.forEach(function(n){
+  var div=document.createElement('div'); div.className='akor-btn';
+  div.style.borderColor=n.renk+'66';
+  div.innerHTML='<div class="akor-ad" style="color:'+n.renk+'">📯</div><div class="akor-tur">'+n.ad+'</div>';
+  div.addEventListener('click',function(){var h=parseFloat(document.getElementById('vikingHornHacim').value);document.getElementById('vikingHornSes').textContent=n.ad;vikingHornSes(n.frek,n.sure,h);});
+  vhGrid.appendChild(div);
+});
+
+// ═══ VİKİNG DAVUL padleri ═══
+var VD_PADLER=[
+  {em:'⚔️',ad:'Savaş Vuruşu',tip:'ana',renk:'#f87171'},
+  {em:'🛡️',ad:'Ritim',tip:'vuruş',renk:'#FFE135'},
+  {em:'💀',ad:'Çarpma',tip:'carpm',renk:'#a78bfa'},
+  {em:'🔥',ad:'Hızlı',tip:'hiz',renk:'#fb923c'},
+];
+var vdGrid=document.getElementById('vikingDavulGrid');
+if(vdGrid) VD_PADLER.forEach(function(d){
+  var div=document.createElement('div'); div.className='davul-pad';
+  div.style.borderColor=d.renk+'44';
+  div.innerHTML='<em>'+d.em+'</em><div class="d-ad">'+d.ad+'</div>';
+  div.addEventListener('click',function(){
+    var h=parseFloat(document.getElementById('vikingDavulHacim').value);
+    vikingDavulSes(d.tip,h);
+    document.getElementById('vikingDavulSes').textContent=d.ad;
+    div.classList.add('vurus'); div.style.borderColor=d.renk;
+    setTimeout(function(){div.classList.remove('vurus');div.style.borderColor=d.renk+'44';},150);
+  });
+  vdGrid.appendChild(div);
+});
+
+// ═══ BODHRÁN padleri ═══
+var BR_PADLER=[
+  {em:'🥁',ad:'Ana Vuruş',tip:'ana',renk:'#4ade80'},
+  {em:'👋',ad:'Rim Shot',tip:'rim',renk:'#FFE135'},
+  {em:'✋',ad:'Orta',tip:'orta',renk:'#60a5fa'},
+  {em:'🤚',ad:'Hafif',tip:'hafif',renk:'#a78bfa'},
+];
+var brGrid=document.getElementById('bodhranGrid');
+if(brGrid) BR_PADLER.forEach(function(d){
+  var div=document.createElement('div'); div.className='davul-pad';
+  div.style.borderColor=d.renk+'44';
+  div.innerHTML='<em>'+d.em+'</em><div class="d-ad">'+d.ad+'</div>';
+  div.addEventListener('click',function(){
+    var h=parseFloat(document.getElementById('bodhranHacim').value);
+    bodhranSes(d.tip,h);
+    document.getElementById('bodhranSes').textContent=d.ad;
+    div.classList.add('vurus'); div.style.borderColor=d.renk;
+    setTimeout(function(){div.classList.remove('vurus');div.style.borderColor=d.renk+'44';},150);
+  });
+  brGrid.appendChild(div);
+});
+
+// ═══ DUDUK delikleri ═══
+var DUDUK_NOTALAR=[
+  {delikler:[1,1,1,1,1,1],nota:'A3',frek:220.00},
+  {delikler:[1,1,1,1,1,0],nota:'B3',frek:246.94},
+  {delikler:[1,1,1,1,0,0],nota:'C4',frek:261.63},
+  {delikler:[1,1,1,0,0,0],nota:'D4',frek:293.66},
+  {delikler:[1,1,0,0,0,0],nota:'E4',frek:329.63},
+  {delikler:[1,0,0,0,0,0],nota:'F4',frek:349.23},
+  {delikler:[0,0,0,0,0,0],nota:'G4',frek:392.00},
+];
+var dudukEl=document.getElementById('dudukDelikler');
+var dudukDurum=[1,1,1,1,1,1];
+if(dudukEl) for(var di=0;di<6;di++){(function(idx){
+  var div=document.createElement('div'); div.className='delik kapali'; div.textContent=idx+1;
+  div.addEventListener('click',function(){
+    dudukDurum[idx]=dudukDurum[idx]?0:1;
+    div.classList.toggle('kapali',dudukDurum[idx]===1);
+    var n=DUDUK_NOTALAR.find(function(n){return JSON.stringify(n.delikler)===JSON.stringify(dudukDurum);});
+    document.getElementById('dudukNota').textContent=n?n.nota:'?';
+  });
+  dudukEl.appendChild(div);
+})(di);}
+function dudukCal(){
+  var n=DUDUK_NOTALAR.find(function(n){return JSON.stringify(n.delikler)===JSON.stringify(dudukDurum);});
+  if(n){var h=parseFloat(document.getElementById('dudukHacim').value);dudukSesi(n.frek,h);}
+}
+
+// ═══ LotR HORNLAR ═══
+var LOTR_SESLER=[
+  {ad:'Boromir Boynuzu',frek:87.31,sure:3.0,tip:'boromir',renk:'var(--yellow)',em:'🟡'},
+  {ad:'Rohirrim Savaşı',frek:110.00,sure:2.5,tip:'rohirrim',renk:'var(--red)',em:'🔴'},
+  {ad:'Gondor Çağrısı',frek:130.81,sure:2.0,tip:'gondor',renk:'var(--blue)',em:'🔵'},
+  {ad:'Elf Borazanı',frek:196.00,sure:1.5,tip:'elf',renk:'var(--green)',em:'🟢'},
+  {ad:'Mordor Daveti',frek:65.41,sure:3.5,tip:'mordor',renk:'var(--red)',em:'⚫'},
+  {ad:'Hobbit Melodisi',frek:261.63,sure:1.2,tip:'hobbit',renk:'var(--green)',em:'🟤'},
+];
+var lotrGrid=document.getElementById('lotrHornGrid');
+if(lotrGrid) LOTR_SESLER.forEach(function(n){
+  var div=document.createElement('div'); div.className='akor-btn';
+  div.style.borderColor=n.renk+'66';
+  div.innerHTML='<div class="akor-ad" style="color:'+n.renk+'">'+n.em+'</div><div class="akor-tur">'+n.ad+'</div>';
+  div.addEventListener('click',function(){
+    var h=parseFloat(document.getElementById('lotrHornHacim').value);
+    document.getElementById('lotrHornSes').textContent=n.ad;
+    lotrHornSes(n.frek,n.sure,n.tip,h);
+  });
+  lotrGrid.appendChild(div);
+});
+
+// ═══ GOBLIN DAVUL ═══
+var GOBLIN_PADLER=[
+  {em:'💥',ad:'BANG!',tip:'bang',renk:'#f87171'},
+  {em:'💀',ad:'CRASH!',tip:'crash',renk:'#fb923c'},
+  {em:'👊',ad:'Vur!',tip:'vur',renk:'#FFE135'},
+  {em:'🔥',ad:'Kaos!',tip:'kaos',renk:'#a78bfa'},
+];
+var goblinGrid=document.getElementById('goblinGrid');
+if(goblinGrid) GOBLIN_PADLER.forEach(function(d){
+  var div=document.createElement('div'); div.className='davul-pad';
+  div.style.borderColor=d.renk+'44';
+  div.innerHTML='<em>'+d.em+'</em><div class="d-ad">'+d.ad+'</div>';
+  div.addEventListener('click',function(){
+    var h=parseFloat(document.getElementById('goblinHacim').value);
+    goblinSes(d.tip,h);
+    document.getElementById('goblinSes').textContent=d.ad;
+    div.classList.add('vurus'); div.style.borderColor=d.renk;
+    setTimeout(function(){div.classList.remove('vurus');div.style.borderColor=d.renk+'44';},150);
+  });
+  goblinGrid.appendChild(div);
+});
+
+
+// ═══ PERDE DİYAGRAMLARI ═══
+var AKOR_PERDELER = {
+  'C':  {perdeler:[-1,3,2,0,1,0], başlangic:0, ad:'C Majör'},
+  'D':  {perdeler:[-1,-1,0,2,3,2], başlangic:0, ad:'D Majör'},
+  'E':  {perdeler:[0,2,2,1,0,0], başlangic:0, ad:'E Majör'},
+  'F':  {perdeler:[1,1,2,3,3,1], başlangic:1, ad:'F Majör', barre:1},
+  'G':  {perdeler:[3,2,0,0,0,3], başlangic:0, ad:'G Majör'},
+  'A':  {perdeler:[-1,0,2,2,2,0], başlangic:0, ad:'A Majör'},
+  'B':  {perdeler:[-1,2,4,4,4,2], başlangic:2, ad:'B Majör', barre:2},
+  'Am': {perdeler:[-1,0,2,2,1,0], başlangic:0, ad:'Am Minör'},
+  'Em': {perdeler:[0,2,2,0,0,0], başlangic:0, ad:'Em Minör'},
+  'Dm': {perdeler:[-1,-1,0,2,3,1], başlangic:0, ad:'Dm Minör'},
+  'C7': {perdeler:[-1,3,2,3,1,0], başlangic:0, ad:'C7'},
+  'G7': {perdeler:[3,2,0,0,0,1], başlangic:0, ad:'G7'},
+};
+
+function akorDiyagramCiz(akorAd, hedefId) {
+  var veri = AKOR_PERDELER[akorAd];
+  if (!veri) return;
+  var el = document.getElementById(hedefId);
+  if (!el) return;
+
+  var TEL_SAYISI = 6;
+  var PERDE_SAYISI = 4;
+  var W = 160, H = 140;
+  var sol = 30, ust = 25, genislik = 100, yukseklik = 90;
+  var telAraligi = genislik / (TEL_SAYISI - 1);
+  var perdeAraligi = yukseklik / PERDE_SAYISI;
+
+  var svg = '<svg width="'+W+'" height="'+(H+20)+'" class="perde-svg" viewBox="0 0 '+W+' '+(H+20)+'">';
+
+  // Başlık
+  svg += '<text x="'+(W/2)+'" y="16" text-anchor="middle" fill="#FFE135" font-family="Syne,sans-serif" font-size="13" font-weight="800">'+veri.ad+'</text>';
+
+  // Barre gösterge
+  if (veri.başlangic > 0) {
+    svg += '<text x="'+(sol-8)+'" y="'+(ust+8)+'" text-anchor="end" fill="rgba(255,255,255,0.4)" font-size="10">'+veri.başlangic+'fr</text>';
+  }
+
+  // Perde çizgileri
+  for (var p = 0; p <= PERDE_SAYISI; p++) {
+    var y = ust + p * perdeAraligi;
+    var kalınlık = p === 0 ? 3 : 1;
+    var renk = p === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.15)';
+    svg += '<line x1="'+sol+'" y1="'+y+'" x2="'+(sol+genislik)+'" y2="'+y+'" stroke="'+renk+'" stroke-width="'+kalınlık+'"/>';
+  }
+
+  // Tel çizgileri
+  for (var t = 0; t < TEL_SAYISI; t++) {
+    var x = sol + t * telAraligi;
+    svg += '<line x1="'+x+'" y1="'+ust+'" x2="'+x+'" y2="'+(ust+yukseklik)+'" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>';
+    // Açık/kapalı gösterge
+    var perde = veri.perdeler[t];
+    var gostergeY = ust - 10;
+    if (perde === -1) {
+      svg += '<text x="'+x+'" y="'+gostergeY+'" text-anchor="middle" fill="rgba(248,113,113,0.8)" font-size="10">✕</text>';
+    } else if (perde === 0) {
+      svg += '<circle cx="'+x+'" cy="'+gostergeY+'" r="4" fill="none" stroke="rgba(74,222,128,0.8)" stroke-width="1.5"/>';
+    }
+  }
+
+  // Barre çizgisi
+  if (veri.barre) {
+    var barreY = ust + (veri.barre - veri.başlangic + 0.5) * perdeAraligi;
+    var barreX1 = sol;
+    var barreX2 = sol + genislik;
+    // Barre'ı doğrula (hangi teller)
+    var ilkTel = -1, sonTel = -1;
+    for (var bt = 0; bt < TEL_SAYISI; bt++) {
+      if (veri.perdeler[bt] === veri.barre) {
+        if (ilkTel === -1) ilkTel = bt;
+        sonTel = bt;
+      }
+    }
+    if (ilkTel !== -1) {
+      barreX1 = sol + ilkTel * telAraligi;
+      barreX2 = sol + sonTel * telAraligi;
+      svg += '<rect x="'+(barreX1-6)+'" y="'+(barreY-6)+'" width="'+(barreX2-barreX1+12)+'" height="12" rx="6" fill="#FFE135" opacity="0.9"/>';
+    }
+  }
+
+  // Parmak pozisyonları
+  var renkler = ['#f87171','#fb923c','#FFE135','#4ade80','#60a5fa','#a78bfa'];
+  for (var fi = 0; fi < TEL_SAYISI; fi++) {
+    var fp = veri.perdeler[fi];
+    if (fp > 0) {
+      var fx = sol + fi * telAraligi;
+      var fy = ust + (fp - veri.başlangic - 0.5) * perdeAraligi;
+      if (!veri.barre || fp !== veri.barre) {
+        svg += '<circle cx="'+fx+'" cy="'+fy+'" r="8" fill="'+renkler[fi]+'" opacity="0.9"/>';
+        svg += '<text x="'+fx+'" y="'+(fy+4)+'" text-anchor="middle" fill="#111" font-size="9" font-weight="800">'+fp+'</text>';
+      }
+    }
+  }
+
+  svg += '</svg>';
+  el.innerHTML = svg;
+}
+
+// Gitar panel diyagram yeri
+var gitarDiyagramEl = document.createElement('div');
+gitarDiyagramEl.id = 'gitarDiyagram';
+gitarDiyagramEl.className = 'perde-diyagram';
+var gitarSesEl = document.getElementById('gitarSes');
+if (gitarSesEl) gitarSesEl.parentNode.insertBefore(gitarDiyagramEl, gitarSesEl.nextSibling);
+
+// Akor butonlarını güncelle - diyagram göster
+var _eskiAkorTikla = null;
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#akorGrid .akor-btn').forEach(function(btn, i) {
+    var akorAdlar = ['C','D','E','F','G','A','B','Am','Em','Dm','C7','G7'];
+    var akorAd = akorAdlar[i];
+    btn.addEventListener('click', function() {
+      akorDiyagramCiz(akorAd, 'gitarDiyagram');
+    });
   });
 });
-</script>
 
+// ═══ BOYNUZ ANİMASYONU ═══
+function boynuzKaldir(emojiId, sure) {
+  var el = document.getElementById(emojiId);
+  if (!el) return;
+  el.classList.add('kaldir');
+  setTimeout(function() { el.classList.remove('kaldir'); }, sure * 1000 + 500);
+}
+
+// Viking Horn emojisini animasyonlu yap
+var vhEmoji = document.querySelector('#p-vikinghorn .trompet-img');
+if (vhEmoji) {
+  vhEmoji.className = 'trompet-img boynuz-emoji';
+  vhEmoji.id = 'vikingBoynuz';
+}
+var lotrEmoji = document.querySelector('#p-lotrhorn .trompet-img');
+if (lotrEmoji) {
+  lotrEmoji.className = 'trompet-img boynuz-emoji';
+  lotrEmoji.id = 'lotrBoynuz';
+}
+
+// Viking Horn ve LotR click'lerine animasyon ekle
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#vikingHornGrid .akor-btn').forEach(function(btn, i) {
+    var sureler = [2.0, 1.5, 2.5, 1.2];
+    btn.addEventListener('click', function() { boynuzKaldir('vikingBoynuz', sureler[i] || 1.5); });
+  });
+  document.querySelectorAll('#lotrHornGrid .akor-btn').forEach(function(btn, i) {
+    var sureler = [3.0, 2.5, 2.0, 1.5, 3.5, 1.2];
+    btn.addEventListener('click', function() { boynuzKaldir('lotrBoynuz', sureler[i] || 2.0); });
+  });
+});
+
+// ═══ DARBUKA VURUŞ DİYAGRAMI ═══
+function darbukaDiyagramCiz(tip, hedefId) {
+  var el = document.getElementById(hedefId);
+  if (!el) return;
+  var W = 200, H = 200;
+  var cx = 100, cy = 100, r = 80;
+  var svg = '<svg width="'+W+'" height="'+H+'" class="perde-svg" viewBox="0 0 '+W+' '+H+'">';
+  
+  // Darbuka gövdesi
+  svg += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+r+'" ry="'+r+'" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>';
+  // Merkez halka
+  svg += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+(r*0.5)+'" ry="'+(r*0.5)+'" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4"/>';
+  
+  // Vuruş noktaları
+  if (tip === 'dum') {
+    // Merkez - Düm
+    svg += '<circle cx="'+cx+'" cy="'+cy+'" r="30" fill="rgba(255,225,53,0.3)" stroke="#FFE135" stroke-width="2"/>';
+    svg += '<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#FFE135" font-family="Syne,sans-serif" font-size="13" font-weight="800">Düm</text>';
+    svg += '<text x="'+cx+'" y="'+(cy+30)+'" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10">Avuç ortası</text>';
+  } else if (tip === 'tek') {
+    // Sağ kenar - Tek
+    svg += '<circle cx="'+(cx+50)+'" cy="'+cy+'" r="22" fill="rgba(74,222,128,0.3)" stroke="#4ade80" stroke-width="2"/>';
+    svg += '<text x="'+(cx+50)+'" y="'+(cy+5)+'" text-anchor="middle" fill="#4ade80" font-family="Syne,sans-serif" font-size="12" font-weight="800">Tek</text>';
+    svg += '<text x="'+cx+'" y="'+(cy+75)+'" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10">Sağ el - kenar</text>';
+  } else if (tip === 'ka') {
+    // Sol kenar
+    svg += '<circle cx="'+(cx-50)+'" cy="'+cy+'" r="22" fill="rgba(96,165,250,0.3)" stroke="#60a5fa" stroke-width="2"/>';
+    svg += '<text x="'+(cx-50)+'" y="'+(cy+5)+'" text-anchor="middle" fill="#60a5fa" font-family="Syne,sans-serif" font-size="12" font-weight="800">Ka</text>';
+    svg += '<text x="'+cx+'" y="'+(cy+75)+'" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10">Sol el - kenar</text>';
+  } else if (tip === 'teke') {
+    // Her iki kenar
+    svg += '<circle cx="'+(cx+50)+'" cy="'+cy+'" r="18" fill="rgba(248,113,113,0.3)" stroke="#f87171" stroke-width="2"/>';
+    svg += '<circle cx="'+(cx-50)+'" cy="'+cy+'" r="18" fill="rgba(248,113,113,0.3)" stroke="#f87171" stroke-width="2"/>';
+    svg += '<text x="'+cx+'" y="'+(cy+75)+'" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10">Çift vuruş</text>';
+  }
+  
+  svg += '</svg>';
+  el.innerHTML = svg;
+}
+
+// Darbuka paneline diyagram yeri ekle
+var darbukaDiyEl = document.createElement('div');
+darbukaDiyEl.id = 'darbukaDiyagram';
+darbukaDiyEl.className = 'davul-diyagram';
+var darbukaSesEl = document.getElementById('darbukaSes');
+if (darbukaSesEl) darbukaSesEl.parentNode.insertBefore(darbukaDiyEl, darbukaSesEl.nextSibling);
+
+// Def diyagramı
+function defDiyagramCiz(tip, hedefId) {
+  var el = document.getElementById(hedefId);
+  if (!el) return;
+  var W = 200, H = 200, cx = 100, cy = 100, r = 85;
+  var svg = '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">';
+  svg += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+r+'" ry="'+r+'" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>';
+  // Ziller (def'in çevresindeki)
+  for (var zi = 0; zi < 8; zi++) {
+    var angle = (zi / 8) * Math.PI * 2;
+    var zx = cx + (r - 10) * Math.cos(angle);
+    var zy = cy + (r - 10) * Math.sin(angle);
+    var zRenk = tip === 'zil' ? '#60a5fa' : 'rgba(255,255,255,0.1)';
+    svg += '<circle cx="'+zx+'" cy="'+zy+'" r="6" fill="'+zRenk+'" opacity="'+(tip==='zil'?0.8:0.3)+'"/>';
+  }
+  if (tip === 'ana') {
+    svg += '<circle cx="'+cx+'" cy="'+cy+'" r="40" fill="rgba(255,225,53,0.2)" stroke="#FFE135" stroke-width="2"/>';
+    svg += '<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#FFE135" font-family="Syne,sans-serif" font-size="12" font-weight="800">Ana Vuruş</text>';
+  } else if (tip === 'kenar') {
+    svg += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+r+'" ry="'+r+'" fill="none" stroke="rgba(74,222,128,0.5)" stroke-width="8"/>';
+    svg += '<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#4ade80" font-family="Syne,sans-serif" font-size="12" font-weight="800">Kenar</text>';
+  }
+  svg += '</svg>';
+  el.innerHTML = svg;
+}
+
+var defDiyEl = document.createElement('div');
+defDiyEl.id = 'defDiyagram';
+defDiyEl.className = 'davul-diyagram';
+var defSesEl = document.getElementById('defSes');
+if (defSesEl) defSesEl.parentNode.insertBefore(defDiyEl, defSesEl.nextSibling);
+
+</script>
 </body>
 </html>
