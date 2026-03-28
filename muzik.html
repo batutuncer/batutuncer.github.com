@@ -133,7 +133,6 @@ input.hacim::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px
 <header><h1>🎵 Online Müzik Aletleri</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
 <div class="wrap">
 
-<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;">Dünya Müziği</div>
 <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;">🌍 Dünya Müziği</div>
 <div class="alet-tabs">
   <div class="alet-tab on" onclick="aletSec('piyano',this)"><em>🎹</em><span>Piyano</span></div>
@@ -169,16 +168,14 @@ input.hacim::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px
   <div class="alet-tab" onclick="aletSec('goblin',this)"><em>🥁</em><span>Goblin Davul</span></div>
 </div>
 </div>
-<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:8px;margin-top:8px;">🇹🇷 Türk Müziği</div>
-<div class="alet-tabs">
-  <div class="alet-tab" onclick="aletSec('baglama',this)"><em>🪕</em><span>Bağlama</span></div>
-  <div class="alet-tab" onclick="aletSec('ud',this)"><em>🪕</em><span>Ud</span></div>
-  <div class="alet-tab" onclick="aletSec('darbuka',this)"><em>🥁</em><span>Darbuka</span></div>
-  <div class="alet-tab" onclick="aletSec('def',this)"><em>🥁</em><span>Def</span></div>
-  <div class="alet-tab" onclick="aletSec('ney',this)"><em>🎵</em><span>Ney</span></div>
-  <div class="alet-tab" onclick="aletSec('kemane',this)"><em>🎻</em><span>Kemane</span></div>
-  <div class="alet-tab" onclick="aletSec('zurna',this)"><em>🎵</em><span>Zurna</span></div>
-  <div class="alet-tab" onclick="aletSec('kaval',this)"><em>🎵</em><span>Kaval</span></div>
+
+<!-- ALET FOTOSU -->
+<div id="aletFotoWrap" style="text-align:center;margin:16px 0;min-height:160px;display:flex;align-items:center;justify-content:center;">
+  <div id="aletFotoIc" style="background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px 40px;display:inline-block;transition:all 0.3s;">
+    <div id="aletFotoEmoji" style="font-size:5rem;display:block;margin-bottom:8px;transition:all 0.3s;">🎹</div>
+    <div id="aletFotoAd" style="font-family:Syne,sans-serif;font-size:1rem;font-weight:800;color:var(--yellow);">Piyano</div>
+    <div id="aletFotoAciklama" style="font-size:0.75rem;color:var(--muted);margin-top:4px;">Seçili enstrüman</div>
+  </div>
 </div>
 
 <!-- PİYANO -->
@@ -247,10 +244,10 @@ input.hacim::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px
   <div class="keman-wrap">
     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Tele tıkla ve çal!</p>
     <div class="keman-teller">
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('G3',196)"></div><div class="keman-tel-lbl">G</div><div class="keman-tel-frek">196 Hz</div></div>
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('D4',293.66)"></div><div class="keman-tel-lbl">D</div><div class="keman-tel-frek">294 Hz</div></div>
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('A4',440)"></div><div class="keman-tel-lbl">A</div><div class="keman-tel-frek">440 Hz</div></div>
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('E5',659.25)"></div><div class="keman-tel-lbl">E</div><div class="keman-tel-frek">659 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('G3',196,this)"></div><div class="keman-tel-lbl">G</div><div class="keman-tel-frek">196 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('D4',293.66,this)"></div><div class="keman-tel-lbl">D</div><div class="keman-tel-frek">294 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('A4',440,this)"></div><div class="keman-tel-lbl">A</div><div class="keman-tel-frek">440 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemanCal('E5',659.25,this)"></div><div class="keman-tel-lbl">E</div><div class="keman-tel-frek">659 Hz</div></div>
     </div>
     <div class="ses-gos" id="kemanSes"></div>
     <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="kemanHacim" min="0" max="1" step="0.05" value="0.4"/></div>
@@ -324,10 +321,10 @@ input.hacim::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px
   <div class="keman-wrap">
     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Kemane teline tıkla ve çal!</p>
     <div class="keman-teller">
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('G3',196)"></div><div class="keman-tel-lbl">G</div><div class="keman-tel-frek">196 Hz</div></div>
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('D4',293.66)"></div><div class="keman-tel-lbl">D</div><div class="keman-tel-frek">294 Hz</div></div>
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('A4',440)"></div><div class="keman-tel-lbl">A</div><div class="keman-tel-frek">440 Hz</div></div>
-      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('E5',659.25)"></div><div class="keman-tel-lbl">E</div><div class="keman-tel-frek">659 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('G3',196,this)"></div><div class="keman-tel-lbl">G</div><div class="keman-tel-frek">196 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('D4',293.66,this)"></div><div class="keman-tel-lbl">D</div><div class="keman-tel-frek">294 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('A4',440,this)"></div><div class="keman-tel-lbl">A</div><div class="keman-tel-frek">440 Hz</div></div>
+      <div class="keman-tel"><div class="keman-tel-cubuk" onclick="kemaneCal('E5',659.25,this)"></div><div class="keman-tel-lbl">E</div><div class="keman-tel-frek">659 Hz</div></div>
     </div>
     <div class="ses-gos" id="kemaneSes"></div>
     <div class="hacim-row"><span class="hacim-lbl">🔊 Ses:</span><input type="range" class="hacim" id="kemaneHacim" min="0" max="1" step="0.05" value="0.4"/></div>
@@ -759,13 +756,13 @@ function flutCal(){
 flutNota();
 
 // ═══════════════ KEMAN ═══════════════
-function kemanCal(nota, frek){
+function kemanCal(nota, frek, el){
   var h=parseFloat(document.getElementById('kemanHacim').value);
   document.getElementById('kemanSes').textContent=nota+' — '+frek.toFixed(2)+' Hz';
   sineSes(frek, 1.5, 'sawtooth', h*0.6);
-  document.querySelectorAll('.keman-tel-cubuk').forEach(function(c){c.classList.remove('caliniyor');});
-  event.currentTarget.classList.add('caliniyor');
-  setTimeout(function(){event.currentTarget.classList.remove('caliniyor');},1500);
+  document.querySelectorAll('#p-keman .keman-tel-cubuk').forEach(function(c){c.classList.remove('caliniyor');});
+  if(el) el.classList.add('caliniyor');
+  setTimeout(function(){if(el) el.classList.remove('caliniyor');},1500);
 }
 
 // ═══════════════ TÜRK MÜZİK ALETLERİ ═══════════════
@@ -1134,8 +1131,8 @@ function kemaneCal(nota, frek) {
   document.getElementById('kemaneSes').textContent = nota + ' — ' + frek.toFixed(2) + ' Hz';
   kemaneSesi(frek, h);
   document.querySelectorAll('#p-kemane .keman-tel-cubuk').forEach(function(c){c.classList.remove('caliniyor');});
-  event.currentTarget.classList.add('caliniyor');
-  setTimeout(function(){try{event.currentTarget.classList.remove('caliniyor');}catch(e){}}, 1500);
+  if(el) el.classList.add('caliniyor');
+  setTimeout(function(){if(el) el.classList.remove('caliniyor');}, 1500);
 }
 
 // ═══ ZURNA delikleri ═══
@@ -1842,6 +1839,1995 @@ defDiyEl.id = 'defDiyagram';
 defDiyEl.className = 'davul-diyagram';
 var defSesEl = document.getElementById('defSes');
 if (defSesEl) defSesEl.parentNode.insertBefore(defDiyEl, defSesEl.nextSibling);
+
+
+// ═══ ALET FOTOSU ═══
+var ALET_FOTOLAR = {
+  piyano:   {em:'🎹', ad:'Piyano',         ac:'88 tuşlu klavye çalgısı'},
+  davul:    {em:'🥁', ad:'Davul Seti',      ac:'Bas, snare, hi-hat ve tombalar'},
+  gitar:    {em:'🎸', ad:'Gitar',           ac:'6 telli akustik/elektrik çalgı'},
+  xylo:     {em:'🎶', ad:'Xylophone',       ac:'Renkli çubukları olan vurmalı çalgı'},
+  trompet:  {em:'🎺', ad:'Trompet',         ac:'Nefesli bakır üflemeli çalgı'},
+  flut:     {em:'🎵', ad:'Flüt',            ac:'Klasik batı flütü'},
+  keman:    {em:'🎻', ad:'Keman',           ac:'Yaylı dört telli çalgı'},
+  org:      {em:'🎹', ad:'Org',             ac:'Elektronik çok sesli klavye'},
+  baglama:  {em:'🪕', ad:'Bağlama / Saz',   ac:'Türk halk müziğinin simgesi'},
+  ud:       {em:'🪕', ad:'Ud',              ac:'Orta Doğu ve Türk müziği çalgısı'},
+  darbuka:  {em:'🥁', ad:'Darbuka',         ac:'Türk ve Arap ritim çalgısı'},
+  def:      {em:'🥁', ad:'Def',             ac:'Zilli Türk davulu'},
+  ney:      {em:'🎵', ad:'Ney',             ac:'Kamıştan yapılmış Türk nefes çalgısı'},
+  kemane:   {em:'🎻', ad:'Kemane',          ac:'Türk yaylı halk çalgısı'},
+  zurna:    {em:'🎵', ad:'Zurna',           ac:'Güçlü sesli Türk nefes çalgısı'},
+  kaval:    {em:'🎵', ad:'Kaval',           ac:'Anadolu çoban flütü'},
+  lute:     {em:'🎸', ad:'Lute',            ac:'Orta Çağ Avrupası telli çalgısı'},
+  lyre:     {em:'🎵', ad:'Lir',             ac:'Antik Yunan ve Mısır çalgısı'},
+  hurdygurdy:{em:'🎻',ad:'Hurdy-Gurdy',     ac:'Çark döndürülen yaylı çalgı'},
+  vikinghorn:{em:'📯',ad:'Viking Boynuzu',  ac:'İskandinav savaş borazanı'},
+  vikingdavul:{em:'🥁',ad:'Viking Davulu',  ac:'İskandinav savaş ritim çalgısı'},
+  bodhran:  {em:'🥁', ad:'Bodhrán',         ac:'Geleneksel İrlanda davulu'},
+  duduk:    {em:'🎵', ad:'Duduk',           ac:'Ermeni kamış çalgısı'},
+  lotrhorn: {em:'🎺', ad:'Orta Dünya Hornlari', ac:'Gondor dan Shire a epik sesler'},
+  goblin:   {em:'💀', ad:'Goblin Davulu',   ac:'Kaotik ve vahşi ork ritmi'},
+};
+
+function aletFotoGuncelle(id) {
+  var f = ALET_FOTOLAR[id];
+  if (!f) return;
+  var emEl = document.getElementById('aletFotoEmoji');
+  var adEl = document.getElementById('aletFotoAd');
+  var acEl = document.getElementById('aletFotoAciklama');
+  var ic   = document.getElementById('aletFotoIc');
+  if (!emEl) return;
+  // Animasyon
+  ic.style.transform = 'scale(0.9)';
+  ic.style.opacity = '0.5';
+  setTimeout(function() {
+    emEl.textContent = f.em;
+    adEl.textContent = f.ad;
+    acEl.textContent = f.ac;
+    ic.style.transform = 'scale(1)';
+    ic.style.opacity = '1';
+  }, 150);
+}
+
+// aletSec fonksiyonunu patch et
+var _eskiAletSec = aletSec;
+aletSec = function(id, btn) {
+  _eskiAletSec(id, btn);
+  aletFotoGuncelle(id);
+};
+
+
+// ═══ ALET SVG GÖRSELLERİ ═══
+
+var ALET_SVG = {
+
+darbuka: function(vurusNokta) {
+  var renkler = {dum:'#FFE135', tek:'#4ade80', ka:'#60a5fa', teke:'#f87171', ana:'#FFE135'};
+  var aktifRenk = renkler[vurusNokta] || 'rgba(255,255,255,0.1)';
+  return `<svg viewBox="0 0 200 280" width="160" height="224">
+    <!-- Darbuka gövdesi -->
+    <ellipse cx="100" cy="50" rx="70" ry="18" fill="#8B6914" stroke="#6B4F0F" stroke-width="2"/>
+    <path d="M30,50 Q20,150 45,230 Q100,260 155,230 Q180,150 170,50 Z" fill="url(#darbukaGrad)" stroke="#6B4F0F" stroke-width="2"/>
+    <defs>
+      <linearGradient id="darbukaGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#5C3D0A"/>
+        <stop offset="40%" stop-color="#8B6914"/>
+        <stop offset="100%" stop-color="#5C3D0A"/>
+      </linearGradient>
+    </defs>
+    <!-- Alt açıklık -->
+    <ellipse cx="100" cy="232" rx="38" ry="14" fill="none" stroke="#6B4F0F" stroke-width="2"/>
+    <!-- Deri yüzey -->
+    <ellipse cx="100" cy="50" rx="70" ry="18" fill="${vurusNokta==='dum'?'rgba(255,225,53,0.4)':'#D4A853'}" stroke="${vurusNokta==='dum'?'#FFE135':'#B8892E'}" stroke-width="${vurusNokta==='dum'?3:2}"/>
+    <!-- Merkez nokta (Düm) -->
+    <ellipse cx="100" cy="50" rx="35" ry="9" fill="${vurusNokta==='dum'?'rgba(255,225,53,0.6)':'rgba(255,255,255,0.05)'}" stroke="${vurusNokta==='dum'?'#FFE135':'rgba(255,255,255,0.2)'}" stroke-width="1.5"/>
+    <!-- Sağ kenar (Tek) -->
+    <ellipse cx="152" cy="50" rx="16" ry="7" fill="${vurusNokta==='tek'?'rgba(74,222,128,0.6)':'rgba(255,255,255,0.0)'}" stroke="${vurusNokta==='tek'?'#4ade80':'transparent'}" stroke-width="2"/>
+    <!-- Sol kenar (Ka) -->
+    <ellipse cx="48" cy="50" rx="16" ry="7" fill="${vurusNokta==='ka'?'rgba(96,165,250,0.6)':'rgba(255,255,255,0.0)'}" stroke="${vurusNokta==='ka'?'#60a5fa':'transparent'}" stroke-width="2"/>
+    <!-- Etiketler -->
+    <text x="100" y="53" text-anchor="middle" fill="${vurusNokta==='dum'?'#FFE135':'rgba(255,255,255,0.3)'}" font-size="9" font-weight="bold" font-family="sans-serif">DÜM</text>
+    <text x="152" y="53" text-anchor="middle" fill="${vurusNokta==='tek'?'#4ade80':'rgba(255,255,255,0.2)'}" font-size="8" font-family="sans-serif">TEK</text>
+    <text x="48" y="53" text-anchor="middle" fill="${vurusNokta==='ka'?'#60a5fa':'rgba(255,255,255,0.2)'}" font-size="8" font-family="sans-serif">KA</text>
+    <!-- Süsleme desenleri -->
+    <path d="M35,80 Q100,70 165,80" stroke="rgba(255,200,100,0.3)" stroke-width="1" fill="none"/>
+    <path d="M32,100 Q100,90 168,100" stroke="rgba(255,200,100,0.2)" stroke-width="1" fill="none"/>
+  </svg>`;
+},
+
+def: function(vurusNokta) {
+  var w=200, h=200, cx=100, cy=100, r=85;
+  var svg = `<svg viewBox="0 0 ${w} ${h}" width="160" height="160">
+    <!-- Def çerçevesi -->
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#6B3A1F" stroke="#4A2810" stroke-width="4"/>
+    <!-- Deri -->
+    <circle cx="${cx}" cy="${cy}" r="${r-8}" fill="${vurusNokta==='ana'?'rgba(255,225,53,0.15)':'#C4956A'}" stroke="${vurusNokta==='ana'?'#FFE135':'#A07850'}" stroke-width="${vurusNokta==='ana'?2:1}"/>
+    <!-- Deri dokusu -->
+    <circle cx="${cx}" cy="${cy}" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <circle cx="${cx}" cy="${cy}" r="20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+  // Ziller
+  for(var i=0;i<8;i++){
+    var angle = (i/8)*Math.PI*2;
+    var zx = cx + (r-4)*Math.cos(angle);
+    var zy = cy + (r-4)*Math.sin(angle);
+    var zilRenk = vurusNokta==='zil' ? '#60a5fa' : '#C0A060';
+    svg += `<ellipse cx="${zx}" cy="${zy}" rx="8" ry="5" fill="${zilRenk}" stroke="#8B6914" stroke-width="1" transform="rotate(${i*45} ${zx} ${zy})"/>`;
+  }
+  if(vurusNokta==='kenar'){
+    svg += `<circle cx="${cx}" cy="${cy}" r="${r-8}" fill="none" stroke="#4ade80" stroke-width="6" opacity="0.6"/>`;
+  }
+  svg += `<text x="${cx}" y="${cy+5}" text-anchor="middle" fill="${vurusNokta==='ana'?'#FFE135':'rgba(255,255,255,0.2)'}" font-size="11" font-weight="bold" font-family="sans-serif">DEF</text>`;
+  svg += `</svg>`;
+  return svg;
+},
+
+vikingdavul: function(vurusNokta) {
+  return `<svg viewBox="0 0 220 180" width="180" height="150">
+    <!-- Davul gövdesi -->
+    <ellipse cx="110" cy="90" rx="100" ry="70" fill="#4A2810" stroke="#2D1A08" stroke-width="3"/>
+    <!-- Deri yüzey -->
+    <ellipse cx="110" cy="90" rx="90" ry="60" fill="${vurusNokta==='ana'?'rgba(255,225,53,0.2)':'#8B5E3C'}" stroke="${vurusNokta==='ana'?'#FFE135':'#6B4525'}" stroke-width="2"/>
+    <!-- Viking runik desenleri -->
+    <path d="M60,90 L90,60 L90,120 Z" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1.5"/>
+    <path d="M160,90 L130,60 L130,120 Z" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1.5"/>
+    <line x1="60" y1="90" x2="160" y2="90" stroke="rgba(255,200,100,0.2)" stroke-width="1"/>
+    <!-- Merkez vuruş -->
+    <ellipse cx="110" cy="90" rx="35" ry="25" fill="${vurusNokta==='ana'?'rgba(248,113,113,0.4)':'rgba(255,255,255,0.05)'}" stroke="${vurusNokta==='ana'?'#f87171':'rgba(255,255,255,0.1)'}" stroke-width="2"/>
+    <!-- Bağlama ipleri -->
+    ${[30,60,90,120,150].map(x=>`<line x1="${x+10}" y1="20" x2="${x+10}" y2="160" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`).join('')}
+    <text x="110" y="95" text-anchor="middle" fill="${vurusNokta?'#f87171':'rgba(255,255,255,0.2)'}" font-size="11" font-weight="bold" font-family="sans-serif">⚔️ VURUŞ</text>
+  </svg>`;
+},
+
+goblin: function(vurusNokta) {
+  var renkMap = {bang:'#f87171', crash:'#fb923c', vur:'#FFE135', kaos:'#a78bfa'};
+  var r = renkMap[vurusNokta] || 'rgba(255,255,255,0.1)';
+  return `<svg viewBox="0 0 220 200" width="180" height="160">
+    <!-- Arka davul -->
+    <ellipse cx="60" cy="130" rx="45" ry="30" fill="#2A1A08" stroke="#1A0A00" stroke-width="2"/>
+    <ellipse cx="60" cy="110" rx="45" ry="15" fill="${vurusNokta==='crash'?'rgba(251,146,60,0.5)':'#5C3010'}" stroke="${vurusNokta==='crash'?'#fb923c':'#3A1E08'}" stroke-width="2"/>
+    <!-- Ana büyük davul -->
+    <ellipse cx="130" cy="140" rx="70" ry="45" fill="#1A0A00" stroke="#0A0500" stroke-width="3"/>
+    <ellipse cx="130" cy="110" rx="70" ry="22" fill="${vurusNokta==='bang'?'rgba(248,113,113,0.5)':'#3D1E0A'}" stroke="${vurusNokta==='bang'?'#f87171':'#2A1008'}" stroke-width="2"/>
+    <!-- Çatlak/hasar efekti -->
+    <path d="M110,105 L125,112 L115,118 L130,125" stroke="rgba(255,100,50,0.4)" stroke-width="1.5" fill="none"/>
+    <path d="M145,100 L152,110 L148,115" stroke="rgba(255,100,50,0.3)" stroke-width="1" fill="none"/>
+    <!-- Küçük zil -->
+    <circle cx="185" cy="70" r="20" fill="${vurusNokta==='kaos'?'rgba(167,139,250,0.5)':'#4A3000'}" stroke="${vurusNokta==='kaos'?'#a78bfa':'#2A1A00'}" stroke-width="2"/>
+    <!-- Goblin kemikleri (süsleme) -->
+    <text x="130" y="116" text-anchor="middle" fill="${vurusNokta==='bang'?'#f87171':'rgba(255,100,50,0.3)'}" font-size="12" font-weight="bold" font-family="sans-serif">💥 BANG!</text>
+    <text x="60" y="114" text-anchor="middle" fill="${vurusNokta==='crash'?'#fb923c':'rgba(255,100,50,0.2)'}" font-size="9" font-family="sans-serif">CRASH</text>
+    <text x="185" y="74" text-anchor="middle" fill="${vurusNokta==='kaos'?'#a78bfa':'rgba(167,139,250,0.2)'}" font-size="8" font-family="sans-serif">ZİL</text>
+    <!-- Tokmak -->
+    <line x1="90" y1="40" x2="115" y2="105" stroke="#8B6914" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="90" cy="38" r="10" fill="#6B4914"/>
+  </svg>`;
+},
+
+bodhran: function(vurusNokta) {
+  var renkMap = {ana:'#4ade80', rim:'#FFE135', orta:'#60a5fa', hafif:'#a78bfa'};
+  var r = renkMap[vurusNokta] || 'rgba(255,255,255,0.1)';
+  return `<svg viewBox="0 0 200 200" width="160" height="160">
+    <!-- Çerçeve -->
+    <circle cx="100" cy="100" r="90" fill="#5C3010" stroke="#3A1E08" stroke-width="4"/>
+    <!-- Deri -->
+    <circle cx="100" cy="100" r="80" fill="${vurusNokta==='ana'||vurusNokta==='orta'?'rgba(74,222,128,0.15)':'#C4956A'}" stroke="${r}" stroke-width="2"/>
+    <!-- Çarpı tutaç -->
+    <line x1="100" y1="20" x2="100" y2="180" stroke="#6B4525" stroke-width="8" stroke-linecap="round"/>
+    <line x1="20" y1="100" x2="180" y2="100" stroke="#6B4525" stroke-width="8" stroke-linecap="round"/>
+    <!-- Merkez -->
+    <circle cx="100" cy="100" r="12" fill="${vurusNokta==='ana'?'rgba(74,222,128,0.6)':'#8B5E3C'}" stroke="${vurusNokta==='ana'?'#4ade80':'#6B4525'}" stroke-width="2"/>
+    <!-- Rim vurgu -->
+    ${vurusNokta==='rim'?`<circle cx="100" cy="100" r="78" fill="none" stroke="#FFE135" stroke-width="5" opacity="0.6"/>`:''}
+    <!-- Tirlitürmek (vurucu) -->
+    <line x1="140" y1="30" x2="100" y2="90" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="145" cy="25" rx="10" ry="6" fill="#6B4914" transform="rotate(-30 145 25)"/>
+    <text x="100" y="155" text-anchor="middle" fill="${r}" font-size="10" font-family="sans-serif" font-weight="bold">BODHRÁN</text>
+  </svg>`;
+},
+
+ney: function(aktifDelikler) {
+  var svg = `<svg viewBox="0 0 60 280" width="60" height="280">
+    <!-- Ney borusu -->
+    <rect x="22" y="10" width="16" height="260" rx="8" fill="url(#neyGrad)" stroke="#4A7A3A" stroke-width="1"/>
+    <defs>
+      <linearGradient id="neyGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#2A5A20"/>
+        <stop offset="50%" stop-color="#5A9A40"/>
+        <stop offset="100%" stop-color="#2A5A20"/>
+      </linearGradient>
+    </defs>
+    <!-- Kamış boğumları -->
+    ${[60,110,160,210].map(y=>`<rect x="20" y="${y}" width="20" height="4" rx="2" fill="#3A6A2A"/>`).join('')}
+    <!-- Üfleme deliği -->
+    <ellipse cx="30" cy="25" rx="6" ry="4" fill="#1A3A10" stroke="#4ade80" stroke-width="1.5"/>`;
+  // 6 delik
+  var delikYler = [80, 100, 120, 140, 160, 180];
+  delikYler.forEach(function(y, i) {
+    var kapali = aktifDelikler && aktifDelikler[i] === 1;
+    svg += `<circle cx="30" cy="${y}" r="5" fill="${kapali?'#1A3A10':'rgba(255,255,255,0.6)'}" stroke="${kapali?'#4ade80':'rgba(255,255,255,0.8)'}" stroke-width="1.5"/>`;
+  });
+  svg += `</svg>`;
+  return svg;
+},
+
+kaval: function(aktifDelikler) {
+  var svg = `<svg viewBox="0 0 60 300" width="55" height="280">
+    <rect x="20" y="5" width="20" height="290" rx="10" fill="url(#kavalGrad)" stroke="#8B6914" stroke-width="1.5"/>
+    <defs>
+      <linearGradient id="kavalGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#6B4914"/>
+        <stop offset="50%" stop-color="#B8892E"/>
+        <stop offset="100%" stop-color="#6B4914"/>
+      </linearGradient>
+    </defs>
+    ${[80,130,180,230].map(y=>`<rect x="18" y="${y}" width="24" height="3" rx="1.5" fill="#8B6914"/>`).join('')}
+    <!-- Ağızlık -->
+    <rect x="18" y="5" width="24" height="30" rx="10" fill="#4A2810"/>
+    <ellipse cx="30" cy="20" rx="5" ry="8" fill="#1A0A00"/>`;
+  var delikYler = [100, 120, 140, 165, 185, 205];
+  delikYler.forEach(function(y, i) {
+    var kapali = aktifDelikler && aktifDelikler[i] === 1;
+    svg += `<circle cx="30" cy="${y}" r="5" fill="${kapali?'#1A0A00':'rgba(255,220,150,0.8)'}" stroke="${kapali?'#FFE135':'rgba(255,200,100,0.6)'}" stroke-width="1.5"/>`;
+  });
+  svg += `</svg>`;
+  return svg;
+},
+
+zurna: function(aktifDelikler) {
+  var svg = `<svg viewBox="0 0 80 280" width="72" height="260">
+    <!-- Zurna konik gövde -->
+    <path d="M35,10 L25,200 Q20,240 30,260 Q40,270 50,260 Q60,240 55,200 L45,10 Z" fill="url(#zurnaGrad)" stroke="#8B4A14" stroke-width="1.5"/>
+    <defs>
+      <linearGradient id="zurnaGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#6B3410"/>
+        <stop offset="50%" stop-color="#C06820"/>
+        <stop offset="100%" stop-color="#6B3410"/>
+      </linearGradient>
+    </defs>
+    <!-- Kamış dili -->
+    <rect x="36" y="2" width="8" height="16" rx="3" fill="#8B9A3A"/>
+    <rect x="37" y="2" width="6" height="12" rx="2" fill="#AAB84A"/>
+    <!-- Parmak delikleri -->`;
+  var delikYler = [80,100,120,140,160,180];
+  delikYler.forEach(function(y, i) {
+    var kapali = aktifDelikler && aktifDelikler[i] === 1;
+    svg += `<circle cx="40" cy="${y}" r="5" fill="${kapali?'#1A0A00':'rgba(255,200,100,0.8)'}" stroke="${kapali?'#f87171':'rgba(255,150,50,0.6)'}" stroke-width="1.5"/>`;
+  });
+  svg += `<ellipse cx="40" cy="255" rx="18" ry="8" fill="#4A2010" stroke="#2A1000" stroke-width="1"/>`;
+  svg += `</svg>`;
+  return svg;
+},
+
+kemane: function(calinen) {
+  var telRenkler = {G3:'#f87171', D4:'#fb923c', A4:'#FFE135', E5:'#4ade80'};
+  var r = calinen ? (telRenkler[calinen] || '#FFE135') : 'rgba(255,255,255,0.2)';
+  return `<svg viewBox="0 0 140 280" width="120" height="240">
+    <!-- Gövde alt -->
+    <ellipse cx="70" cy="200" rx="45" ry="55" fill="#6B3410" stroke="#4A2010" stroke-width="2"/>
+    <!-- Gövde üst -->
+    <ellipse cx="70" cy="130" rx="35" ry="40" fill="#6B3410" stroke="#4A2010" stroke-width="2"/>
+    <!-- Bel -->
+    <path d="M35,160 Q20,175 35,190 L105,190 Q120,175 105,160 Q120,145 105,130 L35,130 Q20,145 35,160Z" fill="#5A2A0A"/>
+    <!-- Ses delikleri -->
+    <ellipse cx="55" cy="190" rx="8" ry="12" fill="#1A0A00"/>
+    <ellipse cx="85" cy="190" rx="8" ry="12" fill="#1A0A00"/>
+    <!-- Sap -->
+    <rect x="63" y="40" width="14" height="100" rx="4" fill="#4A2810"/>
+    <!-- Burgular -->
+    ${['#f87171','#fb923c','#FFE135','#4ade80'].map((c,i)=>`<circle cx="${i<2?52:88}" cy="${50+i*15}" r="5" fill="${c}" opacity="0.8"/>`).join('')}
+    <!-- Teller -->
+    ${[62,66,70,74].map((x,i)=>{
+      var notalar = ['G3','D4','A4','E5'];
+      var aktif = calinen === notalar[i];
+      return `<line x1="${x}" y1="45" x2="${x}" y2="240" stroke="${aktif?telRenkler[notalar[i]]:'rgba(255,255,255,0.3)'}" stroke-width="${aktif?2:1}"/>`;
+    }).join('')}
+    <!-- Yay -->
+    <path d="M20,60 Q10,140 15,220" stroke="#8B6914" stroke-width="3" fill="none"/>
+    <line x1="15" y1="60" x2="15" y2="220" stroke="#C8A830" stroke-width="1"/>
+  </svg>`;
+},
+
+vikinghorn: function(ses) {
+  var renk = ses ? '#FFE135' : 'rgba(255,255,255,0.3)';
+  return `<svg viewBox="0 0 240 140" width="200" height="120">
+    <!-- Viking boynuzu ana gövde -->
+    <path d="M20,70 Q30,30 80,20 L200,50 Q220,55 225,70 Q220,85 200,90 L80,120 Q30,110 20,70Z" fill="url(#hornGrad)" stroke="#4A2810" stroke-width="2"/>
+    <defs>
+      <linearGradient id="hornGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#2A1808"/>
+        <stop offset="50%" stop-color="#8B5E2A"/>
+        <stop offset="100%" stop-color="#C0904A"/>
+      </linearGradient>
+    </defs>
+    <!-- Ağız deliği -->
+    <ellipse cx="222" cy="70" rx="8" ry="20" fill="#1A0A00" stroke="${renk}" stroke-width="2"/>
+    <!-- Dekoratif halkalar -->
+    ${[80,120,160].map(x=>`<ellipse cx="${x}" cy="70" rx="6" ry="35" fill="none" stroke="rgba(200,160,50,0.5)" stroke-width="3"/>`).join('')}
+    <!-- Runik desen -->
+    <path d="M40,60 L55,70 L40,80" fill="none" stroke="rgba(255,200,100,0.4)" stroke-width="1.5"/>
+    <path d="M50,55 L50,85" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>
+    <!-- Ses dalgası animasyonu -->
+    ${ses ? `
+    <circle cx="222" cy="70" r="15" fill="none" stroke="#FFE135" stroke-width="2" opacity="0.6"/>
+    <circle cx="222" cy="70" r="25" fill="none" stroke="#FFE135" stroke-width="1" opacity="0.3"/>
+    ` : ''}
+  </svg>`;
+},
+
+lotrhorn: function(tip) {
+  var renkler = {boromir:'#FFE135', rohirrim:'#f87171', gondor:'#60a5fa', elf:'#4ade80', mordor:'#a78bfa', hobbit:'#fb923c'};
+  var r = tip ? (renkler[tip] || '#FFE135') : 'rgba(255,255,255,0.3)';
+  var uzunluk = tip === 'mordor' ? 220 : tip === 'boromir' ? 200 : 180;
+  return `<svg viewBox="0 0 260 160" width="210" height="130">
+    <!-- Ana horn -->
+    <path d="M15,80 Q25,40 70,25 L${uzunluk},55 Q${uzunluk+30},62 ${uzunluk+35},80 Q${uzunluk+30},98 ${uzunluk},105 L70,135 Q25,120 15,80Z" fill="url(#lotrGrad)" stroke="#2A1808" stroke-width="2"/>
+    <defs>
+      <linearGradient id="lotrGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#1A0E04"/>
+        <stop offset="40%" stop-color="#6B4A20"/>
+        <stop offset="100%" stop-color="#A07030"/>
+      </linearGradient>
+    </defs>
+    <!-- Ağız -->
+    <ellipse cx="${uzunluk+32}" cy="80" rx="8" ry="24" fill="#0A0500" stroke="${r}" stroke-width="2.5"/>
+    <!-- Süsleme halkalar -->
+    ${[70,110,150].map((x,i)=>`<ellipse cx="${x}" cy="80" rx="5" ry="30" fill="none" stroke="rgba(200,160,50,0.4)" stroke-width="${i===0?3:2}"/>`).join('')}
+    <!-- Gondor logosu (basit) -->
+    <path d="M35,70 L35,90 M28,80 L42,80 M30,72 L40,88 M40,72 L30,88" stroke="${r}" stroke-width="1.2" opacity="0.6"/>
+    ${tip ? `
+    <circle cx="${uzunluk+32}" cy="80" r="18" fill="none" stroke="${r}" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="${uzunluk+32}" cy="80" r="30" fill="none" stroke="${r}" stroke-width="1" opacity="0.25"/>
+    <text x="130" y="150" text-anchor="middle" fill="${r}" font-size="10" font-family="sans-serif">${tip.charAt(0).toUpperCase()+tip.slice(1)}</text>
+    ` : ''}
+  </svg>`;
+},
+
+baglama: function(nota) {
+  return `<svg viewBox="0 0 140 300" width="110" height="240">
+    <!-- Tekne (gövde) -->
+    <ellipse cx="70" cy="210" rx="55" ry="65" fill="url(#baglamaGrad)" stroke="#4A2810" stroke-width="2"/>
+    <defs>
+      <linearGradient id="baglamaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8B5E2A"/>
+        <stop offset="100%" stop-color="#5C3A10"/>
+      </linearGradient>
+    </defs>
+    <!-- Ses deliği -->
+    <circle cx="70" cy="220" r="18" fill="#1A0A00" stroke="#6B4520" stroke-width="1"/>
+    <!-- Kapak -->
+    <ellipse cx="70" cy="210" rx="55" ry="65" fill="none" stroke="rgba(255,200,100,0.2)" stroke-width="1"/>
+    <!-- Uzun sap -->
+    <rect x="63" y="30" width="14" height="155" rx="4" fill="#4A2810"/>
+    <!-- Perde çizgileri -->
+    ${[60,80,100,120,140,160].map(y=>`<line x1="58" y1="${y}" x2="78" y2="${y}" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>`).join('')}
+    <!-- Burgular -->
+    <rect x="55" y="20" width="30" height="20" rx="4" fill="#3A1E08"/>
+    ${[0,1,2].map(i=>`<circle cx="${62+i*8}" cy="30" r="4" fill="#8B6914"/>`).join('')}
+    <!-- 3 Tel -->
+    ${[65,70,75].map((x,i)=>`<line x1="${x}" y1="32" x2="${x}" y2="260" stroke="${nota?'#FFE135':'rgba(255,255,255,0.4)'}" stroke-width="${nota?1.5:1}"/>`).join('')}
+    <!-- Mızrap izi -->
+    ${nota?`<ellipse cx="70" cy="200" rx="20" ry="10" fill="rgba(255,225,53,0.15)" stroke="rgba(255,225,53,0.4)" stroke-width="1"/>`:''}
+  </svg>`;
+},
+
+ud: function(nota) {
+  return `<svg viewBox="0 0 160 300" width="130" height="240">
+    <!-- Büyük armut gövde -->
+    <ellipse cx="80" cy="210" rx="70" ry="75" fill="url(#udGrad)" stroke="#3A1E08" stroke-width="2"/>
+    <defs>
+      <linearGradient id="udGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#A07040"/>
+        <stop offset="100%" stop-color="#5C3010"/>
+      </linearGradient>
+    </defs>
+    <!-- Geometrik ses deliği (gül) -->
+    <circle cx="80" cy="205" r="20" fill="none" stroke="#8B5E2A" stroke-width="1.5"/>
+    ${[0,60,120,180,240,300].map(a=>{
+      var rad=a*Math.PI/180;
+      return `<line x1="${80+8*Math.cos(rad)}" y1="${205+8*Math.sin(rad)}" x2="${80+18*Math.cos(rad)}" y2="${205+18*Math.sin(rad)}" stroke="rgba(180,130,60,0.6)" stroke-width="1"/>`;
+    }).join('')}
+    <!-- Eğik sap -->
+    <path d="M72,130 L68,20 Q70,10 80,8 Q90,10 88,20 L84,130Z" fill="#4A2810" stroke="#2A1008" stroke-width="1"/>
+    <!-- Geri kıvrık baş -->
+    <path d="M68,20 Q60,5 80,2 Q100,5 88,20" fill="#3A1808"/>
+    <!-- 6 tel çifti -->
+    ${[68,71,74,77,80,83].map((x,i)=>`<line x1="${x}" y1="25" x2="${80+(x-75.5)*0.3}" y2="270" stroke="${nota?'rgba(255,225,53,0.8)':'rgba(255,255,255,0.35)'}" stroke-width="1"/>`).join('')}
+    ${nota?`<ellipse cx="80" cy="195" rx="25" ry="12" fill="rgba(255,225,53,0.1)" stroke="rgba(255,225,53,0.3)" stroke-width="1"/>`:''}
+  </svg>`;
+},
+
+lute: function(nota) {
+  return `<svg viewBox="0 0 150 300" width="120" height="240">
+    <!-- Armut gövde -->
+    <ellipse cx="75" cy="210" rx="60" ry="70" fill="url(#luteGrad)" stroke="#4A2810" stroke-width="2"/>
+    <defs>
+      <linearGradient id="luteGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8B6914"/>
+        <stop offset="100%" stop-color="#4A2810"/>
+      </linearGradient>
+    </defs>
+    <!-- Kaburgalar (çizgiler) -->
+    ${[-40,-20,0,20,40].map(dx=>`<path d="M${75+dx},145 Q${75+dx*1.2},210 ${75+dx},275" fill="none" stroke="rgba(100,60,20,0.5)" stroke-width="1"/>`).join('')}
+    <!-- Güneş ses deliği -->
+    <circle cx="75" cy="205" r="22" fill="none" stroke="#8B6914" stroke-width="2"/>
+    <circle cx="75" cy="205" r="14" fill="none" stroke="#8B6914" stroke-width="1"/>
+    <!-- Sap -->
+    <rect x="68" y="60" width="14" height="95" rx="3" fill="#4A2810"/>
+    <!-- Perde bağları -->
+    ${[75,88,101,114,127,140].map(y=>`<line x1="65" y1="${y}" x2="83" y2="${y}" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>`).join('')}
+    <!-- Geri kıvrık baş -->
+    <path d="M65,62 Q55,30 75,20 Q95,30 85,62" fill="#3A1808" stroke="#2A1008" stroke-width="1"/>
+    <!-- Burgular -->
+    ${[0,1,2,3].map(i=>`<circle cx="${i<2?58:92}" cy="${28+i*12}" r="4" fill="#8B6914"/>`).join('')}
+    <!-- Teller -->
+    ${[69,72,75,78,81].map(x=>`<line x1="${x}" y1="25" x2="${x}" y2="265" stroke="${nota?'rgba(255,225,53,0.7)':'rgba(255,255,255,0.3)'}" stroke-width="1"/>`).join('')}
+  </svg>`;
+},
+
+lyre: function(nota) {
+  var telRenk = nota ? '#FFE135' : 'rgba(255,255,255,0.3)';
+  return `<svg viewBox="0 0 160 260" width="130" height="210">
+    <!-- Sol kol -->
+    <path d="M30,200 Q15,150 20,80 Q25,40 50,20" fill="none" stroke="#8B6914" stroke-width="10" stroke-linecap="round"/>
+    <!-- Sağ kol -->
+    <path d="M130,200 Q145,150 140,80 Q135,40 110,20" fill="none" stroke="#8B6914" stroke-width="10" stroke-linecap="round"/>
+    <!-- Üst çubuk -->
+    <line x1="50" y1="20" x2="110" y2="20" stroke="#8B6914" stroke-width="8" stroke-linecap="round"/>
+    <!-- Alt bağlantı -->
+    <line x1="30" y1="200" x2="130" y2="200" stroke="#6B4914" stroke-width="6" stroke-linecap="round"/>
+    <!-- Teller (7 adet) -->
+    ${[0,1,2,3,4,5,6].map(i=>{
+      var x = 45 + i*12;
+      var aktif = nota && i === [0,1,2,3,4,5,6].indexOf(i);
+      return `<line x1="${x}" y1="28" x2="${x}" y2="195" stroke="${nota?'rgba(255,225,53,0.7)':'rgba(255,255,255,0.35)'}" stroke-width="${nota?2:1}"/>`;
+    }).join('')}
+    <!-- Dekorasyon -->
+    <circle cx="80" cy="20" r="8" fill="#FFE135" opacity="0.6"/>
+    <text x="80" y="230" text-anchor="middle" fill="rgba(255,200,100,0.5)" font-size="9" font-family="sans-serif">LİR</text>
+  </svg>`;
+},
+
+hurdygurdy: function(nota) {
+  return `<svg viewBox="0 0 180 260" width="150" height="215">
+    <!-- Dikdörtgen gövde -->
+    <rect x="20" y="60" width="140" height="160" rx="12" fill="url(#hgGrad)" stroke="#3A1E08" stroke-width="2"/>
+    <defs>
+      <linearGradient id="hgGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6B3A10"/>
+        <stop offset="100%" stop-color="#4A2008"/>
+      </linearGradient>
+    </defs>
+    <!-- Çark -->
+    <circle cx="60" cy="160" r="35" fill="none" stroke="#8B6914" stroke-width="3"/>
+    <circle cx="60" cy="160" r="25" fill="#2A1008" stroke="#6B4914" stroke-width="2"/>
+    <circle cx="60" cy="160" r="5" fill="#FFE135" opacity="0.6"/>
+    ${[0,45,90,135].map(a=>{
+      var rad=a*Math.PI/180;
+      return `<line x1="${60+10*Math.cos(rad)}" y1="${160+10*Math.sin(rad)}" x2="${60+23*Math.cos(rad)}" y2="${160+23*Math.sin(rad)}" stroke="#8B6914" stroke-width="2"/>`;
+    }).join('')}
+    <!-- Krank -->
+    <line x1="80" y1="160" x2="110" y2="145" stroke="#6B4914" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="115" cy="143" r="8" fill="#4A2810"/>
+    <!-- Tuşlar -->
+    ${[0,1,2,3,4].map(i=>`<rect x="120" y="${80+i*22}" width="25" height="16" rx="3" fill="${nota&&i===2?'#FFE135':'#3A1E08'}" stroke="#6B4914" stroke-width="1"/>`).join('')}
+    <!-- Teller -->
+    <line x1="22" y1="100" x2="158" y2="100" stroke="${nota?'rgba(255,225,53,0.7)':'rgba(255,255,255,0.3)'}" stroke-width="1.5"/>
+    <line x1="22" y1="108" x2="158" y2="108" stroke="${nota?'rgba(255,225,53,0.5)':'rgba(255,255,255,0.2)'}" stroke-width="1"/>
+    <!-- Ses delikleri -->
+    <ellipse cx="90" cy="155" rx="12" ry="20" fill="#1A0800" stroke="#2A1008" stroke-width="1"/>
+    <text x="90" y="235" text-anchor="middle" fill="rgba(200,150,50,0.4)" font-size="8" font-family="sans-serif">HURDY-GURDY</text>
+  </svg>`;
+},
+
+vikingdavul: function(vurusNokta) {
+  return `<svg viewBox="0 0 240 180" width="200" height="150">
+    <!-- Davul çemberi -->
+    <ellipse cx="120" cy="90" rx="108" ry="75" fill="#2A1008" stroke="#1A0800" stroke-width="3"/>
+    <!-- Deri yüzey -->
+    <ellipse cx="120" cy="90" rx="100" ry="67" fill="${vurusNokta?'rgba(248,113,113,0.15)':'#6B3A14'}" stroke="${vurusNokta?'#f87171':'#4A2810'}" stroke-width="2"/>
+    <!-- Runik semboller -->
+    <text x="80" y="80" fill="rgba(255,200,100,0.35)" font-size="18" font-family="serif">ᚠ</text>
+    <text x="115" y="75" fill="rgba(255,200,100,0.3)" font-size="16" font-family="serif">ᚢ</text>
+    <text x="148" y="82" fill="rgba(255,200,100,0.35)" font-size="18" font-family="serif">ᚦ</text>
+    <!-- Çapraz bağlama ipleri -->
+    <line x1="20" y1="90" x2="220" y2="90" stroke="rgba(139,100,50,0.4)" stroke-width="2"/>
+    <line x1="120" y1="18" x2="120" y2="162" stroke="rgba(139,100,50,0.4)" stroke-width="2"/>
+    <line x1="42" y1="35" x2="198" y2="145" stroke="rgba(139,100,50,0.3)" stroke-width="1.5"/>
+    <line x1="198" y1="35" x2="42" y2="145" stroke="rgba(139,100,50,0.3)" stroke-width="1.5"/>
+    <!-- Merkez vuruş noktası -->
+    <circle cx="120" cy="90" r="25" fill="${vurusNokta?'rgba(248,113,113,0.4)':'rgba(255,255,255,0.04)'}" stroke="${vurusNokta?'#f87171':'rgba(255,255,255,0.1)'}" stroke-width="2"/>
+    <!-- Tokmak -->
+    <line x1="55" y1="20" x2="100" y2="75" stroke="#8B6914" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="50" cy="16" r="10" fill="#5A3A10" stroke="#3A2008" stroke-width="1"/>
+    ${vurusNokta?`<text x="120" y="95" text-anchor="middle" fill="#f87171" font-size="10" font-weight="bold" font-family="sans-serif">⚔️</text>`:''}
+  </svg>`;
+},
+
+duduk: function(aktifDelikler) {
+  var svg = `<svg viewBox="0 0 70 280" width="65" height="260">
+    <!-- Kamış boru -->
+    <rect x="22" y="10" width="26" height="250" rx="6" fill="url(#dudukGrad)" stroke="#5C3A1A" stroke-width="1.5"/>
+    <defs>
+      <linearGradient id="dudukGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#3A1E08"/>
+        <stop offset="50%" stop-color="#6B3A14"/>
+        <stop offset="100%" stop-color="#3A1E08"/>
+      </linearGradient>
+    </defs>
+    <!-- Kamış dili (geniş) -->
+    <rect x="20" y="8" width="30" height="30" rx="4" fill="#4A5A10" stroke="#2A3A08" stroke-width="1"/>
+    <rect x="22" y="10" width="26" height="26" rx="3" fill="#6A8A18"/>
+    <line x1="35" y1="12" x2="35" y2="35" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+    <!-- Boğumlar -->
+    ${[80,130,180,220].map(y=>`<rect x="20" y="${y}" width="30" height="3" rx="1" fill="#4A2810"/>`).join('')}`;
+  var delikYler = [95,115,135,155,175,195];
+  delikYler.forEach(function(y, i) {
+    var kapali = aktifDelikler && aktifDelikler[i] === 1;
+    svg += `<circle cx="35" cy="${y}" r="6" fill="${kapali?'#1A0A00':'rgba(200,150,80,0.7)'}" stroke="${kapali?'#FFE135':'rgba(180,130,60,0.5)'}" stroke-width="1.5"/>`;
+  });
+  svg += `<ellipse cx="35" cy="258" rx="8" ry="4" fill="#2A1008"/>`;
+  svg += `</svg>`;
+  return svg;
+},
+
+};
+
+// Panellere SVG göstericileri ekle
+function svgGoster(aletId, svgHtml, hedefId) {
+  var wrap = document.getElementById(hedefId);
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = hedefId;
+    wrap.style.cssText = 'text-align:center;margin:12px auto;transition:all 0.3s;';
+    var panel = document.getElementById('p-' + aletId);
+    if (panel) panel.insertBefore(wrap, panel.firstChild.nextSibling);
+  }
+  wrap.innerHTML = svgHtml;
+}
+
+// Her alet için varsayılan SVG göster
+var SVG_ALETLER = ['darbuka','def','vikingdavul','goblin','bodhran','ney','kaval','zurna','kemane','ud','baglama','lute','lyre','hurdygurdy','vikinghorn','lotrhorn','duduk'];
+SVG_ALETLER.forEach(function(id) {
+  if (ALET_SVG[id]) {
+    var svgId = 'svg-'+id;
+    var panel = document.getElementById('p-'+id);
+    if (panel) {
+      var wrap = document.createElement('div');
+      wrap.id = svgId;
+      wrap.style.cssText = 'text-align:center;margin:12px auto;transition:all 0.3s;';
+      wrap.innerHTML = ALET_SVG[id]();
+      panel.insertBefore(wrap, panel.firstChild);
+    }
+  }
+});
+
+// Darbuka click güncelleme
+var _eskiDarbuka = darbukaSesi;
+darbukaSesi = function(tip, hacim) {
+  _eskiDarbuka(tip, hacim);
+  var el = document.getElementById('svg-darbuka');
+  if (el && ALET_SVG.darbuka) el.innerHTML = ALET_SVG.darbuka(tip);
+};
+
+// Def click güncelleme
+var _eskiDef = defSesi;
+defSesi = function(tip, hacim) {
+  _eskiDef(tip, hacim);
+  var el = document.getElementById('svg-def');
+  if (el && ALET_SVG.def) el.innerHTML = ALET_SVG.def(tip);
+};
+
+// Viking davul güncelleme
+var _eskiVikingDavul = vikingDavulSes;
+vikingDavulSes = function(tip, hacim) {
+  _eskiVikingDavul(tip, hacim);
+  var el = document.getElementById('svg-vikingdavul');
+  if (el && ALET_SVG.vikingdavul) el.innerHTML = ALET_SVG.vikingdavul(tip);
+};
+
+// Goblin güncelleme
+var _eskiGoblin = goblinSes;
+goblinSes = function(tip, hacim) {
+  _eskiGoblin(tip, hacim);
+  var el = document.getElementById('svg-goblin');
+  if (el && ALET_SVG.goblin) el.innerHTML = ALET_SVG.goblin(tip);
+};
+
+// Bodhrán güncelleme
+var _eskiBodhran = bodhranSes;
+bodhranSes = function(tip, hacim) {
+  _eskiBodhran(tip, hacim);
+  var el = document.getElementById('svg-bodhran');
+  if (el && ALET_SVG.bodhran) el.innerHTML = ALET_SVG.bodhran(tip);
+};
+
+// Ney delik güncelleme
+var _neyGuncelle = function() {
+  var el = document.getElementById('svg-ney');
+  if (el && ALET_SVG.ney) el.innerHTML = ALET_SVG.ney(neyDurum);
+};
+// Kaval
+var _kavalGuncelle = function() {
+  var el = document.getElementById('svg-kaval');
+  if (el && ALET_SVG.kaval) el.innerHTML = ALET_SVG.kaval(kavalDurum);
+};
+// Zurna
+var _zurnaGuncelle = function() {
+  var el = document.getElementById('svg-zurna');
+  if (el && ALET_SVG.zurna) el.innerHTML = ALET_SVG.zurna(zurnaDurum);
+};
+// Duduk
+var _dudukGuncelle = function() {
+  var el = document.getElementById('svg-duduk');
+  if (el && ALET_SVG.duduk) el.innerHTML = ALET_SVG.duduk(dudukDurum);
+};
+
+// Delik tıklamalarını patch et
+document.addEventListener('click', function(e) {
+  if (e.target.closest && e.target.closest('#neyDelikler')) setTimeout(_neyGuncelle, 50);
+  if (e.target.closest && e.target.closest('#kavalDelikler')) setTimeout(_kavalGuncelle, 50);
+  if (e.target.closest && e.target.closest('#zurnaDelikler')) setTimeout(_zurnaGuncelle, 50);
+  if (e.target.closest && e.target.closest('#dudukDelikler')) setTimeout(_dudukGuncelle, 50);
+});
+
+// Kemane teli güncelleme
+var _eskiKemaneCal = kemaneCal;
+kemaneCal = function(nota, frek) {
+  _eskiKemaneCal(nota, frek);
+  var el = document.getElementById('svg-kemane');
+  if (el && ALET_SVG.kemane) el.innerHTML = ALET_SVG.kemane(nota);
+};
+
+// Bağlama nota güncelleme
+var _baglamaGuncelle = function(nota) {
+  var el = document.getElementById('svg-baglama');
+  if (el && ALET_SVG.baglama) el.innerHTML = ALET_SVG.baglama(nota);
+};
+
+// Ud nota güncelleme
+var _udGuncelle = function(nota) {
+  var el = document.getElementById('svg-ud');
+  if (el && ALET_SVG.ud) el.innerHTML = ALET_SVG.ud(nota);
+};
+
+// Viking Horn güncelleme
+var _eskiVikingHorn = vikingHornSes;
+vikingHornSes = function(frek, sure, hacim) {
+  _eskiVikingHorn(frek, sure, hacim);
+  var el = document.getElementById('svg-vikinghorn');
+  if (el && ALET_SVG.vikinghorn) el.innerHTML = ALET_SVG.vikinghorn(true);
+  setTimeout(function() {
+    if (el && ALET_SVG.vikinghorn) el.innerHTML = ALET_SVG.vikinghorn(false);
+  }, sure * 1000);
+};
+
+// LotR Horn güncelleme
+var _eskiLotrHorn = lotrHornSes;
+lotrHornSes = function(frek, sure, tip, hacim) {
+  _eskiLotrHorn(frek, sure, tip, hacim);
+  var el = document.getElementById('svg-lotrhorn');
+  if (el && ALET_SVG.lotrhorn) el.innerHTML = ALET_SVG.lotrhorn(tip);
+  setTimeout(function() {
+    if (el && ALET_SVG.lotrhorn) el.innerHTML = ALET_SVG.lotrhorn(null);
+  }, sure * 1000);
+};
+
+
+// ═══════════════ ALET GÖRSELLERİ SVG ═══════════════
+
+var ALET_SVG = {
+
+  // DARBUKA
+  darbuka: function(vurusNoktasi) {
+    var renkler = {dum:'#FFE135', tek:'#4ade80', ka:'#60a5fa', teke:'#f87171', default:'rgba(255,255,255,0.1)'};
+    var r = renkler[vurusNoktasi] || renkler.default;
+    return `<svg viewBox="0 0 200 280" width="160" height="220">
+      <!-- Gövde -->
+      <ellipse cx="100" cy="60" rx="70" ry="18" fill="#8B4513" stroke="#5a2d0c" stroke-width="2"/>
+      <path d="M 30 60 Q 20 160 50 230 L 150 230 Q 180 160 170 60 Z" fill="#a0522d" stroke="#5a2d0c" stroke-width="2"/>
+      <path d="M 30 60 Q 20 160 50 230" fill="none" stroke="#c17f5a" stroke-width="3"/>
+      <path d="M 170 60 Q 180 160 150 230" fill="none" stroke="#c17f5a" stroke-width="3"/>
+      <!-- Dip -->
+      <ellipse cx="100" cy="230" rx="50" ry="12" fill="#6b3410" stroke="#3d1c08" stroke-width="2"/>
+      <!-- Zar (üst deri) -->
+      <ellipse cx="100" cy="60" rx="70" ry="18" fill="${vurusNoktasi==='dum'?'rgba(255,225,53,0.3)':'rgba(220,200,180,0.9)'}" stroke="${vurusNoktasi==='dum'?'#FFE135':'#8B7355'}" stroke-width="${vurusNoktasi==='dum'?3:2}"/>
+      <!-- Deri çizgileri -->
+      <ellipse cx="100" cy="60" rx="50" ry="13" fill="none" stroke="rgba(139,115,85,0.4)" stroke-width="1"/>
+      <ellipse cx="100" cy="60" rx="30" ry="8" fill="none" stroke="rgba(139,115,85,0.3)" stroke-width="1"/>
+      <!-- Kenar vuruş noktaları -->
+      <ellipse cx="32" cy="60" rx="12" ry="7" fill="${vurusNoktasi==='tek'?'rgba(74,222,128,0.5)':'rgba(255,255,255,0.1)'}" stroke="${vurusNoktasi==='tek'?'#4ade80':'rgba(255,255,255,0.2)'}" stroke-width="2"/>
+      <ellipse cx="168" cy="60" rx="12" ry="7" fill="${vurusNoktasi==='ka'?'rgba(96,165,250,0.5)':'rgba(255,255,255,0.1)'}" stroke="${vurusNoktasi==='ka'?'#60a5fa':'rgba(255,255,255,0.2)'}" stroke-width="2"/>
+      <!-- Etiketler -->
+      <text x="100" y="64" text-anchor="middle" fill="${vurusNoktasi==='dum'?'#FFE135':'rgba(0,0,0,0.5)'}" font-family="Syne,sans-serif" font-size="11" font-weight="800">DÜM</text>
+      <text x="32" y="64" text-anchor="middle" fill="${vurusNoktasi==='tek'?'#4ade80':'rgba(255,255,255,0.3)'}" font-family="Syne,sans-serif" font-size="9" font-weight="800">TEK</text>
+      <text x="168" y="64" text-anchor="middle" fill="${vurusNoktasi==='ka'?'#60a5fa':'rgba(255,255,255,0.3)'}" font-family="Syne,sans-serif" font-size="9" font-weight="800">KA</text>
+      <!-- Süsleme çizgileri -->
+      <path d="M 42 85 Q 100 95 158 85" fill="none" stroke="rgba(255,200,100,0.4)" stroke-width="1.5"/>
+      <path d="M 38 110 Q 100 122 162 110" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>
+    </svg>`;
+  },
+
+  // DEF
+  def: function(vurusNoktasi) {
+    return `<svg viewBox="0 0 220 220" width="180" height="180">
+      <!-- Def çerçevesi -->
+      <circle cx="110" cy="110" r="90" fill="none" stroke="#8B4513" stroke-width="14"/>
+      <!-- Deri -->
+      <circle cx="110" cy="110" r="83" fill="${vurusNoktasi==='ana'?'rgba(255,225,53,0.15)':'rgba(220,200,170,0.85)'}" stroke="${vurusNoktasi==='ana'?'#FFE135':'#8B7355'}" stroke-width="2"/>
+      <!-- Deri dokusu -->
+      <circle cx="110" cy="110" r="60" fill="none" stroke="rgba(139,115,85,0.3)" stroke-width="1"/>
+      <circle cx="110" cy="110" r="35" fill="none" stroke="rgba(139,115,85,0.2)" stroke-width="1"/>
+      <!-- Ziller -->
+      ${[0,1,2,3,4,5,6,7,8,9].map(function(i){
+        var angle = (i/10)*Math.PI*2 - Math.PI/2;
+        var zx = 110 + 82*Math.cos(angle);
+        var zy = 110 + 82*Math.sin(angle);
+        var isZil = vurusNoktasi==='zil';
+        return '<circle cx="'+zx.toFixed(1)+'" cy="'+zy.toFixed(1)+'" r="7" fill="'+(isZil?'rgba(96,165,250,0.7)':'#c0a060')+'" stroke="'+(isZil?'#60a5fa':'#8B6914')+'" stroke-width="1.5"/>';
+      }).join('')}
+      <!-- Ana vuruş noktası -->
+      ${vurusNoktasi==='ana'?'<circle cx="110" cy="110" r="40" fill="rgba(255,225,53,0.25)" stroke="#FFE135" stroke-width="2.5"/>':''}
+      <!-- Kenar vuruş -->
+      ${vurusNoktasi==='kenar'?'<circle cx="110" cy="110" r="80" fill="none" stroke="rgba(74,222,128,0.6)" stroke-width="8"/>':''}
+      <!-- Etiket -->
+      ${vurusNoktasi==='ana'?'<text x="110" y="115" text-anchor="middle" fill="#FFE135" font-family="Syne,sans-serif" font-size="13" font-weight="800">Ana Vuruş</text>':''}
+      ${vurusNoktasi==='zil'?'<text x="110" y="115" text-anchor="middle" fill="#60a5fa" font-family="Syne,sans-serif" font-size="12" font-weight="800">Zil</text>':''}
+      ${vurusNoktasi==='kenar'?'<text x="110" y="115" text-anchor="middle" fill="#4ade80" font-family="Syne,sans-serif" font-size="12" font-weight="800">Kenar</text>':''}
+    </svg>`;
+  },
+
+  // NEY
+  ney: function(delikDurumu) {
+    var delikler = delikDurumu || [1,1,1,1,1,1];
+    var svg = '<svg viewBox="0 0 80 300" width="80" height="280">';
+    // Gövde
+    svg += '<rect x="32" y="10" width="16" height="280" rx="8" fill="#8B6914" stroke="#5a4008" stroke-width="1.5"/>';
+    svg += '<rect x="34" y="10" width="4" height="280" rx="2" fill="rgba(255,200,100,0.2)"/>';
+    // Üfleme ucu
+    svg += '<ellipse cx="40" cy="12" rx="10" ry="6" fill="#6b4f10" stroke="#3d2d06" stroke-width="1.5"/>';
+    // Delikler
+    var ylerDelik = [80, 110, 140, 170, 200, 230];
+    delikler.forEach(function(d, i) {
+      var dy = ylerDelik[i];
+      var kapali = d === 1;
+      svg += '<circle cx="40" cy="'+dy+'" r="7" fill="'+(kapali?'#3d2d06':'rgba(255,225,53,0.6)')+'" stroke="'+(kapali?'#2a1e04':'#FFE135')+'" stroke-width="2"/>';
+      if (!kapali) svg += '<circle cx="40" cy="'+dy+'" r="3" fill="rgba(255,225,53,0.8)"/>';
+    });
+    // Dip deliği
+    svg += '<circle cx="40" cy="270" r="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>';
+    svg += '</svg>';
+    return svg;
+  },
+
+  // KAVAL
+  kaval: function(delikDurumu) {
+    var delikler = delikDurumu || [1,1,1,1,1,1];
+    var svg = '<svg viewBox="0 0 80 300" width="80" height="280">';
+    // Gövde - daha açık renk (kemik/tahta)
+    svg += '<rect x="32" y="10" width="16" height="280" rx="8" fill="#D2B48C" stroke="#8B7355" stroke-width="1.5"/>';
+    svg += '<rect x="34" y="10" width="5" height="280" rx="2" fill="rgba(255,240,200,0.3)"/>';
+    // Üfleme ucu
+    svg += '<path d="M 30 10 Q 40 5 50 10 L 48 22 Q 40 18 32 22 Z" fill="#A0896A" stroke="#6B5840" stroke-width="1"/>';
+    // Delikler
+    var ylerDelik = [80, 110, 140, 170, 200, 230];
+    delikler.forEach(function(d, i) {
+      var dy = ylerDelik[i];
+      var kapali = d === 1;
+      svg += '<ellipse cx="40" cy="'+dy+'" rx="7" ry="5" fill="'+(kapali?'#6B5840':'rgba(255,225,53,0.6)')+'" stroke="'+(kapali?'#4a3828':'#FFE135')+'" stroke-width="2"/>';
+      if (!kapali) svg += '<ellipse cx="40" cy="'+dy+'" rx="3" ry="2" fill="rgba(255,225,53,0.8)"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+  // ZURNA
+  zurna: function(delikDurumu) {
+    var delikler = delikDurumu || [1,1,1,1,1,1];
+    var svg = '<svg viewBox="0 0 100 300" width="100" height="280">';
+    // Gövde - konik
+    svg += '<path d="M 42 20 L 38 260 Q 50 275 62 260 L 58 20 Z" fill="#8B1A1A" stroke="#5a0f0f" stroke-width="1.5"/>';
+    svg += '<path d="M 44 20 L 40 260" fill="none" stroke="rgba(255,150,100,0.2)" stroke-width="2"/>';
+    // Kamış ucu
+    svg += '<rect x="44" y="5" width="12" height="18" rx="3" fill="#C8A96E" stroke="#8B7355" stroke-width="1"/>';
+    svg += '<line x1="50" y1="5" x2="50" y2="23" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>';
+    // Delikler
+    var ylerDelik = [70, 100, 130, 160, 190, 220];
+    delikler.forEach(function(d, i) {
+      var dy = ylerDelik[i];
+      var kapali = d === 1;
+      svg += '<circle cx="50" cy="'+dy+'" r="6" fill="'+(kapali?'#3d0a0a':'rgba(255,225,53,0.7)')+'" stroke="'+(kapali?'#2a0505':'#FFE135')+'" stroke-width="2"/>';
+    });
+    // Huni ağız
+    svg += '<ellipse cx="50" cy="262" rx="22" ry="10" fill="#6b1010" stroke="#3d0808" stroke-width="2"/>';
+    svg += '</svg>';
+    return svg;
+  },
+
+  // BAĞLAMA
+  baglama: function(perdePozisyonu) {
+    var svg = '<svg viewBox="0 0 200 320" width="180" height="290">';
+    // Sap
+    svg += '<rect x="92" y="20" width="16" height="180" rx="4" fill="#8B4513" stroke="#5a2d0c" stroke-width="1.5"/>';
+    // Perde çizgileri
+    [60,90,120,150,170].forEach(function(y) {
+      svg += '<line x1="90" y1="'+y+'" x2="110" y2="'+y+'" stroke="#c0a060" stroke-width="2"/>';
+    });
+    // Teller
+    [96,100,104].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="20" x2="'+x+'" y2="200" stroke="rgba(200,200,200,0.6)" stroke-width="1"/>';
+    });
+    // Tekne (gövde) - armut şekli
+    svg += '<ellipse cx="100" cy="258" rx="60" ry="55" fill="#A0522D" stroke="#5a2d0c" stroke-width="2"/>';
+    svg += '<ellipse cx="100" cy="258" rx="55" ry="50" fill="#8B4513"/>';
+    // Ses deliği
+    svg += '<circle cx="100" cy="248" r="20" fill="#2d1506" stroke="#1a0a03" stroke-width="1"/>';
+    svg += '<circle cx="100" cy="248" r="15" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>';
+    // Eşik
+    svg += '<rect x="85" y="200" width="30" height="5" rx="2" fill="#c0a060" stroke="#8B7355" stroke-width="1"/>';
+    // Telleri gövdeye bağla
+    [96,100,104].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="200" x2="'+x+'" y2="275" stroke="rgba(200,200,200,0.4)" stroke-width="1"/>';
+    });
+    // Perde vurgu noktası
+    if (perdePozisyonu) {
+      svg += '<circle cx="100" cy="'+perdePozisyonu+'" r="8" fill="rgba(255,225,53,0.8)" stroke="#FFE135" stroke-width="2"/>';
+    }
+    // Burgular
+    [85,100,115].forEach(function(x) {
+      svg += '<circle cx="'+x+'" cy="28" r="5" fill="#c0a060" stroke="#8B7355" stroke-width="1"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+  // UD
+  ud: function() {
+    var svg = '<svg viewBox="0 0 220 320" width="190" height="290">';
+    // Kısa sap
+    svg += '<rect x="96" y="15" width="28" height="70" rx="5" fill="#6B3A2A" stroke="#3d2015" stroke-width="1.5"/>';
+    // Burgu kutusu - geri dönük
+    svg += '<path d="M 90 15 Q 110 5 130 15 L 128 30 Q 110 22 92 30 Z" fill="#5a3020" stroke="#2d1810" stroke-width="1"/>';
+    // 6 çift tel
+    [98,103,108,112,117,122].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="15" x2="'+x+'" y2="85" stroke="rgba(200,200,200,0.5)" stroke-width="0.8"/>';
+    });
+    // Büyük armut gövde
+    svg += '<ellipse cx="110" cy="210" rx="85" ry="100" fill="#8B4513" stroke="#3d1e09" stroke-width="2"/>';
+    // Ön yüz
+    svg += '<ellipse cx="110" cy="210" rx="80" ry="95" fill="#A0522D"/>';
+    // Dekoratif rozet
+    svg += '<circle cx="110" cy="195" r="28" fill="none" stroke="rgba(255,200,100,0.5)" stroke-width="1.5"/>';
+    svg += '<circle cx="110" cy="195" r="20" fill="#1a0a03" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>';
+    // Rozet deseni
+    [0,1,2,3,4,5].forEach(function(i) {
+      var a = (i/6)*Math.PI*2;
+      var rx = 110 + 14*Math.cos(a), ry = 195 + 14*Math.sin(a);
+      svg += '<circle cx="'+rx.toFixed(1)+'" cy="'+ry.toFixed(1)+'" r="4" fill="rgba(255,200,100,0.4)"/>';
+    });
+    // Teller
+    [98,103,108,112,117,122].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="85" x2="'+x+'" y2="265" stroke="rgba(200,200,200,0.4)" stroke-width="0.8"/>';
+    });
+    // Eşik
+    svg += '<rect x="90" y="83" width="40" height="5" rx="2" fill="#c0a060" stroke="#8B7355" stroke-width="1"/>';
+    svg += '</svg>';
+    return svg;
+  },
+
+  // KEMANE
+  kemane: function(aktifTel) {
+    var svg = '<svg viewBox="0 0 160 320" width="140" height="290">';
+    // Sap
+    svg += '<rect x="74" y="15" width="12" height="160" rx="4" fill="#6B3A2A" stroke="#3d2015" stroke-width="1.5"/>';
+    // Burgular
+    [72,80,88].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="20" x2="'+x+'" y2="35" stroke="#c0a060" stroke-width="3"/>';
+    });
+    // Gövde - 8 şekli
+    svg += '<path d="M 50 190 Q 20 200 20 225 Q 20 260 50 270 Q 80 280 80 270 L 80 175 Q 80 175 50 190 Z" fill="#8B4513" stroke="#3d1e09" stroke-width="1.5"/>';
+    svg += '<path d="M 110 190 Q 140 200 140 225 Q 140 260 110 270 Q 80 280 80 270 L 80 175 Q 80 175 110 190 Z" fill="#8B4513" stroke="#3d1e09" stroke-width="1.5"/>';
+    svg += '<path d="M 60 225 Q 80 215 100 225 Q 80 235 60 225 Z" fill="rgba(0,0,0,0.3)"/>';
+    // Ses delikleri
+    svg += '<path d="M 60 210 Q 55 225 60 240" fill="none" stroke="#2d1506" stroke-width="3" stroke-linecap="round"/>';
+    svg += '<path d="M 100 210 Q 105 225 100 240" fill="none" stroke="#2d1506" stroke-width="3" stroke-linecap="round"/>';
+    // Teller
+    var telRenkleri = ['#4ade80','#FFE135','#60a5fa','#f87171'];
+    ['G','D','A','E'].forEach(function(nota, i) {
+      var x = 76 + i*4;
+      var aktif = aktifTel === nota;
+      svg += '<line x1="'+x+'" y1="15" x2="'+x+'" y2="265" stroke="'+(aktif?telRenkleri[i]:'rgba(200,200,200,0.4)')+'" stroke-width="'+(aktif?2.5:1)+'"/>';
+      if (aktif) svg += '<rect x="'+(x-15)+'" y="240" width="30" height="14" rx="4" fill="'+telRenkleri[i]+'" opacity="0.9"/><text x="'+x+'" y="251" text-anchor="middle" fill="#111" font-family="Syne,sans-serif" font-size="9" font-weight="800">'+nota+'</text>';
+    });
+    // Eşik ve köprü
+    svg += '<rect x="73" y="173" width="14" height="4" rx="1" fill="#c0a060"/>';
+    svg += '<rect x="73" y="240" width="14" height="4" rx="1" fill="#c0a060"/>';
+    svg += '</svg>';
+    return svg;
+  },
+
+  // VIKING HORN
+  vikinghorn: function(caliniyor) {
+    var svg = '<svg viewBox="0 0 280 160" width="260" height="150">';
+    // Ana boru - eğri
+    svg += '<path d="M 20 80 Q 80 40 160 50 Q 220 55 260 70" fill="none" stroke="#8B7355" stroke-width="22" stroke-linecap="round"/>';
+    svg += '<path d="M 20 80 Q 80 40 160 50 Q 220 55 260 70" fill="none" stroke="#c0a060" stroke-width="18" stroke-linecap="round"/>';
+    // Metal halkalar
+    [60,120,180].forEach(function(x) {
+      var y = x < 100 ? 58 : x < 150 ? 50 : 56;
+      svg += '<ellipse cx="'+x+'" cy="'+y+'" rx="5" ry="10" fill="#8B7355" stroke="#5a4a35" stroke-width="1"/>';
+    });
+    // Ağız (sol)
+    svg += '<ellipse cx="22" cy="80" rx="10" ry="14" fill="#6B5840" stroke="#4a3828" stroke-width="2"/>';
+    svg += '<ellipse cx="22" cy="80" rx="6" ry="9" fill="#2d1e10"/>';
+    // Uç (sağ) - açık
+    svg += '<ellipse cx="260" cy="70" rx="14" ry="8" fill="#8B7355" stroke="#5a4a35" stroke-width="2"/>';
+    svg += '<ellipse cx="261" cy="70" rx="10" ry="5" fill="#1a0f05"/>';
+    // Ses dalgaları (çalınıyorsa)
+    if (caliniyor) {
+      [1,2,3].forEach(function(i) {
+        svg += '<path d="M '+(265+i*12)+' '+(62-i*3)+' Q '+(270+i*12)+' '+70+' '+(265+i*12)+' '+(78+i*3)+'" fill="none" stroke="#FFE135" stroke-width="'+(4-i)+'" opacity="'+(1-i*0.25)+'" stroke-linecap="round"/>';
+      });
+    }
+    // İp süslemesi
+    svg += '<path d="M 40 65 Q 60 55 80 60" fill="none" stroke="rgba(180,140,80,0.6)" stroke-width="2"/>';
+    svg += '</svg>';
+    return svg;
+  },
+
+  // VİKİNG DAVUL
+  vikingdavul: function(vurusNoktasi) {
+    var svg = '<svg viewBox="0 0 220 220" width="190" height="190">';
+    // Çerçeve
+    svg += '<circle cx="110" cy="110" r="95" fill="none" stroke="#4a3010" stroke-width="16"/>';
+    svg += '<circle cx="110" cy="110" r="87" fill="none" stroke="#6B4A20" stroke-width="4"/>';
+    // Deri
+    svg += '<circle cx="110" cy="110" r="87" fill="'+(vurusNoktasi==='ana'?'rgba(139,69,19,0.4)':'rgba(180,140,90,0.85)')+'" stroke="'+(vurusNoktasi==='ana'?'#FFE135':'#8B7355')+'" stroke-width="'+(vurusNoktasi==='ana'?3:1)+'"/>';
+    // Viking sembolü (Vegvisir)
+    svg += '<circle cx="110" cy="110" r="40" fill="none" stroke="rgba(139,69,19,0.4)" stroke-width="1"/>';
+    [0,45,90,135,180,225,270,315].forEach(function(deg) {
+      var rad = deg * Math.PI / 180;
+      var x1 = 110 + 15*Math.cos(rad), y1 = 110 + 15*Math.sin(rad);
+      var x2 = 110 + 38*Math.cos(rad), y2 = 110 + 38*Math.sin(rad);
+      svg += '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="rgba(139,69,19,0.5)" stroke-width="2"/>';
+    });
+    // Vuruş noktası vurgu
+    if (vurusNoktasi === 'ana') {
+      svg += '<circle cx="110" cy="110" r="35" fill="rgba(255,225,53,0.25)" stroke="#FFE135" stroke-width="2.5"/>';
+      svg += '<text x="110" y="115" text-anchor="middle" fill="#FFE135" font-family="Syne,sans-serif" font-size="12" font-weight="800">VURUŞ</text>';
+    } else if (vurusNoktasi === 'vuruş') {
+      svg += '<circle cx="150" cy="90" r="20" fill="rgba(74,222,128,0.3)" stroke="#4ade80" stroke-width="2"/>';
+    }
+    // Çerçeve çivi/perçin detayları
+    [0,45,90,135,180,225,270,315].forEach(function(deg) {
+      var rad = deg * Math.PI / 180;
+      var px = 110 + 90*Math.cos(rad), py = 110 + 90*Math.sin(rad);
+      svg += '<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="4" fill="#c0a060" stroke="#8B7355" stroke-width="1"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+  // BODHRÁN
+  bodhran: function(vurusNoktasi) {
+    var svg = '<svg viewBox="0 0 220 220" width="190" height="190">';
+    // Çerçeve - ince ahşap
+    svg += '<circle cx="110" cy="110" r="95" fill="none" stroke="#8B4513" stroke-width="10"/>';
+    // Deri - açık renk Kelt
+    svg += '<circle cx="110" cy="110" r="90" fill="'+(vurusNoktasi==='ana'?'rgba(255,225,53,0.15)':'rgba(210,180,140,0.9)')+'" stroke="'+(vurusNoktasi==='ana'?'#FFE135':'#8B7355')+'" stroke-width="2"/>';
+    // Kelt spirali deseni
+    svg += '<path d="M 110 110 Q 120 95 110 80 Q 100 65 90 80 Q 80 95 90 110 Q 100 125 110 110" fill="none" stroke="rgba(139,90,43,0.3)" stroke-width="1.5"/>';
+    // Çapraz destek
+    svg += '<line x1="20" y1="110" x2="200" y2="110" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>';
+    svg += '<line x1="110" y1="20" x2="110" y2="200" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>';
+    // Vuruş vurgusu
+    if (vurusNoktasi === 'ana') {
+      svg += '<circle cx="110" cy="80" r="22" fill="rgba(255,225,53,0.3)" stroke="#FFE135" stroke-width="2"/>';
+      svg += '<text x="110" y="85" text-anchor="middle" fill="#FFE135" font-family="Syne,sans-serif" font-size="10" font-weight="800">Ana</text>';
+    } else if (vurusNoktasi === 'rim') {
+      svg += '<circle cx="110" cy="110" r="85" fill="none" stroke="rgba(74,222,128,0.6)" stroke-width="6"/>';
+    }
+    svg += '</svg>';
+    return svg;
+  },
+
+  // DUDUK
+  duduk: function(delikDurumu) {
+    var delikler = delikDurumu || [1,1,1,1,1,1];
+    var svg = '<svg viewBox="0 0 80 300" width="80" height="280">';
+    // Gövde - koyu ahşap
+    svg += '<rect x="30" y="30" width="20" height="250" rx="5" fill="#4a2d0a" stroke="#2d1a05" stroke-width="1.5"/>';
+    svg += '<rect x="32" y="30" width="6" height="250" rx="3" fill="rgba(200,150,80,0.15)"/>';
+    // Kamış (çift) ağızlık
+    svg += '<rect x="33" y="8" width="14" height="25" rx="4" fill="#C8A96E" stroke="#8B7355" stroke-width="1"/>';
+    svg += '<rect x="37" y="5" width="6" height="28" rx="2" fill="#B8996E" stroke="#8B7355" stroke-width="1"/>';
+    svg += '<line x1="40" y1="5" x2="40" y2="33" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>';
+    // Delikler
+    var yDelik = [80, 110, 140, 170, 200, 230];
+    delikler.forEach(function(d, i) {
+      var dy = yDelik[i];
+      var kapali = d === 1;
+      svg += '<circle cx="40" cy="'+dy+'" r="6" fill="'+(kapali?'#1a0a02':'rgba(255,180,50,0.7)')+'" stroke="'+(kapali?'#0a0501':'#FFB832')+'" stroke-width="2"/>';
+    });
+    // Metal halkalar
+    [55, 160, 260].forEach(function(y) {
+      svg += '<rect x="28" y="'+y+'" width="24" height="5" rx="2" fill="#8B7355" stroke="#5a4a35" stroke-width="0.5"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+  // LotR Hornlar
+  lotrhorn: function(tip) {
+    var svg = '<svg viewBox="0 0 280 180" width="260" height="165">';
+    if (tip === 'boromir' || tip === 'gondor') {
+      // Gondor boynuzu - altın süslemeli
+      svg += '<path d="M 15 90 Q 90 40 180 55 Q 240 60 268 80" fill="none" stroke="#5a4a20" stroke-width="26" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 90 40 180 55 Q 240 60 268 80" fill="none" stroke="#c0a030" stroke-width="22" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 90 40 180 55 Q 240 60 268 80" fill="none" stroke="#FFE135" stroke-width="18" stroke-linecap="round" opacity="0.5"/>';
+      // Gondor sembolü
+      svg += '<circle cx="120" cy="60" r="12" fill="none" stroke="rgba(255,225,53,0.6)" stroke-width="2"/>';
+      svg += '<path d="M 115 60 L 125 60 M 120 55 L 120 65" stroke="rgba(255,225,53,0.6)" stroke-width="1.5"/>';
+      // Altın süsler
+      [50,100,150,200].forEach(function(x) {
+        var y = x < 100 ? 62 : x < 160 ? 55 : 62;
+        svg += '<ellipse cx="'+x+'" cy="'+y+'" rx="4" ry="10" fill="#c0a030" stroke="#8B7020" stroke-width="1"/>';
+      });
+    } else if (tip === 'rohirrim') {
+      // Rohirrim - at kafası süslemeli
+      svg += '<path d="M 15 90 Q 80 45 170 52 Q 235 57 268 75" fill="none" stroke="#5a3010" stroke-width="24" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 80 45 170 52 Q 235 57 268 75" fill="none" stroke="#8B4513" stroke-width="20" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 80 45 170 52 Q 235 57 268 75" fill="none" stroke="#c06030" stroke-width="16" stroke-linecap="round" opacity="0.4"/>';
+    } else if (tip === 'mordor') {
+      // Mordor - karanlık
+      svg += '<path d="M 15 90 Q 80 50 170 60 Q 235 65 268 82" fill="none" stroke="#111" stroke-width="28" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 80 50 170 60 Q 235 65 268 82" fill="none" stroke="#2d0a0a" stroke-width="22" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 80 50 170 60 Q 235 65 268 82" fill="none" stroke="#8B0000" stroke-width="16" stroke-linecap="round" opacity="0.4"/>';
+      // Sauron gözü
+      svg += '<ellipse cx="120" cy="62" rx="14" ry="8" fill="#8B0000" stroke="#ff0000" stroke-width="1" opacity="0.7"/>';
+      svg += '<ellipse cx="120" cy="62" rx="5" ry="7" fill="#000" stroke="#ff4400" stroke-width="1"/>';
+    } else {
+      // Elf / hobbit - gümüş/yeşil
+      var renk = tip === 'elf' ? '#c0d0ff' : '#90C090';
+      svg += '<path d="M 15 90 Q 90 42 175 52 Q 238 57 268 74" fill="none" stroke="#3a4a6a" stroke-width="22" stroke-linecap="round"/>';
+      svg += '<path d="M 15 90 Q 90 42 175 52 Q 238 57 268 74" fill="none" stroke="'+renk+'" stroke-width="18" stroke-linecap="round"/>';
+    }
+    // Ağızlık
+    svg += '<ellipse cx="17" cy="90" rx="10" ry="14" fill="#5a4a30" stroke="#3a2a18" stroke-width="2"/>';
+    svg += '<ellipse cx="17" cy="90" rx="6" ry="9" fill="#1a0f05"/>';
+    // Ses çıkışı
+    svg += '<ellipse cx="268" cy="78" rx="14" ry="9" fill="#5a4a30" stroke="#3a2a18" stroke-width="2"/>';
+    // Ses dalgaları
+    [1,2,3].forEach(function(i) {
+      svg += '<path d="M '+(275+i*12)+' '+(70-i*2)+' Q '+(280+i*12)+' 78 '+(275+i*12)+' '+(86+i*2)+'" fill="none" stroke="#FFE135" stroke-width="'+(4-i)+'" opacity="'+(0.8-i*0.2)+'" stroke-linecap="round"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+  // GOBLIN DAVUL
+  goblin: function(vurusNoktasi) {
+    var svg = '<svg viewBox="0 0 220 220" width="190" height="190">';
+    // Kırık/yamuk çerçeve
+    svg += '<path d="M 15 100 Q 30 20 110 15 Q 190 10 205 110 Q 210 190 110 205 Q 20 210 15 100 Z" fill="none" stroke="#2d1a05" stroke-width="12"/>';
+    svg += '<path d="M 15 100 Q 30 20 110 15 Q 190 10 205 110 Q 210 190 110 205 Q 20 210 15 100 Z" fill="none" stroke="#4a2d10" stroke-width="8"/>';
+    // Deri - kirli, yamalı
+    svg += '<path d="M 20 100 Q 34 24 110 20 Q 186 15 200 110 Q 205 185 110 198 Q 24 205 20 100 Z" fill="rgba(100,80,40,0.85)"/>';
+    // Yamalar
+    svg += '<ellipse cx="80" cy="80" rx="20" ry="15" fill="rgba(80,60,30,0.6)" stroke="rgba(60,40,20,0.4)" stroke-width="1"/>';
+    svg += '<ellipse cx="140" cy="140" rx="18" ry="12" fill="rgba(80,60,30,0.5)" stroke="rgba(60,40,20,0.4)" stroke-width="1"/>';
+    // Goblin sembolü - çapraz kemikler
+    svg += '<line x1="85" y1="90" x2="135" y2="140" stroke="rgba(255,100,50,0.3)" stroke-width="3"/>';
+    svg += '<line x1="135" y1="90" x2="85" y2="140" stroke="rgba(255,100,50,0.3)" stroke-width="3"/>';
+    svg += '<circle cx="110" cy="115" r="8" fill="rgba(255,50,20,0.2)"/>';
+    // Vuruş vurgusu
+    var vurusRenk = {bang:'#f87171', crash:'#fb923c', vur:'#FFE135', kaos:'#a78bfa'};
+    if (vurusNoktasi && vurusRenk[vurusNoktasi]) {
+      svg += '<circle cx="110" cy="110" r="35" fill="'+vurusRenk[vurusNoktasi].replace(')',',0.3)').replace('rgb(','rgba(')+'" stroke="'+vurusRenk[vurusNoktasi]+'" stroke-width="2" stroke-dasharray="4"/>';
+      svg += '<text x="110" y="115" text-anchor="middle" fill="'+vurusRenk[vurusNoktasi]+'" font-family="Syne,sans-serif" font-size="14" font-weight="800">'+vurusNoktasi.toUpperCase()+'!</text>';
+    }
+    // Perçinler
+    [15,60,105,150,190].forEach(function(deg) {
+      var rad = deg * Math.PI / 180;
+      var px = 110 + 94*Math.cos(rad), py = 110 + 94*Math.sin(rad);
+      svg += '<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="5" fill="#5a3010" stroke="#2d1a08" stroke-width="1"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+  // LUTE
+  lute: function() {
+    var svg = '<svg viewBox="0 0 180 320" width="160" height="290">';
+    // Sap
+    svg += '<rect x="83" y="15" width="14" height="130" rx="4" fill="#6B3A2A" stroke="#3d2015" stroke-width="1.5"/>';
+    // Geriye eğik burgu kutusu
+    svg += '<path d="M 80 15 Q 90 8 100 15 L 97 28 Q 90 22 83 28 Z" fill="#5a2d18" stroke="#2d1508" stroke-width="1"/>';
+    // Teller (6)
+    [85,88,91,94,97,100].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="15" x2="'+x+'" y2="145" stroke="rgba(200,200,200,0.5)" stroke-width="0.8"/>';
+    });
+    // Armut gövde - derin
+    svg += '<path d="M 40 200 Q 10 230 15 265 Q 20 295 90 305 Q 160 295 165 265 Q 170 230 140 200 Q 120 150 90 145 Q 60 150 40 200 Z" fill="#7B3B1A" stroke="#3d1e09" stroke-width="2"/>';
+    svg += '<path d="M 45 200 Q 16 228 20 263 Q 25 290 90 300 Q 155 290 160 263 Q 164 228 135 200 Q 116 153 90 148 Q 64 153 45 200 Z" fill="#8B4513"/>';
+    // Rozet
+    svg += '<circle cx="90" cy="215" r="25" fill="none" stroke="rgba(255,200,100,0.6)" stroke-width="1.5"/>';
+    svg += '<circle cx="90" cy="215" r="18" fill="#1a0a03" stroke="rgba(255,200,100,0.4)" stroke-width="1"/>';
+    [0,60,120,180,240,300].forEach(function(deg) {
+      var rad = deg * Math.PI / 180;
+      svg += '<circle cx="'+(90+12*Math.cos(rad)).toFixed(1)+'" cy="'+(215+12*Math.sin(rad)).toFixed(1)+'" r="3" fill="rgba(255,200,100,0.5)"/>';
+    });
+    // Teller uzatma
+    [85,88,91,94,97,100].forEach(function(x) {
+      svg += '<line x1="'+x+'" y1="145" x2="'+x+'" y2="270" stroke="rgba(200,200,200,0.35)" stroke-width="0.8"/>';
+    });
+    svg += '</svg>';
+    return svg;
+  },
+
+};
+
+// Görsel gösterme fonksiyonu
+function aletGorselGoster(alet, parametre, containerId) {
+  var el = document.getElementById(containerId);
+  if (!el || !ALET_SVG[alet]) return;
+  var fn = ALET_SVG[alet];
+  el.innerHTML = fn(parametre);
+}
+
+// Her panel için görsel container oluştur
+var GORSEL_PANELLER = {
+  darbuka: 'darbukaGorsel',
+  def: 'defGorsel',
+  ney: 'neyGorsel',
+  kaval: 'kavalGorsel',
+  zurna: 'zurnaGorsel',
+  baglama: 'baglamaGorsel',
+  ud: 'udGorsel',
+  kemane: 'kemaneGorsel',
+  vikinghorn: 'vikingHornGorsel',
+  vikingdavul: 'vikingDavulGorsel',
+  bodhran: 'bodhranGorsel',
+  duduk: 'dudukGorsel',
+  lotrhorn: 'lotrHornGorsel',
+  goblin: 'goblinGorsel',
+  lute: 'luteGorsel',
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Her panel için görsel div ekle
+  Object.keys(GORSEL_PANELLER).forEach(function(alet) {
+    var panel = document.getElementById('p-'+alet);
+    if (!panel) return;
+    var div = document.createElement('div');
+    div.id = GORSEL_PANELLER[alet];
+    div.style.cssText = 'text-align:center;margin:12px auto;display:flex;justify-content:center;align-items:center;min-height:160px;';
+    panel.insertBefore(div, panel.firstChild);
+    // Varsayılan görsel
+    if (ALET_SVG[alet]) aletGorselGoster(alet, null, GORSEL_PANELLER[alet]);
+  });
+
+  // Darbuka tıklamalarına görsel bağla
+  document.querySelectorAll('#darbukaGrid .davul-pad').forEach(function(pad, i) {
+    var tipler = ['dum','tek','ka','teke','dum','tek'];
+    pad.addEventListener('click', function() { aletGorselGoster('darbuka', tipler[i], 'darbukaGorsel'); });
+  });
+  // Def
+  document.querySelectorAll('#defGrid .davul-pad').forEach(function(pad, i) {
+    var tipler = ['ana','zil','kenar','rulo'];
+    pad.addEventListener('click', function() { aletGorselGoster('def', tipler[i], 'defGorsel'); });
+  });
+  // Viking Davul
+  document.querySelectorAll('#vikingDavulGrid .davul-pad').forEach(function(pad, i) {
+    var tipler = ['ana','vuruş','carpm','hiz'];
+    pad.addEventListener('click', function() { aletGorselGoster('vikingdavul', tipler[i], 'vikingDavulGorsel'); });
+  });
+  // Bodhrán
+  document.querySelectorAll('#bodhranGrid .davul-pad').forEach(function(pad, i) {
+    var tipler = ['ana','rim','orta','hafif'];
+    pad.addEventListener('click', function() { aletGorselGoster('bodhran', tipler[i], 'bodhranGorsel'); });
+  });
+  // Goblin
+  document.querySelectorAll('#goblinGrid .davul-pad').forEach(function(pad, i) {
+    var tipler = ['bang','crash','vur','kaos'];
+    pad.addEventListener('click', function() { aletGorselGoster('goblin', tipler[i], 'goblinGorsel'); });
+  });
+  // Viking Horn
+  document.querySelectorAll('#vikingHornGrid .akor-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { aletGorselGoster('vikinghorn', true, 'vikingHornGorsel'); });
+  });
+  // LotR Hornlar
+  var lotrTipler = ['boromir','rohirrim','gondor','elf','mordor','hobbit'];
+  document.querySelectorAll('#lotrHornGrid .akor-btn').forEach(function(btn, i) {
+    btn.addEventListener('click', function() { aletGorselGoster('lotrhorn', lotrTipler[i], 'lotrHornGorsel'); });
+  });
+  // Kemane telleri
+  document.querySelectorAll('#p-kemane .keman-tel-cubuk').forEach(function(el, i) {
+    var notalar = ['G','D','A','E'];
+    el.addEventListener('click', function() { aletGorselGoster('kemane', notalar[i], 'kemaneGorsel'); });
+  });
+});
+
+
+// ═══════════════ ALET GÖRSELLERİ (SVG) ═══════════════
+
+var ALET_SVG = {
+
+  darbuka: function(vurusNoktasi) {
+    var renkler = {dum:'#FFE135', tek:'#4ade80', ka:'#60a5fa', teke:'#f87171', default:'rgba(255,255,255,0.1)'};
+    var r = renkler[vurusNoktasi] || renkler.default;
+    return `<svg viewBox="0 0 200 260" width="180" height="260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Darbuka gövde - konik silindir -->
+      <defs>
+        <linearGradient id="dg1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4a3010"/>
+          <stop offset="40%" stop-color="#8B5E3C"/>
+          <stop offset="100%" stop-color="#3a2008"/>
+        </linearGradient>
+        <linearGradient id="dg2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#2a1a08"/>
+          <stop offset="50%" stop-color="#5a3820"/>
+          <stop offset="100%" stop-color="#2a1a08"/>
+        </linearGradient>
+      </defs>
+      <!-- Gövde -->
+      <path d="M 60 70 L 50 200 Q 100 220 150 200 L 140 70 Z" fill="url(#dg1)" stroke="#6b4423" stroke-width="1.5"/>
+      <!-- Alt açıklık -->
+      <ellipse cx="100" cy="200" rx="50" ry="15" fill="#1a0e05" stroke="#6b4423" stroke-width="1"/>
+      <!-- Süslemeler -->
+      <path d="M 62 110 Q 100 105 138 110" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>
+      <path d="M 60 140 Q 100 135 140 140" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>
+      <path d="M 58 170 Q 100 165 142 170" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1"/>
+      <!-- Deri yüzey -->
+      <ellipse cx="100" cy="70" rx="42" ry="14" fill="url(#dg2)" stroke="#8B5E3C" stroke-width="2"/>
+      <!-- Deri dokusu -->
+      <ellipse cx="100" cy="70" rx="42" ry="14" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+      <!-- Düm bölgesi - merkez -->
+      <ellipse cx="100" cy="70" rx="${vurusNoktasi==='dum'?22:18}" ry="${vurusNoktasi==='dum'?7:6}" 
+        fill="${vurusNoktasi==='dum'?'rgba(255,225,53,0.35)':'rgba(255,255,255,0.04)'}" 
+        stroke="${vurusNoktasi==='dum'?'#FFE135':'rgba(255,255,255,0.1)'}" 
+        stroke-width="${vurusNoktasi==='dum'?2:1}"/>
+      <!-- Tek bölgesi - sağ kenar -->
+      <ellipse cx="132" cy="70" rx="${vurusNoktasi==='tek'?12:9}" ry="${vurusNoktasi==='tek'?5:4}" 
+        fill="${vurusNoktasi==='tek'?'rgba(74,222,128,0.4)':'rgba(255,255,255,0.04)'}" 
+        stroke="${vurusNoktasi==='tek'?'#4ade80':'rgba(255,255,255,0.1)'}" 
+        stroke-width="${vurusNoktasi==='tek'?2:1}"/>
+      <!-- Ka bölgesi - sol kenar -->
+      <ellipse cx="68" cy="70" rx="${vurusNoktasi==='ka'?12:9}" ry="${vurusNoktasi==='ka'?5:4}" 
+        fill="${vurusNoktasi==='ka'?'rgba(96,165,250,0.4)':'rgba(255,255,255,0.04)'}" 
+        stroke="${vurusNoktasi==='ka'?'#60a5fa':'rgba(255,255,255,0.1)'}" 
+        stroke-width="${vurusNoktasi==='ka'?2:1}"/>
+      <!-- Etiketler -->
+      ${vurusNoktasi==='dum' ? '<text x="100" y="74" text-anchor="middle" fill="#FFE135" font-size="9" font-weight="800" font-family="sans-serif">DÜM</text>' : ''}
+      ${vurusNoktasi==='tek' ? '<text x="132" y="74" text-anchor="middle" fill="#4ade80" font-size="8" font-weight="800" font-family="sans-serif">TEK</text>' : ''}
+      ${vurusNoktasi==='ka' ? '<text x="68" y="74" text-anchor="middle" fill="#60a5fa" font-size="8" font-weight="800" font-family="sans-serif">KA</text>' : ''}
+      <!-- Ok işareti -->
+      ${vurusNoktasi==='dum' ? '<line x1="100" y1="25" x2="100" y2="55" stroke="#FFE135" stroke-width="2" marker-end="url(#arrow)"/><text x="100" y="18" text-anchor="middle" fill="#FFE135" font-size="10" font-family="sans-serif">Avuç ortası</text>' : ''}
+      ${vurusNoktasi==='tek' ? '<line x1="155" y1="40" x2="138" y2="62" stroke="#4ade80" stroke-width="2"/><text x="162" y="38" text-anchor="middle" fill="#4ade80" font-size="10" font-family="sans-serif">Sağ el</text>' : ''}
+      ${vurusNoktasi==='ka' ? '<line x1="45" y1="40" x2="62" y2="62" stroke="#60a5fa" stroke-width="2"/><text x="38" y="38" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="sans-serif">Sol el</text>' : ''}
+      ${vurusNoktasi==='teke' ? '<text x="100" y="18" text-anchor="middle" fill="#f87171" font-size="10" font-family="sans-serif">Çift Vuruş</text><line x1="68" y1="25" x2="72" y2="58" stroke="#f87171" stroke-width="1.5"/><line x1="132" y1="25" x2="128" y2="58" stroke="#f87171" stroke-width="1.5"/>' : ''}
+    </svg>`;
+  },
+
+  def: function(vurusNoktasi) {
+    return `<svg viewBox="0 0 220 220" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="defGrad" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#5a3820"/>
+          <stop offset="100%" stop-color="#2a1a08"/>
+        </radialGradient>
+      </defs>
+      <!-- Çerçeve -->
+      <circle cx="110" cy="110" r="90" fill="url(#defGrad)" stroke="#8B5E3C" stroke-width="6"/>
+      <!-- Deri -->
+      <circle cx="110" cy="110" r="84" fill="#c8a87a" opacity="0.15" stroke="rgba(200,168,122,0.3)" stroke-width="1"/>
+      <!-- Deri dokusu -->
+      <circle cx="110" cy="110" r="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="3"/>
+      <!-- Ziller -->
+      ${[0,1,2,3,4,5,6,7].map(function(i){
+        var angle = (i/8)*Math.PI*2 - Math.PI/2;
+        var zx = 110 + 80*Math.cos(angle);
+        var zy = 110 + 80*Math.sin(angle);
+        var aktif = vurusNoktasi==='zil';
+        return '<ellipse cx="'+zx+'" cy="'+zy+'" rx="8" ry="5" fill="'+(aktif?'rgba(96,165,250,0.6)':'rgba(200,168,122,0.3)')+'" stroke="'+(aktif?'#60a5fa':'#8B5E3C')+'" stroke-width="1" transform="rotate('+(i*45)+' '+zx+' '+zy+')" opacity="0.9"/>';
+      }).join('')}
+      <!-- Ana vuruş bölgesi -->
+      <circle cx="110" cy="110" r="${vurusNoktasi==='ana'?45:35}" 
+        fill="${vurusNoktasi==='ana'?'rgba(255,225,53,0.2)':'rgba(255,255,255,0.03)'}" 
+        stroke="${vurusNoktasi==='ana'?'#FFE135':'rgba(255,255,255,0.1)'}" 
+        stroke-width="${vurusNoktasi==='ana'?2:1}"/>
+      <!-- Kenar bölgesi -->
+      ${vurusNoktasi==='kenar' ? '<circle cx="110" cy="110" r="80" fill="none" stroke="#4ade80" stroke-width="8" opacity="0.4"/>' : ''}
+      <!-- Etiket -->
+      <text x="110" y="115" text-anchor="middle" fill="${vurusNoktasi==='ana'?'#FFE135':vurusNoktasi==='zil'?'#60a5fa':vurusNoktasi==='kenar'?'#4ade80':'rgba(255,255,255,0.3)'}" 
+        font-size="13" font-weight="800" font-family="sans-serif">
+        ${vurusNoktasi==='ana'?'Ana Vuruş':vurusNoktasi==='zil'?'Zil':vurusNoktasi==='kenar'?'Kenar':'Def'}
+      </text>
+    </svg>`;
+  },
+
+  baglama: function(nota) {
+    return `<svg viewBox="0 0 160 320" width="130" height="320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#3a2008"/>
+          <stop offset="50%" stop-color="#7a4820"/>
+          <stop offset="100%" stop-color="#3a2008"/>
+        </linearGradient>
+      </defs>
+      <!-- Tekne (gövde) - armut şekli -->
+      <path d="M 80 160 Q 30 155 25 200 Q 20 245 80 260 Q 140 245 135 200 Q 130 155 80 160 Z" fill="url(#bgGrad)" stroke="#5a3010" stroke-width="2"/>
+      <!-- Ses deliği -->
+      <ellipse cx="80" cy="215" rx="20" ry="8" fill="#1a0e05" stroke="#5a3010" stroke-width="1"/>
+      <!-- Burguluk -->
+      <rect x="73" y="60" width="14" height="100" rx="4" fill="#2a1808" stroke="#5a3010" stroke-width="1"/>
+      <!-- Sap -->
+      <rect x="74" y="100" width="12" height="65" fill="#2a1808" stroke="#5a3010" stroke-width="1"/>
+      <!-- Perdeler -->
+      ${[0,1,2,3,4,5,6,7,8,9,10,11].map(function(i){
+        var y = 110 + i*4.5;
+        var aktif = nota && i < 3;
+        return '<line x1="72" y1="'+y+'" x2="86" y2="'+y+'" stroke="'+(aktif?'#FFE135':'rgba(255,255,255,0.2)')+'" stroke-width="'+(aktif?1.5:1)+'"/>';
+      }).join('')}
+      <!-- Teller (3 tel çifti) -->
+      ${[76,80,84].map(function(x){
+        return '<line x1="'+x+'" y1="70" x2="'+x+'" y2="255" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>';
+      }).join('')}
+      <!-- Burgu başları -->
+      ${[-1,0,1].map(function(i){
+        return '<circle cx="'+(80+i*8)+'" cy="75" r="3" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/>';
+      }).join('')}
+      <!-- Nota göstergesi -->
+      ${nota ? '<text x="80" y="290" text-anchor="middle" fill="#FFE135" font-size="12" font-weight="800" font-family="sans-serif">'+nota+'</text>' : ''}
+    </svg>`;
+  },
+
+  ney: function(delikler) {
+    return `<svg viewBox="0 0 60 300" width="60" height="300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ney kamış gövdesi -->
+      <rect x="22" y="10" width="16" height="280" rx="8" fill="#8B7355" stroke="#6b5535" stroke-width="1.5"/>
+      <!-- Kamış dokusu -->
+      ${[0,1,2,3,4,5,6,7,8,9].map(function(i){
+        return '<line x1="22" y1="'+(30+i*25)+'" x2="38" y2="'+(30+i*25)+'" stroke="rgba(0,0,0,0.2)" stroke-width="0.8"/>';
+      }).join('')}
+      <!-- Ağızlık -->
+      <rect x="20" y="8" width="20" height="25" rx="6" fill="#6b5535" stroke="#4b3515" stroke-width="1.5"/>
+      <!-- Alt uç -->
+      <rect x="22" y="270" width="16" height="20" rx="4" fill="#6b5535" stroke="#4b3515" stroke-width="1"/>
+      <!-- Delikler -->
+      ${[0,1,2,3,4,5].map(function(i){
+        var y = 90 + i*28;
+        var kapali = delikler && delikler[i]===1;
+        return '<circle cx="30" cy="'+y+'" r="5" fill="'+(kapali?'#2a1a08':'rgba(255,200,100,0.5)')+'" stroke="'+(kapali?'#4a2a08':'#FFE135')+'" stroke-width="'+(kapali?1:2)+'"/>';
+      }).join('')}
+      <!-- Delik numaraları -->
+      ${[0,1,2,3,4,5].map(function(i){
+        var y = 90 + i*28;
+        return '<text x="46" y="'+(y+4)+'" fill="rgba(255,255,255,0.4)" font-size="9" font-family="sans-serif">'+(i+1)+'</text>';
+      }).join('')}
+    </svg>`;
+  },
+
+  kemane: function(aktifTel) {
+    return `<svg viewBox="0 0 140 300" width="130" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="kmGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#2a1808"/>
+          <stop offset="50%" stop-color="#6a3818"/>
+          <stop offset="100%" stop-color="#2a1808"/>
+        </linearGradient>
+      </defs>
+      <!-- Gövde - armut benzeri -->
+      <path d="M 70 170 Q 25 165 22 205 Q 18 250 70 265 Q 122 250 118 205 Q 115 165 70 170 Z" fill="url(#kmGrad)" stroke="#5a3010" stroke-width="2"/>
+      <!-- Ses delikleri (f-deliği) -->
+      <path d="M 52 210 Q 48 205 52 200 Q 56 195 52 190" fill="none" stroke="#1a0808" stroke-width="3"/>
+      <path d="M 88 210 Q 92 205 88 200 Q 84 195 88 190" fill="none" stroke="#1a0808" stroke-width="3"/>
+      <!-- Köprü -->
+      <rect x="60" y="215" width="20" height="4" rx="1" fill="#8B5E3C"/>
+      <!-- Sap -->
+      <rect x="65" y="80" width="10" height="95" fill="#2a1808" stroke="#5a3010" stroke-width="1"/>
+      <!-- Burguluk -->
+      <rect x="62" y="50" width="16" height="35" rx="4" fill="#2a1808" stroke="#5a3010" stroke-width="1"/>
+      <!-- Teller -->
+      ${[63,67,71,75].map(function(x,i){
+        var aktif = aktifTel===i;
+        return '<line x1="'+x+'" y1="55" x2="'+x+'" y2="255" stroke="'+(aktif?'#FFE135':'rgba(255,255,255,0.3)')+'" stroke-width="'+(aktif?1.5:0.8)+'"/>';
+      }).join('')}
+      <!-- Tel etiketleri -->
+      ${['G','D','A','E'].map(function(n,i){
+        var aktif = aktifTel===i;
+        return '<text x="'+(63+i*4)+'" y="270" text-anchor="middle" fill="'+(aktif?'#FFE135':'rgba(255,255,255,0.3)')+'" font-size="8" font-weight="800" font-family="sans-serif">'+n+'</text>';
+      }).join('')}
+      <!-- Yay -->
+      <line x1="108" y1="160" x2="135" y2="260" stroke="#8B7355" stroke-width="3" stroke-linecap="round"/>
+      <line x1="108" y1="160" x2="135" y2="260" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    </svg>`;
+  },
+
+  ud: function(tel) {
+    return `<svg viewBox="0 0 180 300" width="160" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="udGrad" cx="50%" cy="60%">
+          <stop offset="0%" stop-color="#7a4820"/>
+          <stop offset="100%" stop-color="#2a1808"/>
+        </radialGradient>
+      </defs>
+      <!-- Gövde - büyük armut şekli -->
+      <path d="M 90 130 Q 20 130 15 195 Q 10 265 90 275 Q 170 265 165 195 Q 160 130 90 130 Z" fill="url(#udGrad)" stroke="#5a3010" stroke-width="2"/>
+      <!-- Ses deliği -->
+      <circle cx="90" cy="205" r="28" fill="#1a0808" stroke="#5a3010" stroke-width="1.5"/>
+      <!-- Ses deliği süslemesi -->
+      <circle cx="90" cy="205" r="22" fill="none" stroke="rgba(255,200,100,0.2)" stroke-width="1" stroke-dasharray="4"/>
+      <!-- Sap - kısa -->
+      <rect x="82" y="60" width="16" height="75" fill="#2a1808" stroke="#5a3010" stroke-width="1.5"/>
+      <!-- Burguluk - geri kıvrık -->
+      <path d="M 78 60 Q 60 40 75 20 Q 90 10 105 20 Q 120 40 102 60 Z" fill="#2a1808" stroke="#5a3010" stroke-width="1.5"/>
+      <!-- Burgular -->
+      ${[0,1,2].map(function(i){
+        return '<circle cx="'+(72+i*9)+'" cy="'+(45-i*8)+'" r="4" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/><circle cx="'+(112-i*9)+'" cy="'+(45-i*8)+'" r="4" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/>';
+      }).join('')}
+      <!-- Teller (5 çift = 10) -->
+      ${[82,85,88,91,94].map(function(x,i){
+        var aktif = tel && tel.includes(i);
+        return '<line x1="'+x+'" y1="65" x2="'+x+'" y2="265" stroke="'+(aktif?'#FFE135':'rgba(255,255,255,0.25)')+'" stroke-width="'+(aktif?1.5:0.7)+'"/>';
+      }).join('')}
+    </svg>`;
+  },
+
+  zurna: function(delikler) {
+    return `<svg viewBox="0 0 80 300" width="70" height="300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Zurna gövdesi - konik -->
+      <path d="M 28 20 L 22 270 Q 40 285 58 270 L 52 20 Z" fill="#8B6914" stroke="#6b5010" stroke-width="1.5"/>
+      <!-- Doku çizgileri -->
+      ${[0,1,2,3,4,5].map(function(i){
+        return '<line x1="28" y1="'+(40+i*35)+'" x2="52" y2="'+(40+i*35)+'" stroke="rgba(0,0,0,0.2)" stroke-width="0.8"/>';
+      }).join('')}
+      <!-- Ağızlık (kamış) -->
+      <rect x="35" y="8" width="10" height="18" rx="2" fill="#5a4010" stroke="#3a2808" stroke-width="1"/>
+      <!-- Geniş alt uç (boru) -->
+      <ellipse cx="40" cy="272" rx="18" ry="6" fill="#6b5010" stroke="#4b3808" stroke-width="1"/>
+      <!-- Delikler -->
+      ${[0,1,2,3,4,5,6].map(function(i){
+        var y = 65 + i*26;
+        var kapali = delikler && delikler[i]===1;
+        var x = i===6 ? 52 : 40;
+        return '<circle cx="'+x+'" cy="'+y+'" r="5" fill="'+(kapali?'#2a1a08':'rgba(255,200,50,0.5)')+'" stroke="'+(kapali?'rgba(255,255,255,0.1)':'#FFE135')+'" stroke-width="'+(kapali?1:1.5)+'"/>';
+      }).join('')}
+    </svg>`;
+  },
+
+  kaval: function(delikler) {
+    return `<svg viewBox="0 0 50 320" width="50" height="320" xmlns="http://www.w3.org/2000/svg">
+      <!-- Kaval gövdesi - düz silindir -->
+      <rect x="18" y="15" width="14" height="295" rx="7" fill="#7a6040" stroke="#5a4828" stroke-width="1.5"/>
+      <!-- Doku -->
+      ${[0,1,2,3,4,5,6,7,8,9].map(function(i){
+        return '<line x1="18" y1="'+(30+i*28)+'" x2="32" y2="'+(30+i*28)+'" stroke="rgba(0,0,0,0.15)" stroke-width="0.6"/>';
+      }).join('')}
+      <!-- Ağızlık kesilmiş uç -->
+      <path d="M 18 15 L 32 15 L 32 28 L 18 20 Z" fill="#5a4020" stroke="#3a2808" stroke-width="1"/>
+      <!-- Delikler (6 + başparmak) -->
+      ${[0,1,2,3,4,5].map(function(i){
+        var y = 85 + i*32;
+        var kapali = delikler && delikler[i]===1;
+        return '<circle cx="25" cy="'+y+'" r="4.5" fill="'+(kapali?'#2a1a08':'rgba(255,200,100,0.5)')+'" stroke="'+(kapali?'rgba(255,255,255,0.1)':'#FFE135')+'" stroke-width="'+(kapali?1:1.5)+'"/>';
+      }).join('')}
+      <!-- Delik numaraları -->
+      ${[0,1,2,3,4,5].map(function(i){
+        return '<text x="38" y="'+(89+i*32)+'" fill="rgba(255,255,255,0.35)" font-size="8" font-family="sans-serif">'+(i+1)+'</text>';
+      }).join('')}
+    </svg>`;
+  },
+
+  vikinghorn: function(tip) {
+    var renk = {savaş:'#f87171', zafer:'#FFE135', uyarı:'#60a5fa', selamlama:'#4ade80'}[tip] || '#FFE135';
+    return `<svg viewBox="0 0 280 160" width="260" height="160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="vhGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8B6914"/>
+          <stop offset="50%" stop-color="#c8a820"/>
+          <stop offset="100%" stop-color="#6b5010"/>
+        </linearGradient>
+      </defs>
+      <!-- Boynuz ana gövde -->
+      <path d="M 240 80 Q 200 40 150 50 Q 80 55 40 80 Q 20 90 15 100 Q 20 115 40 120 Q 80 135 150 130 Q 200 130 240 80 Z" 
+        fill="url(#vhGrad)" stroke="#6b5010" stroke-width="2"/>
+      <!-- Uç (ağız) -->
+      <ellipse cx="240" cy="80" rx="15" ry="25" fill="#9B7924" stroke="#6b5010" stroke-width="2"/>
+      <!-- İç delik -->
+      <ellipse cx="241" cy="80" rx="8" ry="16" fill="#1a0e05"/>
+      <!-- Süs bantları -->
+      <path d="M 80 58 Q 80 142" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="2"/>
+      <line x1="120" y1="52" x2="120" y2="138" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+      <line x1="160" y1="50" x2="160" y2="130" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+      <line x1="200" y1="52" x2="200" y2="115" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+      <!-- Ses dalgaları -->
+      ${tip ? `
+      <path d="M 10 80 Q 5 70 0 80 Q 5 90 10 80" fill="none" stroke="${renk}" stroke-width="2" opacity="0.8"/>
+      <path d="M 20 75 Q 10 60 5 80 Q 10 100 20 85" fill="none" stroke="${renk}" stroke-width="1.5" opacity="0.5"/>
+      ` : ''}
+      <!-- Etiket -->
+      ${tip ? '<text x="140" y="155" text-anchor="middle" fill="'+renk+'" font-size="11" font-weight="800" font-family="sans-serif">'+tip.toUpperCase()+'</text>' : ''}
+    </svg>`;
+  },
+
+  vikingdavul: function(tip) {
+    var vurusRenk = {ana:'#f87171', vuruş:'#FFE135', carpm:'#a78bfa', hiz:'#fb923c'}[tip] || 'rgba(255,255,255,0.1)';
+    return `<svg viewBox="0 0 260 200" width="240" height="200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="vdGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5a3010"/>
+          <stop offset="100%" stop-color="#2a1008"/>
+        </linearGradient>
+      </defs>
+      <!-- Davul gövdesi (silindir - yandan görünüm) -->
+      <rect x="40" y="60" width="180" height="90" rx="4" fill="url(#vdGrad)" stroke="#6b3010" stroke-width="2"/>
+      <!-- Deri yüzeyleri -->
+      <ellipse cx="40" cy="105" rx="12" ry="45" fill="#c8a87a" opacity="0.3" stroke="#8B6040" stroke-width="1.5"/>
+      <ellipse cx="220" cy="105" rx="12" ry="45" fill="#c8a87a" opacity="0.3" stroke="#8B6040" stroke-width="1.5"/>
+      <!-- Germe ipleri -->
+      ${[0,1,2,3,4,5].map(function(i){
+        var y = 65 + i*14;
+        return '<line x1="40" y1="'+y+'" x2="220" y2="'+y+'" stroke="rgba(200,168,122,0.2)" stroke-width="0.8"/>';
+      }).join('')}
+      <!-- Vurma yüzeyi (sağ) -->
+      <ellipse cx="220" cy="105" rx="12" ry="45" 
+        fill="${tip?vurusRenk+'44':'rgba(255,255,255,0.05)'}" 
+        stroke="${tip?vurusRenk:'rgba(255,255,255,0.1)'}" 
+        stroke-width="${tip?2:1}"/>
+      <!-- Viking runik süsleme -->
+      <text x="130" y="112" text-anchor="middle" fill="rgba(255,200,100,0.2)" font-size="22" font-family="serif">ᚱᚢᚾ</text>
+      <!-- Tokmak -->
+      <line x1="235" y1="50" x2="222" y2="100" stroke="#8B6040" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="235" cy="48" r="8" fill="#5a3010" stroke="#8B6040" stroke-width="1.5"/>
+      <!-- Etiket -->
+      ${tip ? '<text x="130" y="175" text-anchor="middle" fill="'+vurusRenk+'" font-size="12" font-weight="800" font-family="sans-serif">'+tip.toUpperCase()+'</text>' : ''}
+    </svg>`;
+  },
+
+  bodhran: function(tip) {
+    var renk = {ana:'#4ade80', rim:'#FFE135', orta:'#60a5fa', hafif:'#a78bfa'}[tip] || 'rgba(255,255,255,0.2)';
+    return `<svg viewBox="0 0 220 220" width="200" height="220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Çerçeve -->
+      <circle cx="110" cy="105" r="90" fill="#5a3010" stroke="#3a1808" stroke-width="8"/>
+      <!-- Deri -->
+      <circle cx="110" cy="105" r="82" fill="#c8a87a" opacity="0.25" stroke="#8B6040" stroke-width="2"/>
+      <!-- Deri dokusu -->
+      <circle cx="110" cy="105" r="55" fill="none" stroke="rgba(200,168,122,0.1)" stroke-width="1" stroke-dasharray="4"/>
+      <!-- Çapraz tutma çubuğu (tipper) -->
+      <line x1="85" y1="80" x2="135" y2="130" stroke="#5a3010" stroke-width="5" stroke-linecap="round"/>
+      <!-- Vuruş bölgeleri -->
+      ${tip==='ana' ? '<circle cx="110" cy="105" r="45" fill="rgba(74,222,128,0.2)" stroke="#4ade80" stroke-width="2"/>' : ''}
+      ${tip==='rim' ? '<circle cx="110" cy="105" r="82" fill="none" stroke="#FFE135" stroke-width="8" opacity="0.4"/>' : ''}
+      ${tip==='orta' ? '<circle cx="110" cy="105" r="62" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2"/>' : ''}
+      <!-- Tipper (vurma çubuğu) -->
+      <line x1="145" y1="60" x2="160" y2="45" stroke="#8B6040" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="162" cy="43" r="5" fill="#5a3010" stroke="#8B6040" stroke-width="1.5"/>
+      <!-- Etiket -->
+      <text x="110" y="200" text-anchor="middle" fill="${renk}" font-size="11" font-weight="800" font-family="sans-serif">
+        ${tip==='ana'?'Ana Vuruş':tip==='rim'?'Rim Shot':tip==='orta'?'Orta':tip==='hafif'?'Hafif':'Bodhrán'}
+      </text>
+    </svg>`;
+  },
+
+  duduk: function(delikler) {
+    return `<svg viewBox="0 0 70 300" width="65" height="300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Duduk - kalın kamış gövde -->
+      <rect x="20" y="20" width="20" height="260" rx="6" fill="#8B5E3C" stroke="#5a3a20" stroke-width="1.5"/>
+      <!-- Doku -->
+      ${[0,1,2,3,4,5,6,7].map(function(i){
+        return '<line x1="20" y1="'+(40+i*28)+'" x2="40" y2="'+(40+i*28)+'" stroke="rgba(0,0,0,0.2)" stroke-width="0.8"/>';
+      }).join('')}
+      <!-- İki kamış ağızlık -->
+      <rect x="26" y="10" width="8" height="16" rx="2" fill="#6b4020" stroke="#3a2010" stroke-width="1"/>
+      <rect x="24" y="8" width="12" height="5" rx="1" fill="#4a2810"/>
+      <!-- Delikler (8 delik) -->
+      ${[0,1,2,3,4,5,6,7].map(function(i){
+        var y = 65 + i*24;
+        var kapali = delikler && delikler[i]===1;
+        var x = i>=6 ? 40 : 30;
+        return '<circle cx="'+x+'" cy="'+y+'" r="4" fill="'+(kapali?'#2a1a08':'rgba(255,180,80,0.5)')+'" stroke="'+(kapali?'rgba(255,255,255,0.1)':'#FFE135')+'" stroke-width="'+(kapali?1:1.5)+'"/>';
+      }).join('')}
+    </svg>`;
+  },
+
+  lute: function(nota) {
+    return `<svg viewBox="0 0 180 320" width="160" height="320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="luteGrad" cx="50%" cy="65%">
+          <stop offset="0%" stop-color="#8B5E3C"/>
+          <stop offset="100%" stop-color="#2a1808"/>
+        </radialGradient>
+      </defs>
+      <!-- Gövde - büyük yuvarlak armut -->
+      <path d="M 90 150 Q 20 145 18 200 Q 15 265 90 280 Q 165 265 162 200 Q 160 145 90 150 Z" fill="url(#luteGrad)" stroke="#5a3010" stroke-width="2"/>
+      <!-- Ses deliği (rozet) -->
+      <circle cx="90" cy="215" r="24" fill="#1a0808" stroke="#5a3010" stroke-width="1.5"/>
+      <circle cx="90" cy="215" r="18" fill="none" stroke="rgba(255,200,100,0.3)" stroke-width="1" stroke-dasharray="3"/>
+      <circle cx="90" cy="215" r="10" fill="none" stroke="rgba(255,200,100,0.2)" stroke-width="1"/>
+      <!-- Sap (uzun) -->
+      <rect x="83" y="60" width="14" height="95" fill="#2a1808" stroke="#5a3010" stroke-width="1"/>
+      <!-- Geri kıvrık burguluk -->
+      <path d="M 78 58 Q 55 35 68 15 Q 90 5 112 15 Q 125 35 102 58 Z" fill="#2a1808" stroke="#5a3010" stroke-width="1.5"/>
+      <!-- Perdeler -->
+      ${[0,1,2,3,4,5,6,7,8,9].map(function(i){
+        var y = 75 + i*8;
+        return '<line x1="81" y1="'+y+'" x2="97" y2="'+y+'" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>';
+      }).join('')}
+      <!-- Teller (6) -->
+      ${[84,87,90,93,96,99].map(function(x,i){
+        return '<line x1="'+x+'" y1="65" x2="'+x+'" y2="268" stroke="rgba(255,255,255,0.2)" stroke-width="0.7"/>';
+      }).join('')}
+      <!-- Burgular (6 çift) -->
+      ${[0,1,2].map(function(i){
+        return '<circle cx="'+(72+i*9)+'" cy="'+(48-i*9)+'" r="4" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/><circle cx="'+(108-i*9)+'" cy="'+(48-i*9)+'" r="4" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/>';
+      }).join('')}
+    </svg>`;
+  },
+
+  lyre: function(aktifTel) {
+    return `<svg viewBox="0 0 200 280" width="180" height="280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lyreGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#8B6914"/>
+          <stop offset="100%" stop-color="#5a4010"/>
+        </linearGradient>
+      </defs>
+      <!-- Lir çerçevesi - U şekli -->
+      <!-- Sol kol -->
+      <path d="M 50 240 Q 40 150 60 80 Q 75 40 100 30" fill="none" stroke="url(#lyreGrad)" stroke-width="12" stroke-linecap="round"/>
+      <!-- Sağ kol -->
+      <path d="M 150 240 Q 160 150 140 80 Q 125 40 100 30" fill="none" stroke="url(#lyreGrad)" stroke-width="12" stroke-linecap="round"/>
+      <!-- Üst çubuk (yoke) -->
+      <line x1="60" y1="82" x2="140" y2="82" stroke="#8B6914" stroke-width="10" stroke-linecap="round"/>
+      <!-- Alt gövde -->
+      <path d="M 50 240 Q 100 260 150 240 Q 155 220 150 200 Q 100 215 50 200 Q 45 220 50 240 Z" fill="#6b5010" stroke="#8B6914" stroke-width="2"/>
+      <!-- Ses deliği -->
+      <ellipse cx="100" cy="225" rx="20" ry="8" fill="#1a0e05" stroke="#5a3010" stroke-width="1"/>
+      <!-- Teller (7) -->
+      ${[0,1,2,3,4,5,6].map(function(i){
+        var x = 65 + i*12;
+        var aktif = aktifTel===i;
+        var y1 = 85 + i*2;
+        return '<line x1="'+x+'" y1="'+y1+'" x2="100" y2="238" stroke="'+(aktif?'#FFE135':'rgba(255,255,255,0.25)')+'" stroke-width="'+(aktif?1.5:0.8)+'"/>';
+      }).join('')}
+      <!-- Tel etiketleri -->
+      ${['C','D','E','F','G','A','B'].map(function(n,i){
+        var x = 65 + i*12;
+        var aktif = aktifTel===i;
+        return '<text x="'+x+'" y="255" text-anchor="middle" fill="'+(aktif?'#FFE135':'rgba(255,255,255,0.3)')+'" font-size="8" font-weight="800" font-family="sans-serif">'+n+'</text>';
+      }).join('')}
+    </svg>`;
+  },
+
+  hurdygurdy: function(nota) {
+    return `<svg viewBox="0 0 280 180" width="260" height="180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hgBodyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5a3820"/>
+          <stop offset="100%" stop-color="#2a1808"/>
+        </linearGradient>
+      </defs>
+      <!-- Gövde (gitar benzeri kutu) -->
+      <rect x="30" y="30" width="160" height="120" rx="12" fill="url(#hgBodyGrad)" stroke="#5a3010" stroke-width="2"/>
+      <!-- Çark yuvası -->
+      <rect x="50" y="80" width="50" height="40" rx="4" fill="#1a0808" stroke="#5a3010" stroke-width="1"/>
+      <!-- Çark -->
+      <circle cx="75" cy="100" r="18" fill="none" stroke="#8B5E3C" stroke-width="3"/>
+      <line x1="75" y1="82" x2="75" y2="118" stroke="#8B5E3C" stroke-width="1.5"/>
+      <line x1="57" y1="100" x2="93" y2="100" stroke="#8B5E3C" stroke-width="1.5"/>
+      <circle cx="75" cy="100" r="4" fill="#6b4020"/>
+      <!-- Krank kolu -->
+      <line x1="93" y1="100" x2="115" y2="90" stroke="#8B5E3C" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="118" cy="89" r="5" fill="#5a3010" stroke="#8B5E3C" stroke-width="1.5"/>
+      <!-- Teller -->
+      <line x1="30" y1="70" x2="190" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+      <line x1="30" y1="90" x2="50" y2="90" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+      <line x1="100" y1="90" x2="190" y2="90" stroke="${nota?'#FFE135':'rgba(255,255,255,0.2)'}" stroke-width="${nota?1.5:0.8}"/>
+      <line x1="30" y1="130" x2="190" y2="130" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
+      <!-- Tuş kutusu -->
+      <rect x="130" y="50" width="55" height="80" rx="4" fill="#1a0808" stroke="#5a3010" stroke-width="1"/>
+      ${[0,1,2,3,4].map(function(i){
+        return '<rect x="135" y="'+(56+i*13)+'" width="45" height="10" rx="2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>';
+      }).join('')}
+      <!-- Sap -->
+      <rect x="190" y="75" width="60" height="30" rx="4" fill="#2a1808" stroke="#5a3010" stroke-width="1.5"/>
+      <!-- Burgular -->
+      <circle cx="250" cy="82" r="4" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/>
+      <circle cx="250" cy="98" r="4" fill="#4a2810" stroke="#8B5E3C" stroke-width="1"/>
+      <!-- Etiket -->
+      ${nota ? '<text x="110" y="165" text-anchor="middle" fill="#FFE135" font-size="11" font-weight="800" font-family="sans-serif">'+nota+'</text>' : ''}
+    </svg>`;
+  },
+
+  lotrhorn: function(tip) {
+    var renkler = {boromir:'#FFE135', rohirrim:'#f87171', gondor:'#60a5fa', elf:'#4ade80', mordor:'#a78bfa', hobbit:'#fb923c'};
+    var renk = renkler[tip] || '#FFE135';
+    return `<svg viewBox="0 0 300 160" width="280" height="160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lotrGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8B6914"/>
+          <stop offset="40%" stop-color="#c8a820"/>
+          <stop offset="100%" stop-color="#4a3008"/>
+        </linearGradient>
+      </defs>
+      <!-- Ana boru (kıvrımlı) -->
+      <path d="M 260 80 Q 200 20 140 40 Q 80 55 50 80 Q 20 100 18 110 Q 20 125 50 128 Q 80 140 140 138 Q 200 138 260 80 Z" 
+        fill="url(#lotrGrad)" stroke="#6b5010" stroke-width="2.5"/>
+      <!-- İkinci kıvrım (bazı hornlar) -->
+      ${tip==='gondor' || tip==='rohirrim' ? 
+        '<path d="M 100 55 Q 70 30 55 55 Q 45 75 60 85 Q 75 90 95 75" fill="url(#lotrGrad)" stroke="#6b5010" stroke-width="2.5"/>' : ''}
+      <!-- Boru ağzı -->
+      <ellipse cx="260" cy="80" rx="18" ry="28" fill="#9B7924" stroke="#6b5010" stroke-width="2"/>
+      <ellipse cx="261" cy="80" rx="10" ry="18" fill="#1a0e05"/>
+      <!-- Süs bantları -->
+      <line x1="130" y1="42" x2="130" y2="146" stroke="rgba(0,0,0,0.2)" stroke-width="2"/>
+      <line x1="170" y1="36" x2="170" y2="138" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+      <line x1="210" y1="40" x2="210" y2="118" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>
+      <!-- Süs (elvish/dwarven) -->
+      ${tip==='elf' ? '<path d="M 80 70 Q 100 60 120 70 Q 100 80 80 70" fill="rgba(74,222,128,0.3)" stroke="#4ade80" stroke-width="1"/>' : ''}
+      ${tip==='mordor' ? '<path d="M 90 75 L 95 65 L 100 75 L 105 65 L 110 75" fill="none" stroke="rgba(167,139,250,0.4)" stroke-width="1.5"/>' : ''}
+      <!-- Ses dalgaları -->
+      <path d="M 8 80 Q 3 70 0 80 Q 3 90 8 80" fill="none" stroke="${renk}" stroke-width="2.5" opacity="0.9"/>
+      <path d="M 18 75 Q 8 60 3 80 Q 8 100 18 85" fill="none" stroke="${renk}" stroke-width="2" opacity="0.6"/>
+      <path d="M 28 70 Q 13 50 6 80 Q 13 110 28 90" fill="none" stroke="${renk}" stroke-width="1.5" opacity="0.3"/>
+      <!-- Etiket -->
+      <text x="150" y="155" text-anchor="middle" fill="${renk}" font-size="10" font-weight="800" font-family="sans-serif">
+        ${tip==='boromir'?'Boromir Boynuzu':tip==='rohirrim'?'Rohirrim':tip==='gondor'?'Gondor':tip==='elf'?'Elf Borazanı':tip==='mordor'?'Mordor':tip==='hobbit'?'Hobbit':'Horn'}
+      </text>
+    </svg>`;
+  },
+
+  goblin: function(tip) {
+    var renk = {bang:'#f87171', crash:'#fb923c', vur:'#FFE135', kaos:'#a78bfa'}[tip] || '#f87171';
+    return `<svg viewBox="0 0 240 200" width="220" height="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Goblin davulu - yamuk, bozuk görünümlü -->
+      <path d="M 30 80 Q 28 50 120 45 Q 212 42 215 80 Q 220 130 120 145 Q 28 140 30 80 Z" 
+        fill="#2a1a08" stroke="#4a2a10" stroke-width="2.5"/>
+      <!-- Yamuk deri -->
+      <ellipse cx="120" cy="80" rx="88" ry="33" fill="#3a2210" opacity="0.8" stroke="#6b3a10" stroke-width="1.5"/>
+      <!-- Çatlaklar ve yamalar -->
+      <path d="M 80 60 L 85 95" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+      <path d="M 155 55 L 148 100" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+      <path d="M 60 85 L 90 78" stroke="rgba(255,150,0,0.2)" stroke-width="2" stroke-dasharray="3"/>
+      <!-- Kemik tokmaklar -->
+      <line x1="160" y1="20" x2="140" y2="60" stroke="#c8b87a" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="162" cy="18" rx="8" ry="6" fill="#c8b87a" stroke="#a89858" stroke-width="1"/>
+      <ellipse cx="158" cy="14" rx="5" ry="4" fill="#c8b87a"/>
+      <line x1="85" y1="15" x2="105" y2="55" stroke="#c8b87a" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="83" cy="13" rx="8" ry="6" fill="#c8b87a" stroke="#a89858" stroke-width="1"/>
+      <!-- Vuruş efekti -->
+      ${tip ? `
+      <ellipse cx="${tip==='bang'?120:tip==='crash'?160:tip==='vur'?90:120}" cy="78" rx="${tip==='kaos'?70:40}" ry="${tip==='kaos'?28:18}" 
+        fill="${renk}22" stroke="${renk}" stroke-width="2" opacity="0.8"/>
+      ` : ''}
+      <!-- Goblin runik işaretler -->
+      <text x="120" y="88" text-anchor="middle" fill="rgba(255,150,0,0.2)" font-size="16" font-family="serif">⚡</text>
+      <!-- Etiket -->
+      <text x="120" y="175" text-anchor="middle" fill="${renk}" font-size="12" font-weight="800" font-family="sans-serif">
+        ${tip==='bang'?'BANG!':tip==='crash'?'CRASH!':tip==='vur'?'VUR!':tip==='kaos'?'KAOS!':'Goblin Davulu'}
+      </text>
+      <!-- Kaos efekti -->
+      ${tip==='kaos' ? '<text x="55" y="55" fill="#a78bfa" font-size="18" opacity="0.6">💥</text><text x="170" y="45" fill="#f87171" font-size="14" opacity="0.5">⚡</text>' : ''}
+    </svg>`;
+  }
+};
+
+// Görsel gösterme fonksiyonu
+function aletGorseli(aletId, parametre, hedefId) {
+  var el = document.getElementById(hedefId);
+  if (!el || !ALET_SVG[aletId]) return;
+  el.innerHTML = ALET_SVG[aletId](parametre);
+}
+
+// Görsel container'larını panellere ekle
+var GORSEL_PANELLER = {
+  darbuka: 'darbukaSes',
+  def: 'defSes',
+  baglama: 'baglamaSes',
+  ud: 'udSes',
+  ney: 'neyNota',
+  kemane: 'kemaneSes',
+  zurna: 'zurnaNota',
+  kaval: 'kavalNota',
+  vikinghorn: 'vikingHornSes',
+  vikingdavul: 'vikingDavulSes',
+  bodhran: 'bodhranSes',
+  duduk: 'dudukNota',
+  lotrhorn: 'lotrHornSes',
+  goblin: 'goblinSes',
+  lute: 'luteSes',
+  lyre: 'lyreSes',
+  hurdygurdy: 'hgSes',
+};
+
+Object.keys(GORSEL_PANELLER).forEach(function(aletId) {
+  var refId = GORSEL_PANELLER[aletId];
+  var refEl = document.getElementById(refId);
+  if (!refEl) return;
+  var wrap = document.createElement('div');
+  wrap.id = 'gorsel-'+aletId;
+  wrap.style.cssText = 'text-align:center;margin:12px 0;min-height:80px;';
+  // Varsayılan görseli ekle
+  if (ALET_SVG[aletId]) wrap.innerHTML = ALET_SVG[aletId](null);
+  refEl.parentNode.insertBefore(wrap, refEl);
+});
+
+// Darbuka click'lerini görsellerle güncelle
+var _darbukaGrid2 = document.getElementById('darbukaGrid');
+if (_darbukaGrid2) {
+  _darbukaGrid2.addEventListener('click', function(e) {
+    var pad = e.target.closest('.davul-pad');
+    if (!pad) return;
+    var tip = pad.getAttribute('data-tip');
+    if (tip) aletGorseli('darbuka', tip, 'gorsel-darbuka');
+  });
+  // data-tip ekle
+  var darPadler = _darbukaGrid2.querySelectorAll('.davul-pad');
+  ['dum','tek','ka','teke','dum','tek'].forEach(function(t, i) {
+    if (darPadler[i]) darPadler[i].setAttribute('data-tip', t);
+  });
+}
+
+// Def click güncelle
+var _defGrid2 = document.getElementById('defGrid');
+if (_defGrid2) {
+  _defGrid2.addEventListener('click', function(e) {
+    var pad = e.target.closest('.davul-pad');
+    if (!pad) return;
+    var tip = pad.getAttribute('data-tip-def');
+    if (tip) aletGorseli('def', tip, 'gorsel-def');
+  });
+}
+
+// Viking davul
+var _vdGrid2 = document.getElementById('vikingDavulGrid');
+if (_vdGrid2) {
+  _vdGrid2.addEventListener('click', function(e) {
+    var pad = e.target.closest('.davul-pad');
+    if (!pad) return;
+    var ad = pad.querySelector('.d-ad');
+    if (!ad) return;
+    var t = ad.textContent.toLowerCase();
+    var tip = t.includes('savaş')?'ana':t.includes('ritim')?'vuruş':t.includes('çarpm')?'carpm':'hiz';
+    aletGorseli('vikingdavul', tip, 'gorsel-vikingdavul');
+  });
+}
+
+// Bodhrán
+var _brGrid2 = document.getElementById('bodhranGrid');
+if (_brGrid2) {
+  _brGrid2.addEventListener('click', function(e) {
+    var pad = e.target.closest('.davul-pad');
+    if (!pad) return;
+    var ad = pad.querySelector('.d-ad');
+    if (!ad) return;
+    var t = ad.textContent.toLowerCase();
+    var tip = t.includes('ana')?'ana':t.includes('rim')?'rim':t.includes('orta')?'orta':'hafif';
+    aletGorseli('bodhran', tip, 'gorsel-bodhran');
+  });
+}
+
+// Goblin
+var _gobGrid2 = document.getElementById('goblinGrid');
+if (_gobGrid2) {
+  _gobGrid2.addEventListener('click', function(e) {
+    var pad = e.target.closest('.davul-pad');
+    if (!pad) return;
+    var ad = pad.querySelector('.d-ad');
+    if (!ad) return;
+    var t = ad.textContent.toLowerCase();
+    var tip = t.includes('bang')?'bang':t.includes('crash')?'crash':t.includes('vur')?'vur':'kaos';
+    aletGorseli('goblin', tip, 'gorsel-goblin');
+  });
+}
+
+// Viking Horn
+var _vhBtns = document.getElementById('vikingHornGrid');
+if (_vhBtns) {
+  var _vhTipler = ['savaş','zafer','uyarı','selamlama'];
+  _vhBtns.addEventListener('click', function(e) {
+    var btn = e.target.closest('.akor-btn');
+    if (!btn) return;
+    var i = Array.from(_vhBtns.children).indexOf(btn);
+    aletGorseli('vikinghorn', _vhTipler[i], 'gorsel-vikinghorn');
+  });
+}
+
+// LotR Horn
+var _lotrBtns = document.getElementById('lotrHornGrid');
+if (_lotrBtns) {
+  var _lotrTipler = ['boromir','rohirrim','gondor','elf','mordor','hobbit'];
+  _lotrBtns.addEventListener('click', function(e) {
+    var btn = e.target.closest('.akor-btn');
+    if (!btn) return;
+    var i = Array.from(_lotrBtns.children).indexOf(btn);
+    aletGorseli('lotrhorn', _lotrTipler[i], 'gorsel-lotrhorn');
+  });
+}
+
+// Bağlama nota seçimi
+var _baglamaGrid2 = document.getElementById('baglamaGrid');
+if (_baglamaGrid2) {
+  _baglamaGrid2.addEventListener('click', function(e) {
+    var btn = e.target.closest('.akor-btn');
+    if (!btn) return;
+    var nota = btn.querySelector('.akor-ad');
+    if (nota) aletGorseli('baglama', nota.textContent, 'gorsel-baglama');
+  });
+}
+
+// Ud nota seçimi
+var _udGrid2 = document.getElementById('udGrid');
+if (_udGrid2) {
+  _udGrid2.addEventListener('click', function(e) {
+    var btn = e.target.closest('.akor-btn');
+    if (!btn) return;
+    aletGorseli('ud', null, 'gorsel-ud');
+  });
+}
+
+// Lute nota seçimi
+var _luteGrid2 = document.getElementById('luteGrid');
+if (_luteGrid2) {
+  _luteGrid2.addEventListener('click', function(e) {
+    var btn = e.target.closest('.akor-btn');
+    if (!btn) return;
+    var nota = btn.querySelector('.akor-ad');
+    if (nota) aletGorseli('lute', nota.textContent, 'gorsel-lute');
+  });
+}
+
+// Lir tel seçimi
+var _lyreStrings2 = document.getElementById('lyreStrings');
+if (_lyreStrings2) {
+  _lyreStrings2.addEventListener('click', function(e) {
+    var cubuk = e.target.closest('.keman-tel-cubuk');
+    if (!cubuk) return;
+    var i = Array.from(_lyreStrings2.querySelectorAll('.keman-tel-cubuk')).indexOf(cubuk);
+    aletGorseli('lyre', i, 'gorsel-lyre');
+  });
+}
+
+// HG nota
+var _hgGrid2 = document.getElementById('hgGrid');
+if (_hgGrid2) {
+  _hgGrid2.addEventListener('click', function(e) {
+    var btn = e.target.closest('.akor-btn');
+    if (!btn) return;
+    var nota = btn.querySelector('.akor-ad');
+    if (nota) aletGorseli('hurdygurdy', nota.textContent, 'gorsel-hurdygurdy');
+  });
+}
+
+// Ney delikler - görsel güncelle
+var _neyGunc = function() {
+  var n = NEY_NOTALAR ? NEY_NOTALAR.find(function(n){ return JSON.stringify(n.delikler)===JSON.stringify(neyDurum); }) : null;
+  aletGorseli('ney', neyDurum, 'gorsel-ney');
+  if (n) aletGorseli('ney', neyDurum, 'gorsel-ney');
+};
+setTimeout(function(){
+  var neyDels = document.getElementById('neyDelikler');
+  if (neyDels) neyDels.addEventListener('click', function(){ setTimeout(_neyGunc, 50); });
+  aletGorseli('ney', [1,1,1,1,1,1], 'gorsel-ney');
+  aletGorseli('kaval', [1,1,1,1,1,1], 'gorsel-kaval');
+  aletGorseli('zurna', [1,1,1,1,1,1], 'gorsel-zurna');
+  aletGorseli('duduk', [1,1,1,1,1,1], 'gorsel-duduk');
+  aletGorseli('darbuka', null, 'gorsel-darbuka');
+  aletGorseli('def', null, 'gorsel-def');
+  aletGorseli('baglama', null, 'gorsel-baglama');
+  aletGorseli('ud', null, 'gorsel-ud');
+  aletGorseli('kemane', null, 'gorsel-kemane');
+  aletGorseli('vikinghorn', null, 'gorsel-vikinghorn');
+  aletGorseli('vikingdavul', null, 'gorsel-vikingdavul');
+  aletGorseli('bodhran', null, 'gorsel-bodhran');
+  aletGorseli('lotrhorn', null, 'gorsel-lotrhorn');
+  aletGorseli('goblin', null, 'gorsel-goblin');
+  aletGorseli('lute', null, 'gorsel-lute');
+  aletGorseli('lyre', null, 'gorsel-lyre');
+  aletGorseli('hurdygurdy', null, 'gorsel-hurdygurdy');
+}, 300);
 
 </script>
 </body>
