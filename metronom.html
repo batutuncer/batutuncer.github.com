@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎵 Metronom</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:500px;margin:0 auto;padding:24px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+
+/* SARKAÇ */
+.sarkac-wrap{width:100%;height:220px;position:relative;display:flex;justify-content:center;}
+.sarkac-kol{width:4px;height:180px;background:var(--yellow);border-radius:2px;transform-origin:top center;position:absolute;top:20px;left:50%;margin-left:-2px;transition:background 0.1s;}
+.sarkac-top{width:32px;height:32px;background:var(--yellow);border-radius:50%;position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);box-shadow:0 0 20px rgba(255,225,53,0.4);}
+.sarkac-merkez{width:14px;height:14px;background:var(--muted);border-radius:50%;position:absolute;top:14px;left:50%;transform:translateX(-50%);}
+.sarkac-kol.vurus{background:var(--green);}
+.sarkac-kol.guc-vurus{background:var(--red);}
+
+/* BPM */
+.bpm-box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:28px;width:100%;text-align:center;}
+.bpm-sayi{font-family:'JetBrains Mono',monospace;font-size:5rem;font-weight:700;color:var(--yellow);line-height:1;}
+.bpm-lbl{font-size:0.75rem;text-transform:uppercase;letter-spacing:3px;color:var(--muted);margin-bottom:16px;}
+.tempo-adi{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--muted);margin-top:6px;min-height:24px;}
+
+/* SLIDER */
+.slider-wrap{width:100%;padding:0 8px;}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:100px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--yellow);cursor:pointer;box-shadow:0 0 10px rgba(255,225,53,0.3);}
+.bpm-hiz-btns{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+.hiz-btn{padding:5px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.hiz-btn:hover{border-color:var(--yellow);color:var(--yellow);}
+
+/* KONTROLLER */
+.kontrol-row{display:flex;gap:12px;width:100%;justify-content:center;}
+.btn-buyuk{padding:16px 40px;border-radius:14px;border:none;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;cursor:pointer;transition:all 0.2s;}
+.btn-baslat{background:var(--yellow);color:#111;flex:1;}
+.btn-baslat:hover{background:#f0d400;}
+.btn-dur{background:rgba(248,113,113,0.15);color:var(--red);border:1.5px solid rgba(248,113,113,0.3);}
+.btn-dur:hover{background:rgba(248,113,113,0.25);}
+
+/* VURUŞ */
+.vurus-row{display:flex;gap:8px;justify-content:center;}
+.vurus-isik{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid var(--border);transition:all 0.08s;}
+.vurus-isik.aktif{background:var(--yellow);box-shadow:0 0 10px rgba(255,225,53,0.5);}
+.vurus-isik.guc{background:var(--red);box-shadow:0 0 10px rgba(248,113,113,0.5);}
+
+/* ÖLÇÜ */
+.olcu-row{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.olcu-lbl{font-size:0.78rem;color:var(--muted);font-weight:600;}
+.olcu-btn{padding:7px 16px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.olcu-btn.on{border-color:var(--yellow);color:var(--yellow);background:#1a1b10;}
+
+/* VURGU */
+.vurgu-row{display:flex;gap:8px;align-items:center;justify-content:center;}
+.vurgu-lbl{font-size:0.78rem;color:var(--muted);font-weight:600;}
+.vurgu-btn{padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.vurgu-btn.on{border-color:var(--red);color:var(--red);background:rgba(248,113,113,0.08);}
+
+/* TAP */
+.tap-btn{width:100%;padding:18px;border-radius:14px;border:2px dashed var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all 0.15s;}
+.tap-btn:active{border-color:var(--yellow);color:var(--yellow);background:rgba(255,225,53,0.05);}
+
+/* TEMPO LİSTESİ */
+.tempo-listesi{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;}
+.tempo-listesi h3{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;color:var(--yellow);margin-bottom:10px;}
+.tempo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+.tempo-item{display:flex;justify-content:space-between;padding:6px 10px;border-radius:8px;cursor:pointer;transition:all 0.15s;font-size:0.8rem;}
+.tempo-item:hover{background:rgba(255,255,255,0.05);}
+.tempo-item .t-ad{color:var(--text);font-weight:600;}
+.tempo-item .t-bpm{color:var(--muted);font-family:'JetBrains Mono',monospace;}
+</style>
+</head>
+<body>
+<header><h1>🎵 Metronom</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<div class="wrap">
+
+  <!-- SARKAÇ -->
+  <div class="sarkac-wrap">
+    <div class="sarkac-kol" id="sarkacKol">
+      <div class="sarkac-top"></div>
+    </div>
+    <div class="sarkac-merkez"></div>
+  </div>
+
+  <!-- VURUŞ IŞIKLARI -->
+  <div class="vurus-row" id="vurusRow"></div>
+
+  <!-- BPM -->
+  <div class="bpm-box">
+    <div class="bpm-lbl">BPM</div>
+    <div class="bpm-sayi" id="bpmSayi">120</div>
+    <div class="tempo-adi" id="tempoAdi">Allegro</div>
+    <div class="slider-wrap" style="margin-top:16px;">
+      <input type="range" id="bpmSlider" min="20" max="300" value="120" oninput="bpmDegis(this.value)"/>
+    </div>
+    <div class="bpm-hiz-btns">
+      <button class="hiz-btn" onclick="bpmDegistir(-10)">−10</button>
+      <button class="hiz-btn" onclick="bpmDegistir(-1)">−1</button>
+      <button class="hiz-btn" onclick="bpmDegistir(1)">+1</button>
+      <button class="hiz-btn" onclick="bpmDegistir(10)">+10</button>
+    </div>
+  </div>
+
+  <!-- ÖLÇÜ -->
+  <div class="olcu-row">
+    <span class="olcu-lbl">Ölçü:</span>
+    <button class="olcu-btn on" data-o="2" onclick="olcuSec(2,this)">2/4</button>
+    <button class="olcu-btn" data-o="3" onclick="olcuSec(3,this)">3/4</button>
+    <button class="olcu-btn" data-o="4" onclick="olcuSec(4,this)">4/4</button>
+    <button class="olcu-btn" data-o="6" onclick="olcuSec(6,this)">6/8</button>
+  </div>
+
+  <!-- VURGU -->
+  <div class="vurgu-row">
+    <span class="vurgu-lbl">1. vuruş:</span>
+    <button class="vurgu-btn on" id="vurguBtn" onclick="vurguToggle()">🔴 Vurgulu</button>
+  </div>
+
+  <!-- KONTROLLER -->
+  <div class="kontrol-row">
+    <button class="btn-buyuk btn-baslat" id="baslatBtn" onclick="toggle()">▶ Başlat</button>
+  </div>
+
+  <!-- TAP TEMPO -->
+  <button class="tap-btn" onclick="tapTempo()">👆 Tap Tempo</button>
+
+  <!-- TEMPO LİSTESİ -->
+  <div class="tempo-listesi">
+    <h3>Tempo Rehberi</h3>
+    <div class="tempo-grid" id="tempoGrid"></div>
+  </div>
+
+</div>
+<script>
+var TEMPOLAR = [
+  {ad:'Larghissimo',min:20,max:24},
+  {ad:'Grave',min:25,max:45},
+  {ad:'Largo',min:46,max:52},
+  {ad:'Lento',min:53,max:60},
+  {ad:'Larghetto',min:61,max:66},
+  {ad:'Adagio',min:67,max:76},
+  {ad:'Andante',min:77,max:92},
+  {ad:'Moderato',min:93,max:108},
+  {ad:'Allegretto',min:109,max:120},
+  {ad:'Allegro',min:121,max:156},
+  {ad:'Vivace',min:157,max:176},
+  {ad:'Presto',min:177,max:200},
+  {ad:'Prestissimo',min:201,max:300},
+];
+
+var bpm = 120, olcu = 2, vurgu = true;
+var calisiyor = false, vurusIdx = 0;
+var interval = null, sarkacYon = 1;
+var audioCtx = null;
+var tapZamanlari = [];
+
+// Tempo grid
+var tGrid = document.getElementById('tempoGrid');
+TEMPOLAR.forEach(function(t){
+  var div = document.createElement('div');
+  div.className = 'tempo-item';
+  var orta = Math.round((t.min+t.max)/2);
+  div.innerHTML = '<span class="t-ad">'+t.ad+'</span><span class="t-bpm">'+t.min+'-'+t.max+'</span>';
+  div.addEventListener('click', function(){
+    bpmDegis(orta);
+    document.getElementById('bpmSlider').value = orta;
+  });
+  tGrid.appendChild(div);
+});
+
+function tempoAdiBul(b){
+  for(var i=0;i<TEMPOLAR.length;i++){
+    if(b>=TEMPOLAR[i].min&&b<=TEMPOLAR[i].max) return TEMPOLAR[i].ad;
+  }
+  return '';
+}
+
+function bpmDegis(v){
+  bpm = Math.max(20, Math.min(300, parseInt(v)));
+  document.getElementById('bpmSayi').textContent = bpm;
+  document.getElementById('bpmSlider').value = bpm;
+  document.getElementById('tempoAdi').textContent = tempoAdiBul(bpm);
+  if(calisiyor){ dur(); baslat(); }
+}
+
+function bpmDegistir(d){
+  bpmDegis(bpm+d);
+}
+
+function olcuSec(o, btn){
+  olcu = o;
+  document.querySelectorAll('.olcu-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  vurusIdx = 0;
+  vurusIsiklarCiz();
+  if(calisiyor){ dur(); baslat(); }
+}
+
+function vurguToggle(){
+  vurgu = !vurgu;
+  var btn = document.getElementById('vurguBtn');
+  btn.classList.toggle('on', vurgu);
+  btn.textContent = vurgu ? '🔴 Vurgulu' : '⚪ Vurgusuz';
+}
+
+function vurusIsiklarCiz(){
+  var row = document.getElementById('vurusRow');
+  row.innerHTML = '';
+  for(var i=0;i<olcu;i++){
+    var div = document.createElement('div');
+    div.className = 'vurus-isik' + (i===vurusIdx?' '+(i===0&&vurgu?'guc':'aktif'):'');
+    div.id = 'isik-'+i;
+    row.appendChild(div);
+  }
+}
+
+function ses(guc){
+  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  var osc = audioCtx.createOscillator();
+  var gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.type = 'square';
+  osc.frequency.value = guc ? 1000 : 800;
+  gain.gain.setValueAtTime(guc ? 0.3 : 0.15, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.05);
+}
+
+function vurus(){
+  // Işıkları güncelle
+  for(var i=0;i<olcu;i++){
+    var el = document.getElementById('isik-'+i);
+    if(!el) continue;
+    el.className = 'vurus-isik';
+    if(i===vurusIdx) el.classList.add(i===0&&vurgu?'guc':'aktif');
+  }
+  // Ses
+  ses(vurusIdx===0&&vurgu);
+  // Sarkaç
+  var kol = document.getElementById('sarkacKol');
+  kol.style.transform = 'rotate('+(sarkacYon*35)+'deg)';
+  kol.className = 'sarkac-kol ' + (vurusIdx===0&&vurgu?'guc-vurus':'vurus');
+  setTimeout(function(){kol.className='sarkac-kol';},80);
+  if(vurusIdx===0||vurusIdx===olcu-1) sarkacYon*=-1;
+  vurusIdx = (vurusIdx+1)%olcu;
+}
+
+function baslat(){
+  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  vurusIdx=0; sarkacYon=1;
+  vurusIsiklarCiz();
+  vurus();
+  interval = setInterval(vurus, 60000/bpm);
+  calisiyor=true;
+  document.getElementById('baslatBtn').textContent='⏹ Dur';
+  document.getElementById('baslatBtn').style.background='rgba(248,113,113,0.15)';
+  document.getElementById('baslatBtn').style.color='var(--red)';
+  document.getElementById('baslatBtn').style.border='1.5px solid rgba(248,113,113,0.3)';
+}
+
+function dur(){
+  clearInterval(interval);
+  calisiyor=false;
+  vurusIdx=0;
+  document.getElementById('sarkacKol').style.transform='rotate(0deg)';
+  vurusIsiklarCiz();
+  document.getElementById('baslatBtn').textContent='▶ Başlat';
+  document.getElementById('baslatBtn').style.background='var(--yellow)';
+  document.getElementById('baslatBtn').style.color='#111';
+  document.getElementById('baslatBtn').style.border='none';
+}
+
+function toggle(){ calisiyor?dur():baslat(); }
+
+// Tap tempo
+function tapTempo(){
+  var simdi = Date.now();
+  tapZamanlari.push(simdi);
+  if(tapZamanlari.length>8) tapZamanlari.shift();
+  if(tapZamanlari.length>1){
+    var araliklar=[];
+    for(var i=1;i<tapZamanlari.length;i++) araliklar.push(tapZamanlari[i]-tapZamanlari[i-1]);
+    var ort=araliklar.reduce(function(a,b){return a+b;},0)/araliklar.length;
+    var yeniBpm=Math.round(60000/ort);
+    bpmDegis(yeniBpm);
+    document.getElementById('bpmSlider').value=yeniBpm;
+  }
+  if(simdi-tapZamanlari[0]>3000) tapZamanlari=[];
+}
+
+// Klavye
+document.addEventListener('keydown',function(e){
+  if(e.code==='Space'){e.preventDefault();toggle();}
+  if(e.key==='ArrowUp') bpmDegistir(1);
+  if(e.key==='ArrowDown') bpmDegistir(-1);
+  if(e.key==='t'||e.key==='T') tapTempo();
+});
+
+vurusIsiklarCiz();
+document.getElementById('tempoAdi').textContent=tempoAdiBul(bpm);
+</script>
+</body>
+</html>
