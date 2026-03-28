@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎵 Akort Aleti</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--card:#13151f;--border:rgba(255,255,255,0.08);--yellow:#FFE135;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--text:#f1f5f9;--muted:rgba(255,255,255,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10;}
+header h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--yellow);}
+a.back{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;font-size:0.8rem;text-decoration:none;font-weight:600;}
+.wrap{max-width:700px;margin:0 auto;padding:24px;}
+
+/* ALET SEÇİCİ */
+.alet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;}
+.alet-btn{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.alet-btn:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-2px);}
+.alet-btn.on{border-color:var(--yellow);background:#1a1b10;}
+.alet-btn em{font-style:normal;font-size:1.5rem;display:block;margin-bottom:4px;}
+.alet-btn span{font-size:0.68rem;font-weight:700;color:var(--muted);}
+.alet-btn.on span{color:var(--yellow);}
+
+/* TUNER */
+.tuner-box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:28px;text-align:center;margin-bottom:20px;}
+.tuner-box h2{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--yellow);margin-bottom:20px;}
+
+/* GÖSTERGE */
+.gosterge-wrap{position:relative;width:280px;height:160px;margin:0 auto 16px;}
+.gosterge-arc{position:absolute;bottom:0;left:0;right:0;}
+.ibre{position:absolute;bottom:0;left:50%;width:3px;height:120px;background:var(--yellow);transform-origin:bottom center;transform:translateX(-50%) rotate(0deg);transition:transform 0.15s ease;border-radius:3px 3px 0 0;}
+.ibre::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:16px;height:16px;background:var(--yellow);border-radius:50%;}
+.gosterge-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted);}
+
+/* NOTA */
+.nota-buyuk{font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;color:var(--text);margin:8px 0 4px;}
+.frekans-gos{font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--muted);margin-bottom:8px;}
+.durum-text{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;min-height:28px;margin-bottom:16px;}
+.durum-text.dogru{color:var(--green);}
+.durum-text.yukari{color:var(--red);}
+.durum-text.asagi{color:var(--blue);}
+
+.mic-btn{padding:14px 32px;border-radius:12px;border:none;background:var(--yellow);color:#111;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all 0.2s;margin-bottom:8px;}
+.mic-btn:hover{background:#f0d400;}
+.mic-btn.aktif{background:var(--red);color:white;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.7;}}
+.mic-hint{font-size:0.75rem;color:var(--muted);}
+
+/* TELLER */
+.teller-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.tel-btn{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.tel-btn:hover{border-color:var(--yellow);transform:translateY(-2px);}
+.tel-btn.aktif{border-color:var(--yellow);background:#1a1b10;}
+.tel-no{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:4px;}
+.tel-nota{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--yellow);}
+.tel-frek{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted);margin-top:2px;}
+.tel-sesle{font-size:0.68rem;color:var(--muted);margin-top:4px;}
+
+/* REFERANS SESLERİ */
+.referans-box{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;}
+.referans-box h3{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;color:var(--yellow);margin-bottom:12px;}
+.ref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.ref-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.ref-btn:hover{border-color:var(--yellow);background:rgba(255,225,53,0.06);}
+.ref-btn:active{transform:scale(0.95);}
+.ref-nota{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);}
+.ref-frek{font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+@media(max-width:500px){.alet-grid{grid-template-columns:repeat(3,1fr);}.teller-grid{grid-template-columns:repeat(2,1fr);}.ref-grid{grid-template-columns:repeat(4,1fr);}}
+</style>
+</head>
+<body>
+<header><h1>🎵 Akort Aleti</h1><a href="index.html" class="back">← Ana Sayfa</a></header>
+<div class="wrap">
+
+<div class="alet-grid" id="aletGrid"></div>
+
+<div class="tuner-box">
+  <h2 id="tunerBaslik">Mikrofon ile Akort</h2>
+  <div class="gosterge-wrap">
+    <svg class="gosterge-arc" viewBox="0 0 280 160" width="280" height="160">
+      <path d="M 20 140 A 120 120 0 0 1 260 140" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 20 140 A 120 120 0 0 1 140 20" fill="none" stroke="rgba(248,113,113,0.3)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 140 20 A 120 120 0 0 1 260 140" fill="none" stroke="rgba(248,113,113,0.3)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 60 120 A 120 120 0 0 1 220 120" fill="none" stroke="rgba(74,222,128,0.5)" stroke-width="6" stroke-linecap="round"/>
+      <text x="15" y="155" fill="rgba(255,255,255,0.3)" font-size="11" font-family="monospace">♭</text>
+      <text x="130" y="18" fill="rgba(255,255,255,0.3)" font-size="11" font-family="monospace" text-anchor="middle">✓</text>
+      <text x="260" y="155" fill="rgba(255,255,255,0.3)" font-size="11" font-family="monospace">♯</text>
+    </svg>
+    <div class="ibre" id="ibre"></div>
+  </div>
+  <div class="nota-buyuk" id="notaGos">—</div>
+  <div class="frekans-gos" id="frekGos">— Hz</div>
+  <div class="durum-text" id="durumText"></div>
+  <button class="mic-btn" id="micBtn" onclick="mikrofon()">🎤 Mikrofonu Aç</button>
+  <div class="mic-hint" id="micHint">Aletin sesini mikrofonuna çaldır</div>
+</div>
+
+<div id="tellerDiv"></div>
+
+<div class="referans-box">
+  <h3>🔊 Referans Sesleri</h3>
+  <div class="ref-grid" id="refGrid"></div>
+</div>
+
+</div>
+<script>
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioCtx = null;
+var analyser = null;
+var mikStream = null;
+var mikAktif = false;
+var animFrame = null;
+
+var ALETLER = [
+  {id:'gitar', em:'🎸', ad:'Gitar', teller:[
+    {no:'6',nota:'E2',frek:82.41},{no:'5',nota:'A2',frek:110.00},
+    {no:'4',nota:'D3',frek:146.83},{no:'3',nota:'G3',frek:196.00},
+    {no:'2',nota:'B3',frek:246.94},{no:'1',nota:'E4',frek:329.63}
+  ]},
+  {id:'bas', em:'🎸', ad:'Bas', teller:[
+    {no:'4',nota:'E1',frek:41.20},{no:'3',nota:'A1',frek:55.00},
+    {no:'2',nota:'D2',frek:73.42},{no:'1',nota:'G2',frek:98.00}
+  ]},
+  {id:'keman', em:'🎻', ad:'Keman', teller:[
+    {no:'4',nota:'G3',frek:196.00},{no:'3',nota:'D4',frek:293.66},
+    {no:'2',nota:'A4',frek:440.00},{no:'1',nota:'E5',frek:659.25}
+  ]},
+  {id:'viyola', em:'🎻', ad:'Viyola', teller:[
+    {no:'4',nota:'C3',frek:130.81},{no:'3',nota:'G3',frek:196.00},
+    {no:'2',nota:'D4',frek:293.66},{no:'1',nota:'A4',frek:440.00}
+  ]},
+  {id:'cello', em:'🎻', ad:'Çello', teller:[
+    {no:'4',nota:'C2',frek:65.41},{no:'3',nota:'G2',frek:98.00},
+    {no:'2',nota:'D3',frek:146.83},{no:'1',nota:'A3',frek:220.00}
+  ]},
+  {id:'ukulele', em:'🎸', ad:'Ukulele', teller:[
+    {no:'4',nota:'G4',frek:392.00},{no:'3',nota:'C4',frek:261.63},
+    {no:'2',nota:'E4',frek:329.63},{no:'1',nota:'A4',frek:440.00}
+  ]},
+  {id:'baglama', em:'🪕', ad:'Bağlama', teller:[
+    {no:'3',nota:'D3',frek:146.83},{no:'2',nota:'A3',frek:220.00},
+    {no:'1',nota:'D4',frek:293.66}
+  ]},
+  {id:'oud', em:'🪕', ad:'Ud', teller:[
+    {no:'6',nota:'C2',frek:65.41},{no:'5',nota:'F2',frek:87.31},
+    {no:'4',nota:'A2',frek:110.00},{no:'3',nota:'D3',frek:146.83},
+    {no:'2',nota:'G3',frek:196.00},{no:'1',nota:'C4',frek:261.63}
+  ]},
+  {id:'mandolin', em:'🪕', ad:'Mandolin', teller:[
+    {no:'4',nota:'G3',frek:196.00},{no:'3',nota:'D4',frek:293.66},
+    {no:'2',nota:'A4',frek:440.00},{no:'1',nota:'E5',frek:659.25}
+  ]},
+  {id:'banjo', em:'🪕', ad:'Banjo', teller:[
+    {no:'5',nota:'G4',frek:392.00},{no:'4',nota:'D3',frek:146.83},
+    {no:'3',nota:'G3',frek:196.00},{no:'2',nota:'B3',frek:246.94},
+    {no:'1',nota:'D4',frek:293.66}
+  ]},
+  {id:'gitar7', em:'🎸', ad:'7 Telli', teller:[
+    {no:'7',nota:'B1',frek:61.74},{no:'6',nota:'E2',frek:82.41},
+    {no:'5',nota:'A2',frek:110.00},{no:'4',nota:'D3',frek:146.83},
+    {no:'3',nota:'G3',frek:196.00},{no:'2',nota:'B3',frek:246.94},
+    {no:'1',nota:'E4',frek:329.63}
+  ]},
+  {id:'drop', em:'🎸', ad:'Drop D', teller:[
+    {no:'6',nota:'D2',frek:73.42},{no:'5',nota:'A2',frek:110.00},
+    {no:'4',nota:'D3',frek:146.83},{no:'3',nota:'G3',frek:196.00},
+    {no:'2',nota:'B3',frek:246.94},{no:'1',nota:'E4',frek:329.63}
+  ]},
+];
+
+var REFERANS_NOTALAR = [
+  {nota:'C4',frek:261.63},{nota:'D4',frek:293.66},{nota:'E4',frek:329.63},{nota:'F4',frek:349.23},
+  {nota:'G4',frek:392.00},{nota:'A4',frek:440.00},{nota:'B4',frek:493.88},{nota:'C5',frek:523.25},
+];
+
+var aktifAlet = ALETLER[0];
+var hedefFrek = null;
+
+// Alet butonları
+var aletGrid = document.getElementById('aletGrid');
+ALETLER.forEach(function(a){
+  var btn = document.createElement('div');
+  btn.className = 'alet-btn' + (a.id===aktifAlet.id?' on':'');
+  btn.innerHTML = '<em>'+a.em+'</em><span>'+a.ad+'</span>';
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.alet-btn').forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    aktifAlet = a;
+    hedefFrek = null;
+    tellerCiz();
+  });
+  aletGrid.appendChild(btn);
+});
+
+// Referans sesleri
+var refGrid = document.getElementById('refGrid');
+REFERANS_NOTALAR.forEach(function(r){
+  var btn = document.createElement('div');
+  btn.className = 'ref-btn';
+  btn.innerHTML = '<div class="ref-nota">'+r.nota+'</div><div class="ref-frek">'+r.frek+' Hz</div>';
+  btn.addEventListener('click', function(){sesOynat(r.frek, 1.5);});
+  refGrid.appendChild(btn);
+});
+
+function tellerCiz(){
+  var div = document.getElementById('tellerDiv');
+  var html = '<div class="teller-grid">';
+  aktifAlet.teller.forEach(function(t,i){
+    html += '<div class="tel-btn" id="tel-'+i+'" onclick="telSec('+i+')">' +
+      '<div class="tel-no">'+t.no+'. Tel</div>' +
+      '<div class="tel-nota">'+t.nota+'</div>' +
+      '<div class="tel-frek">'+t.frek.toFixed(2)+' Hz</div>' +
+      '<div class="tel-sesle">▶ Çal / Akort et</div>' +
+      '</div>';
+  });
+  html += '</div>';
+  div.innerHTML = html;
+}
+
+function telSec(idx){
+  document.querySelectorAll('.tel-btn').forEach(function(b){b.classList.remove('aktif');});
+  var telBtn = document.getElementById('tel-'+idx);
+  if(telBtn) telBtn.classList.add('aktif');
+  var tel = aktifAlet.teller[idx];
+  hedefFrek = tel.frek;
+  sesOynat(tel.frek, 2);
+  document.getElementById('notaGos').textContent = tel.nota;
+  document.getElementById('frekGos').textContent = tel.frek.toFixed(2) + ' Hz';
+  document.getElementById('durumText').textContent = 'Referans: ' + tel.nota;
+  document.getElementById('durumText').className = 'durum-text';
+  ibreAyarla(0);
+}
+
+function sesOynat(frek, sure){
+  if(!audioCtx) audioCtx = new AudioContext();
+  var osc = audioCtx.createOscillator();
+  var gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.value = frek;
+  gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + sure);
+  osc.start();
+  osc.stop(audioCtx.currentTime + sure);
+}
+
+function frekToNota(frek){
+  var notalar = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  var semitonlar = 12 * Math.log2(frek / 440.0);
+  var idx = Math.round(semitonlar) + 69;
+  var oktav = Math.floor(idx / 12) - 1;
+  var nota = notalar[((idx % 12) + 12) % 12];
+  var sapma = semitonlar - Math.round(semitonlar);
+  return {nota: nota + oktav, sapma: sapma};
+}
+
+function ibreAyarla(sapma){
+  var aci = sapma * 90;
+  aci = Math.max(-90, Math.min(90, aci));
+  document.getElementById('ibre').style.transform = 'translateX(-50%) rotate(' + aci + 'deg)';
+}
+
+var frekBuffer = [];
+function mikrofon(){
+  if(mikAktif){
+    mikKapat();
+    return;
+  }
+  if(!audioCtx) audioCtx = new AudioContext();
+  navigator.mediaDevices.getUserMedia({audio:true, video:false}).then(function(stream){
+    mikStream = stream;
+    mikAktif = true;
+    var btn = document.getElementById('micBtn');
+    btn.textContent = '🔴 Mikrofonu Kapat';
+    btn.classList.add('aktif');
+    var source = audioCtx.createMediaStreamSource(stream);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 4096;
+    source.connect(analyser);
+    frekBuffer = [];
+    analiz();
+  }).catch(function(e){
+    alert('Mikrofon izni gerekli! Lütfen izin ver.');
+  });
+}
+
+function mikKapat(){
+  mikAktif = false;
+  if(mikStream) mikStream.getTracks().forEach(function(t){t.stop();});
+  if(animFrame) cancelAnimationFrame(animFrame);
+  var btn = document.getElementById('micBtn');
+  btn.textContent = '🎤 Mikrofonu Aç';
+  btn.classList.remove('aktif');
+  document.getElementById('notaGos').textContent = '—';
+  document.getElementById('frekGos').textContent = '— Hz';
+  document.getElementById('durumText').textContent = '';
+  ibreAyarla(0);
+}
+
+function frekBul(buffer, ornekleme){
+  var n = buffer.length;
+  var maxKor = -1, enIyiLag = -1;
+  for(var lag = Math.floor(ornekleme/1400); lag < Math.floor(ornekleme/50); lag++){
+    var kor = 0;
+    for(var i = 0; i < n - lag; i++) kor += buffer[i] * buffer[i+lag];
+    if(kor > maxKor){ maxKor = kor; enIyiLag = lag; }
+  }
+  if(enIyiLag === -1) return null;
+  return ornekleme / enIyiLag;
+}
+
+function analiz(){
+  if(!mikAktif) return;
+  var buf = new Float32Array(analyser.fftSize);
+  analyser.getFloatTimeDomainData(buf);
+  var rms = 0;
+  for(var i=0;i<buf.length;i++) rms += buf[i]*buf[i];
+  rms = Math.sqrt(rms/buf.length);
+  if(rms > 0.01){
+    var frek = frekBul(buf, audioCtx.sampleRate);
+    if(frek && frek > 50 && frek < 2000){
+      frekBuffer.push(frek);
+      if(frekBuffer.length > 5) frekBuffer.shift();
+      var ortFrek = frekBuffer.reduce(function(a,b){return a+b;},0)/frekBuffer.length;
+      var sonuc = frekToNota(ortFrek);
+      document.getElementById('notaGos').textContent = sonuc.nota;
+      document.getElementById('frekGos').textContent = ortFrek.toFixed(1) + ' Hz';
+      ibreAyarla(sonuc.sapma);
+      var durumEl = document.getElementById('durumText');
+      var esik = 0.1;
+      if(Math.abs(sonuc.sapma) < esik){
+        durumEl.textContent = '✓ Akort Tamam!';
+        durumEl.className = 'durum-text dogru';
+      } else if(sonuc.sapma > 0){
+        durumEl.textContent = '↓ Biraz Alçalt';
+        durumEl.className = 'durum-text yukari';
+      } else {
+        durumEl.textContent = '↑ Biraz Yükselt';
+        durumEl.className = 'durum-text asagi';
+      }
+    }
+  }
+  animFrame = requestAnimationFrame(analiz);
+}
+
+tellerCiz();
+</script>
+</body>
+</html>
